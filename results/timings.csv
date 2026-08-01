@@ -1,0 +1,16 @@
+step,n_items,seconds,items_per_sec,note
+sbert_encode_passages,11052,19.2832,573.1,"all-MiniLM-L6-v2, 384-d"
+clip_encode_images,1023,10.1624,100.7,"ViT-B-32-quickgelu, 512-d"
+faiss_build_text,11052,0.0041,2699285.4,IndexFlatIP 384-d
+faiss_build_img,1023,0.0002,5326986.3,IndexFlatIP 512-d
+query_encode_sbert,1,0.0054,185.5,mean of 20
+query_encode_clip,1,0.0113,88.3,mean of 20
+faiss_search_text_full,1,0.0012,852.0,k=ntotal=11052
+faiss_search_img_full,1,0.0001,12781.6,k=ntotal=1023
+retrieve_text_b1,1,0.0211,47.3,mode='text' (alpha=1.0)
+retrieve_multimodal_m,1,0.0211,47.3,alpha=0.5
+machine,,,,arm64 Darwin 25.5.0
+cpu_count,,,,10
+python,,,,3.12.13
+peak_rss_gb,,,,1.87
+timestamp,,,,2026-08-01 18:16
