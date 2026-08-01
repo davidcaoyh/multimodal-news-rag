@@ -1,0 +1,14 @@
+datasets
+sentence-transformers
+faiss-cpu
+open_clip_torch
+torch
+pillow
+requests
+openai
+streamlit
+rouge-score
+pandas
+pyarrow
+tqdm
+python-dotenv
