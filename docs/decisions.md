@@ -189,3 +189,180 @@ without re-generating.
 bug risk is `evaluate.py`'s permissive recall@k call leaking into generation, which would push
 faithfulness to ceiling and *look like a great result*. Cheap guard: in `generate.py`, assert no
 retrieved id appears in the test id set.
+
+---
+
+## D8 — Query text = LLM-rewritten headline, in two variants (closes `day2_guide.md:88`)
+
+**Status:** decided 2026-08-02, Day 3. Built: `src/queries.py` →
+`data/processed/queries.parquet` (committed). Used by generation now and by Day 5 recall@k.
+
+### The decision
+Each of the 150 test items gets **two** rewrites of its headline, both by `gpt-4o-mini`:
+
+| Column | Form | Used by | Why that form |
+|---|---|---|---|
+| `query_qa` | pinpoint question | Day 5 recall@k | names the gold article's subject, so "did the retriever find it?" is sharp |
+| `query` | broader topic phrase | **generation** | pool coverage is genuinely about it, so summarization is well-posed |
+
+`mode="headline"` remains available as the documented zero-cost fallback.
+
+### Why two columns and not one
+The first build used the pinpoint question for both, and it failed measurably: `gpt-4o-mini`
+returned `INSUFFICIENT_EVIDENCE` on **46% of B1 and 44% of M** items, collapsing the paired
+comparison to 74/150. Not a retrieval bug — the refused items returned visibly on-topic
+articles at `s_text` up to 0.842.
+
+The cause is structural. D1 withholds the source article from the generation index, so a
+question naming that article's unique subject asks for a fact the pool provably does not
+contain. Generation and recall@k want opposite things from a query, and one column cannot
+serve both.
+
+Broadening is **subtractive only** — drop the private individual's name, keep the story
+type, keep public figures, organisations and places. Nothing is added, so a query cannot
+smuggle in information the retriever would otherwise have to find, and it stays neutral
+between the arms. Verified: the B1-vs-M retrieval contrast is **unchanged at 55%** of M's
+top-5 articles not appearing in B1's, so broadening did not wash out the independent
+variable.
+
+An early version of the topic prompt over-broadened — it dropped *Trump*, *Prince Andrew*
+and *Met Police*, which would have wrecked both recall@k and the contrast. Fixed with
+explicit keep/drop rules and three few-shot examples covering both cases. Worth knowing if
+the prompt is ever retuned.
+
+### Why rewrite the headline at all
+`day2_guide.md:88` left this open and flagged both obvious options as rigged:
+
+| Query = | Rigged toward | Mechanism |
+|---|---|---|
+| headline verbatim | **B1** | headline tokens recur through the body; SBERT saturates |
+| `caption` field | **M** | the caption describes the image the M arm searches |
+
+The headline is the one field indexed in **neither** stream — passages come from `body`,
+image vectors from pixels alone (D3). Rewriting it keeps that property while removing the
+verbatim token overlap that hands B1 a free win. Both arms bridge the same gap. 300 calls
+total, about a cent, cached by prompt hash like everything else.
+
+### Why this had to be settled on Day 3, not Day 5
+The handoff files it as a Day 5 item because that is when *recall@k* needs it. But D7 Rule 2
+requires `test_id | config | query | evidence | summary`, so generation needs a query per
+test item too — and it turned out to need a *different* one, which is exactly the kind of
+thing you want to discover on Day 3 rather than Day 5.
+
+### Verification
+150/150 non-empty, 0 duplicates, median 6 words for `query`. Spot-checked by eye: the
+rewrites drop the `" - BBC News"` suffix, add no facts, and keep the entities that matter.
+
+| Headline | `query` (generation) | `query_qa` (recall@k) |
+|---|---|---|
+| *Trump challenges his 'arbitrary' removal from Maine's ballot* | Trump challenges removal from Maine ballot | Why did Trump challenge his removal from Maine's ballot? |
+| *Reed Wischhusen jailed for planning 'revenge' mass shooting* | man jailed for planning revenge mass shooting | Why was Reed Wischhusen jailed for planning a mass shooting? |
+
+`queries.parquet` lands in `data/processed/`, which is **committed** — same reason as the
+corpus. A teammate regenerating it would get different rewrites and non-comparable numbers.
+`src/queries.py` refuses to overwrite without `--force`.
+
+---
+
+## D10 — The generation task is summarization, and the prompt is relevance-tolerant
+
+**Status:** decided 2026-08-02, Day 3. `generate.py:INSTRUCTIONS`. Applies to B1 and M
+identically, so it cannot confound the comparison (D7 Rule 1).
+
+### The decision
+Two properties of the shared instruction text, both arrived at by measurement:
+
+1. **The task is summarization, not question answering** — `plan_7day.md:82` says
+   *"Summarize ONLY the numbered evidence"*. Phrased as *"answer the question"*, the model
+   refuses whenever the evidence lacks the one specific fact asked for.
+2. **Partial relevance is explicitly sufficient.** The prompt states that retrieved evidence
+   will rarely match the query exactly, that same-subject coverage should be summarized
+   anyway, and that `INSUFFICIENT_EVIDENCE` is reserved for evidence about an *entirely
+   different* subject.
+
+### Why point 2 exists — measured, and not obvious
+With a plain *"if the evidence is unrelated, reply INSUFFICIENT_EVIDENCE"* rule, the model
+read "no article about *this exact event*" as "unrelated" and refused on ~48% of items —
+including cases where retrieval had clearly succeeded. The worst example:
+
+> query *"pro-Israel rally calling for hostages' release in London"*, top `s_text` **0.657**,
+> evidence = five articles on the Gaza war, hostage negotiations, Israeli aid protests, and a
+> London march. Refused.
+
+That is over-refusal, not caution. Adding the relevance-tolerance rules took refusal to
+**12% B1 / 15% M** with no other change.
+
+### Refusal rate by configuration, measured on 40 items
+| Query form | Instruction | B1 refused | M refused | paired usable |
+|---|---|---|---|---|
+| pinpoint question | answer the question | 46% | 44% | 74/150 |
+| pinpoint question | summarize | 50% | 55% | 18/40 |
+| topic phrase | summarize | 48% | 48% | 20/40 |
+| **topic phrase** | **summarize + relevance-tolerant** | **12%** | **15%** | **34/40** |
+
+Note the middle two rows: neither change alone did anything. Only the combination worked,
+which is why the first two attempts looked like dead ends.
+
+### The residual ~13% is real and should be reported, not tuned away
+The remaining refusals are genuine topic misses — *Rochdale Labour MP dies*, *giraffe
+relocation*, *Sea Eagle sighting in Gwynedd*. The pool is 873 articles from one month of BBC
+news and simply contains no coverage of these stories. That is a **corpus-size limitation**,
+and refusing is the correct behaviour. Report it as the honest floor; do not weaken the
+prompt further to chase it, or the model starts inventing to fill gaps — the exact failure
+this project measures.
+
+### Risk accepted
+A more permissive prompt could raise hallucination in all arms. That is acceptable and
+arguably desirable: the instruction is byte-identical across B1 and M (asserted by
+`_check_prompt_parity()`), so it shifts both arms equally, and a task where the evidence is
+adjacent-but-not-identical to the withheld article is a *stricter* hallucination probe than
+one where the answer sits in front of the model.
+
+---
+
+## D9 — Abstention threshold tau = 0.35 on raw `s_text`
+
+**Status:** decided 2026-08-02, Day 3. `generate.py:TAU`. Re-derive with
+`python -m src.generate --tau-scan`.
+
+### The statistic
+Gate on `max(h.s_text for h in hits)` — the strongest **raw** cosine in the returned set.
+
+Two choices inside that, both deliberate:
+
+- **Raw `s_text`, never `score`.** `score` is min-max normalized per query, so the top hit is
+  ~1.0 on *every* query no matter how poor the match. Threshold on it and you never abstain.
+- **Max over the top-k, not `hits[0]`.** Gating on the top-ranked hit makes the gate
+  rank-order dependent, and M's ranking is partly image-driven. The two arms would then
+  abstain at different rates for a reason that is not evidence quality — a confound
+  introduced by the guardrail itself.
+
+### Why 0.35 — measured, not chosen by taste
+Two populations, both measured on 2026-08-02:
+
+| Population | n | range | 1st pct | median |
+|---|---:|---|---|---|
+| Real test queries (B1) | 150 | 0.370–0.842 | 0.373 | 0.559 |
+| Real test queries (M) | 150 | 0.340–0.842 | 0.356 | 0.546 |
+| Deliberately off-topic probes | 8 | 0.19–0.365 | — | ~0.24 |
+
+Off-topic probes were ordinary non-news questions (*sourdough*, *derivative of a sigmoid*,
+*cheap flights to Osaka*). **The two populations overlap in a narrow 0.34–0.37 band, so no
+threshold separates them cleanly** — report this, don't tune it away.
+
+| tau | off-topic caught | B1 false abstain | M false abstain |
+|---|---|---|---|
+| 0.35 | 6/8 | **0.0%** | **0.7%** |
+| 0.40 | 8/8 | 4.7% | 7.3% |
+| 0.45 | 8/8 | 16.0% | 18.0% |
+
+**0.35 chosen.** Every abstention drops an item from the paired B1-vs-M faithfulness
+comparison, which is the entire result; keeping false abstention near zero is worth more than
+catching two borderline probes. It also keeps B1 and M scored on effectively the same 150
+items, which is what makes the comparison paired (D6).
+
+### What this means for the report
+Abstention is a **demo-time guardrail**, not a test-set phenomenon. Every test query is by
+construction a real question about a real event in this corpus, so a well-set tau *should*
+almost never fire there. Its value shows in the Day 4 Streamlit demo, where a user can type
+anything. Report the off-topic-probe table as the evidence it works, not the test-set rate.
