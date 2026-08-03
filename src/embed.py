@@ -170,7 +170,6 @@ def _get_clip():
             CLIP_MODEL, pretrained=CLIP_PRETRAINED
         )
         model.eval()
-        torch.set_grad_enabled(False)
         _clip = (model, preprocess, open_clip.get_tokenizer(CLIP_MODEL))
     return _clip
 
@@ -189,7 +188,9 @@ def embed_text(texts: list[str], batch_size: int = 256) -> np.ndarray:
         batch_size=batch_size,
         convert_to_numpy=True,
         normalize_embeddings=True,
-        show_progress_bar=True,
+        # Off for the single-string query encodes the demo makes on every rerun;
+        # still on for the 11k-passage build, which is where it earns its keep.
+        show_progress_bar=len(texts) > 1000,
     )
     return np.ascontiguousarray(emb, dtype="float32")
 
@@ -204,7 +205,10 @@ def embed_images(paths: list[str], batch_size: int = 64) -> np.ndarray:
     for i in range(0, len(paths), batch_size):
         batch = paths[i : i + batch_size]
         tensors = [preprocess(Image.open(p).convert("RGB")) for p in batch]
-        feats = model.encode_image(torch.stack(tensors))
+        # no_grad() scoped to the forward pass, NOT a one-time global — see
+        # embed_clip_text() for why the global version breaks under Streamlit.
+        with torch.no_grad():
+            feats = model.encode_image(torch.stack(tensors))
         out.append(feats.cpu().numpy())
         print(f"  images {min(i + batch_size, len(paths))}/{len(paths)}", end="\r")
     print()
@@ -216,13 +220,22 @@ def embed_clip_text(texts: list[str], batch_size: int = 256) -> np.ndarray:
 
     Used for queries only, so a text query can search the image index. Never used
     on captions for indexing (D3).
+
+    The `no_grad()` is scoped HERE rather than set once in _get_clip(), because
+    torch's grad mode is THREAD-LOCAL while the cached model is not. Streamlit runs
+    every rerun in a fresh thread: the thread that loads CLIP gets grad disabled,
+    then every later rerun finds the model already cached, skips the loader, and
+    encodes with grad enabled -> `.numpy()` raises "Can't call numpy() on Tensor
+    that requires grad". The CLI never sees it because load and encode share one
+    thread. Forward values are unaffected by grad mode, so this changes no numbers.
     """
     import torch
 
     model, _, tokenizer = _get_clip()
     out = []
     for i in range(0, len(texts), batch_size):
-        feats = model.encode_text(tokenizer(texts[i : i + batch_size]))
+        with torch.no_grad():
+            feats = model.encode_text(tokenizer(texts[i : i + batch_size]))
         out.append(feats.cpu().numpy())
     return _l2_normalize(np.vstack(out))
 

@@ -27,8 +27,8 @@ self-graded."*
 ### Rules — treat these as load-bearing
 | Rule | Reason |
 |---|---|
-| Same judge, same prompt, `temperature=0` across B0/B1/M | Same reason the generator is held constant |
-| Judge sees only `(evidence, claim)` — never the condition label | A judge told "this is the multimodal one" is not blind |
+| Same judge, same prompt, same decoding across B0/B1/M | Same reason the generator is held constant. **`temperature=0` is unavailable — see D13.** The Claude 5 family removed the parameter and returns 400; determinism comes from disabled thinking + a constrained JSON schema + prompt-hash caching. Do not add it back. |
+| Judge sees only `(evidence, claim)` — never the condition label | A judge told "this is the multimodal one" is not blind. Enforced on the prompt **templates**, not rendered prompts (D13) |
 | Cache by prompt hash, like the generator (`data/llm_cache/`) | Avoid re-billing on re-runs |
 | Generator model is **not** changed | Swapping it would invalidate the Day-3 verification |
 
@@ -117,6 +117,18 @@ work.
 a reference, so it inherits both problems above. Either drop it and report
 faithfulness + recall@k only, or state explicitly in the report which reference it scores
 against and why that is defensible. Decide before writing `evaluate.py`.
+
+### Resolved 2026-08-02 (Day 5): ROUGE-L is dropped
+`evaluate.py` reports **faithfulness + recall@k only**. `rouge_score` stays installed but
+unused. The deciding argument is reason 2 above, which no choice of reference repairs: a
+reference derived from the test article makes "retrieve the source and copy it" the
+highest-scoring behaviour, so ROUGE-L would rank a leaking system above a correct one —
+and D1/D7 Rule 3 exist specifically to prevent that leak. Reporting a metric that rewards
+what the rest of the design forbids is worse than reporting one metric fewer.
+
+Report line: *"ROUGE-L was dropped rather than computed against a reference the retrieval
+split deliberately withholds; see limitations."* Listed as future work in the
+coverage-based form D5 sketches (references derived from the retrievable pool).
 
 ---
 
@@ -366,3 +378,312 @@ Abstention is a **demo-time guardrail**, not a test-set phenomenon. Every test q
 construction a real question about a real event in this corpus, so a well-set tau *should*
 almost never fire there. Its value shows in the Day 4 Streamlit demo, where a user can type
 anything. Report the off-topic-probe table as the evidence it works, not the test-set rate.
+
+---
+
+## D11 — alpha stays 0.5 for the committed run; sweep it on Day 5
+
+**Status:** decided 2026-08-02 (Day 4). Affects Day 5 (`src/evaluate.py`).
+
+### The decision
+`alpha = 0.5` remains the default for `retrieve()`, the demo, and the committed
+`results/summaries.csv`. Day 5 sweeps it (0.5 -> 0.9) and reports the curve.
+
+### Why this needed deciding
+alpha = 0.5 came from `plan_7day.md:63` as a round-number default. It was never measured.
+Day 4 measured it, using recall of the withheld gold article — ground truth external to
+both score streams, so neither arm is optimising for it (`query_qa`, `include_test=True`,
+D8, n=150):
+
+| config | @1 | @5 | @10 |
+|---|---:|---:|---:|
+| B1 text-only | 0.733 | **0.913** | 0.940 |
+| M alpha=0.75 | 0.727 | **0.940** | 0.960 |
+| **M alpha=0.5 (committed)** | 0.673 | **0.860** | 0.900 |
+| M alpha=0.25 | 0.573 | 0.740 | 0.787 |
+
+Paired, McNemar exact at k=5:
+
+| comparison | B1-only wins | M-only wins | p |
+|---|---:|---:|---:|
+| M alpha=0.75 vs B1 | **0** | 4 | 0.125 |
+| M alpha=0.5 vs B1 | 12 | 4 | 0.077 |
+
+**alpha = 0.5 measurably costs recall. alpha = 0.75 strictly dominates B1** — a superset
+of B1's hits, zero losses. But 4 discordant pairs is **underpowered**: p = 0.125, not
+significant. The direction is unambiguous; the magnitude is not established. Report both
+facts, not just the favourable one.
+
+### Why not switch to 0.75 now
+1. **Recall is not the research question.** The headline result is summary faithfulness.
+   A lower-recall set can be *more* faithful — fusion pulls in topically adjacent
+   articles, and that adjacency is exactly where hallucination shows up. Choosing alpha on
+   recall would optimise a proxy for the thing being measured.
+2. **`results/summaries.csv` (450 rows) is at alpha=0.5.** Switching invalidates it,
+   costs ~$0.22 to regenerate, and mixing rows from two alpha values silently voids the
+   paired comparison.
+3. Picking alpha on the same test set the result is reported on is tuning on test. If
+   Day 5 does select an alpha, say so explicitly as a limitation.
+
+### Rules
+- One alpha per reported table. Never mix.
+- `--alpha` is already a flag on `python -m src.generate`.
+- The sweep is cheap for recall (no API) and ~$0.22 per alpha for faithfulness.
+
+---
+
+## D12 — what the demo's retrieval statistics may and may not claim
+
+**Status:** decided 2026-08-02 (Day 4). Affects `app/streamlit_app.py` and any B1-vs-M
+metric anywhere.
+
+### The decision
+The demo shows two per-arm retrieval numbers, `gate score` and `mean text sim`, both
+explicitly labelled as diagnostics. **Neither is presented as a quality comparison**, and
+the app says so on screen.
+
+### Why — both obvious statistics are rigged, in opposite directions
+**`gate score` = `max s_text` over the top-k.** This is the tau statistic (D9); it is on
+screen only to explain the abstention state. As an arm comparison it is near-useless:
+B1 ranks purely by `s_text`, so its max is the **pool-wide maximum** regardless of k, and
+M matches it whenever that article survives fusion. **Identical in both arms on 109/150
+test queries (73%)**, and pinned across the whole slider range whenever one article is
+the argmax of both streams. Side by side it reads as a broken UI.
+
+**`mean s_text` over the retrieved set** was the fix, and it is worse. It moves with alpha
+and separates the arms on 145/150 (97%), so it looks informative — but B1 selects the k
+highest-`s_text` articles, so its mean is the **maximum achievable over any k-subset**:
+
+| | count |
+|---|---|
+| M mean `s_text` **<** B1 | 145/150 |
+| M mean `s_text` **=** B1 | 5/150 |
+| M mean `s_text` **>** B1 | **0/150** |
+
+M cannot win, at any alpha, on any query. It was briefly labelled **"evidence quality"**,
+which turns a mathematical identity into an apparent finding that the method under test
+is worse than the baseline. Renamed `mean text sim`.
+
+### The general rule — applies well beyond the demo
+**Any metric computed on the text stream alone is maximised by B1 by definition, because
+B1 is the argmax of that stream.** A fair B1-vs-M comparison requires ground truth
+*outside* both streams:
+
+- recall of the withheld gold article (D11), or
+- an external faithfulness judge (D4).
+
+Nothing computed from `s_text` or `s_img` alone can answer the research question. If a
+B1-vs-M number comes out clean and one-sided, check first whether the metric is defined
+on the stream one arm ranks by.
+
+### Related: the tau gate is mildly arm-asymmetric
+Same root cause. B1's gate statistic is the pool-wide max, so its gate asks "does *any*
+pool article clear tau" — a coverage test. M's asks "does any article *in M's fused
+top-5* clear tau", which is stricter. Measured: M gates 5/150, B1 gates 2/150, disagreeing
+on 3. **3 of M's 5 gates are this artifact, not evidence quality.** D9 chose max-over-top-k
+rather than `hits[0]` to reduce rank-dependence and it does, but the retrieved *set* is
+still arm-dependent. 2% of items; document it, do not change it — changing it invalidates
+the committed run.
+
+---
+
+## D13 — the judge cannot run at temperature=0; determinism comes from elsewhere
+
+**Status:** decided 2026-08-02 (Day 5). Amends D4. `src/evaluate.py`.
+
+### The problem
+D4 specifies the judge runs with `temperature=0`, for the same reason the generator does:
+without it, a B1-vs-M difference could be sampling noise. **That is not available on
+`claude-sonnet-5`.** The Claude 5 family removed `temperature`, `top_p` and `top_k`; a
+non-default value returns **HTTP 400**. There is no flag to re-enable it.
+
+This is not a reason to change judge model. It is a reason to get determinism another way.
+
+### What replaces it
+| Mechanism | What it removes |
+|---|---|
+| `thinking={"type": "disabled"}` | No sampled reasoning preamble. Also bounds output tokens, and therefore cost. |
+| `output_config.format` = a json_schema | The verdict is a **boolean in a constrained schema**. The only free-text surface left is a <=15-word reason that no metric reads. Variance cannot reach the number. |
+| Cache by prompt hash (`data/llm_cache/judge_*.json`) | A re-run reproduces the previous run exactly, for free. For a number that goes in a report, reproducibility on re-run is what temperature=0 was actually buying. |
+
+The generator is **untouched** — `generate.py` still calls `gpt-4o-mini` at
+`temperature=0`, where the parameter is still accepted and still load-bearing. Different
+model families for generator and judge, which was D4's whole point, is preserved.
+
+### Do not "fix" this
+Adding `temperature=0` back to the judge call fails the entire run with a 400. The
+constant is deliberately absent from `evaluate.py`, and the module docstring says why.
+
+### What the report should say
+*"The judge is claude-sonnet-5 with sampled reasoning disabled and verdicts constrained to
+a JSON schema; the Claude 5 API does not accept a temperature parameter, so determinism is
+enforced by output constraint and prompt-hash caching rather than by temperature=0. The
+generator remains gpt-4o-mini at temperature=0."*
+
+### Blindness is checked on the prompt templates, not on rendered prompts
+D4 Rule 2 says the judge never sees the condition label. The check enforcing it
+(`_assert_prompts_blind()`) runs against the **templates this module authors**, once at
+import — not against rendered prompts. Found the expensive way: scanning the rendered
+prompt matched the word *"condition"* inside real BBC summaries (*"the woman's
+condition"*) and threw on **11 of 387 summaries**, which the runner skipped. The run
+completed, wrote a plausible `claims.csv`, and reported n=125 instead of 129 with nothing
+saying so — Day 3's silent-sample-shrink, reproduced exactly.
+
+Summaries and evidence are the **material under judgment**, not instructions; a news
+article containing the word "condition" is not a label leak. What must be free of labels
+is the wrapper around it. Related hardening: `run_judge()` now counts failures and exits
+non-zero rather than reporting on a partial run.
+
+### The blindness that is not achievable, and must be disclosed
+The judge is blind to the **label**, not to the evidence. M's evidence block carries
+`[IMAGE n: "..."]` caption lines and B1's does not, so a judge could in principle infer
+the arm from the evidence itself. Stripping the captions is strictly worse — the judge
+must score claims against the evidence that was actually in the generator's prompt (D7
+Rule 2), and a claim drawn from a caption would become unsupportable by construction.
+**State this as a limitation; do not engineer around it.**
+
+---
+
+## D14 — B0's claims are judged against the union of B1's and M's evidence
+
+**Status:** decided 2026-08-02 (Day 5). `evaluate.py:merge_evidence()`.
+
+### The problem
+Faithfulness is defined as grounding in the retrieved evidence. B0 has no retrieved
+evidence — it is the no-retrieval ceiling. Claim-level faithfulness is therefore
+undefined for B0 unless it is given something to be judged against.
+
+### The decision
+Judge B0's claims against `union(B1 evidence, M evidence)` for the same query, deduped by
+headline and renumbered (measured: 5-10 articles, mean 7.6).
+
+**Why the union and not one arm's evidence.** Judging B0 against B1's evidence alone makes
+the hallucination *ceiling* a function of B1's retrieval — change B1 and the ceiling moves,
+for a reason that has nothing to do with B0. The union is symmetric between the arms, so
+neither arm's number is compared against a yardstick built from itself.
+
+**The union is generous to B0, deliberately.** A larger grounding set can only raise B0's
+faithfulness. That is the safe direction for a ceiling claim: if B0 still hallucinates more
+than both arms while being scored against a **superset** of their evidence, the conclusion
+is stronger, not weaker. If B0 instead scores *well*, that is a real finding about the
+corpus (one month of BBC news the model may have seen in pretraining), not a bug.
+
+### What the report must say
+B0's number is not the same quantity as B1's and M's. B1 and M are scored against the
+evidence that was in their own prompt; B0 is scored against evidence it never saw. Label
+it explicitly as *"B0 claims scored against the pooled retrieved evidence for the same
+query"* and never present the three as one homogeneous column without that note.
+
+---
+
+## D15 — there are THREE refusal modes; the third contaminates faithfulness
+
+**Status:** found 2026-08-02 (Day 5), during the first real judge run. Amends D10 and the
+Day 3 refusal figures. `evaluate.py:refusal_kind()`.
+
+### The finding
+D10 and both handoffs warn that a refusal rate must read the summary **text**, not the
+`abstained` flag. Correct — but the check they prescribe (`summary == INSUFFICIENT_EVIDENCE`)
+only catches the token. A third mode exists and passed every Day 3 and Day 4 check:
+
+| mode | what it looks like | B1 | M |
+|---|---|---:|---:|
+| **hard** | the literal `INSUFFICIENT_EVIDENCE` token | 17 | 19 |
+| **soft** | prose refusal: *"The evidence does not provide information about X. It covers unrelated topics including A and B."* | **36** | **35** |
+| usable | an actual summary of the retrieved coverage | 97 | 96 |
+
+**The true refusal rate is ~35%, not the ~12% reported on Day 3.** The earlier figure
+undercounted by roughly 3x. Report the corrected number and say so.
+
+This was invisible until Day 5 because nothing before it read the summaries *semantically*.
+The decomposer did: 5 soft refusals reduced to **zero atomic claims**, which is what
+surfaced the mode. `--report` now prints those explicitly rather than letting n shrink.
+
+### Why it is not just a miscount
+Soft refusals **inflate faithfulness in both arms**. The decomposer extracts their second
+sentence as claims — *"The evidence covers a scandal involving the Post Office"* — which
+are meta-statements **about** the evidence and therefore supported almost by construction:
+
+| | faithfulness |
+|---|---:|
+| soft refusals, B1 / M | 0.947 / 0.921 |
+| genuine summaries, B1 / M | 0.900 / 0.889 |
+
+A metric whose value rises when the model declines more is not measuring faithfulness.
+
+### The decision
+`report()` prints **both cuts, always** — all judged items, and usable-only. The headline
+is the usable-only number. If the two ever disagree in **sign**, the apparent B1-vs-M
+difference tracks refusal rate rather than retrieval and must not be reported as a result;
+`report()` prints a warning in that case.
+
+Measured here, they agree and barely move (soft refusals hit both arms nearly equally,
+28 B1 vs 32 M among judged items):
+
+| cut | n | B1 | M | diff | 95% CI | p |
+|---|---:|---:|---:|---:|---|---:|
+| all judged | 125 | 0.9103 | 0.8957 | -0.0146 | [-0.0380, +0.0088] | 0.245 |
+| **usable only** | **90** | **0.9010** | **0.8860** | **-0.0150** | **[-0.0431, +0.0125]** | **0.252** |
+
+### What is NOT changed
+`paired_ids()` still defines the paired set by **hard** refusals only, keeping the
+published 129-item Day 3 interface intact. Widening it there would silently redefine what
+every earlier number referred to. Soft refusals are handled as a reported cut, never as a
+quiet sample shrink.
+
+### Root cause, and why it is arguably correct behaviour
+D10 made the prompt relevance-tolerant to stop over-refusal, and reserved the token for
+evidence about "an entirely different subject". Faced with partially-relevant evidence the
+model splits the difference: it neither emits the token nor invents content, and instead
+describes what the evidence *does* cover. That is honest behaviour and the desired failure
+mode — the fault is in the measurement, not the generator. Do **not** retune the prompt to
+chase it; that is how a model starts inventing to fill gaps.
+
+---
+
+## D16 — the caption ablation (M_nocap), and what it establishes
+
+**Status:** run 2026-08-02 (Day 5), $1.60. `generate.py:ABLATION`, `evaluate.py:ABLATION`.
+
+### Why it was needed
+M differs from B1 in **two** ways at once: image fusion changes *which* articles are
+retrieved, and captions add *text* to the prompt. A null B1-vs-M result therefore cannot
+say which channel was inert, or whether one helped and the other hurt and they cancelled.
+
+### The design
+A third arm, `M_nocap`: **identical retrieval to M** (same mode, same alpha — verified same
+article ids) with only the `[IMAGE n: "..."]` lines removed. Asserted before running: same
+5 articles, byte-identical `INSTRUCTIONS` (D7 Rule 1), and M_nocap's evidence equals M's
+minus the caption lines and nothing else (~93 words per prompt).
+
+Because retrieval is unchanged, M_nocap contributes no new articles to B0's evidence union
+(D14), so B0's prompts are unchanged and B0 was served entirely from cache — the ablation
+billed only its own 126 summaries.
+
+`paired_ids()` deliberately still ranges over `CONFIGS = (B0, B1, M)` only. Adding the
+ablation there would have redefined the 129-item paired set and silently changed what every
+earlier number referred to.
+
+### Result — both channels are independently null
+| comparison | isolates | n | diff | 95% CI | p |
+|---|---|---:|---:|---|---:|
+| B1 → M_nocap | retrieval channel | 89 | +0.0046 | [−0.0236, +0.0321] | 0.640 |
+| M_nocap → M | caption channel | 90 | −0.0118 | [−0.0393, +0.0135] | 0.530 |
+| B1 → M | both | 90 | −0.0150 | [−0.0431, +0.0125] | 0.252 |
+
+Not cancellation — both are individually ~zero and the combined effect is roughly their sum.
+
+**The caption channel is inert.** ~93 words of human-written image description per prompt
+moves faithfulness by −1.2 points, p=0.53. This is the load-bearing result: it rules out
+"the captions never reached the model" as an explanation for the B1-vs-M null. They reached
+it and did not matter.
+
+One incidental effect the captions *do* have: M_nocap refuses slightly more (38.7%) than M
+(36.0%), so caption text gives the model marginally more to hold onto before declining. It
+is not a faithfulness effect.
+
+### What this licenses in the report
+The claim upgrades from "no effect observed" to **"no effect, localised to both channels"**.
+It also sharpens the remaining limitation: the model never sees pixels, so what has been
+falsified is *caption-mediated* multimodality, not multimodality as such. A vision-capable
+generator arm is the natural next experiment (`docs/evaluation_report.md` §6, Tier 1.1).

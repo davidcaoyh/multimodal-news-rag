@@ -75,9 +75,18 @@ before torch, `KMP_DUPLICATE_LIB_OK=TRUE`, or `OMP_NUM_THREADS=1`.
 
 ---
 
-## API key (not needed until Day 3)
+## API keys
 
-Days 1–2 are fully local. When you reach generation:
+Days 1–2 are fully local. Two keys are needed later, and they are **deliberately from
+different providers** — the Day 5 judge must not be the same model family as the generator,
+or summaries would be self-graded.
+
+| key | needed from | used for | spend so far |
+|---|---|---|---|
+| `OPENAI_API_KEY` | Day 3 | `gpt-4o-mini` generator | $0.29 |
+| `ANTHROPIC_API_KEY` | Day 5 | `claude-sonnet-5` faithfulness judge | $6.95 |
+
+### OpenAI (Day 3)
 
 ```bash
 cp .env.example .env       # then edit .env
@@ -93,7 +102,44 @@ inference endpoints use None/Request. **Embeddings are not needed**: SBERT and
 CLIP run locally. Set a **$5–10 spend cap** on the project; whole-week usage is
 well under $1.
 
+### Anthropic (Day 5)
+
+Get a key at <https://console.anthropic.com/settings/keys> and set a **$10 spend cap**.
+A Claude Code or claude.ai subscription does **not** grant script API access — the judge
+needs its own key.
+
+The full judge run is ~$5.35 for 387 summaries, or ~$7 including the caption ablation.
+Every call is cached by prompt hash in `data/llm_cache/`, so **re-running costs $0** and
+reproduces identical numbers.
+
+```bash
+python -m src.evaluate --dry-run           # print the exact request, send nothing
+python -m src.evaluate --judge --limit 3   # ~$0.07 smoke test — always do this first
+python -m src.evaluate --judge             # the full run
+```
+
+> **Do not add `temperature=0` to the judge call.** The Claude 5 family removed sampling
+> parameters and returns HTTP 400; the run will fail. Determinism comes from disabled
+> thinking, a JSON schema constraining the verdict, and prompt-hash caching instead. The
+> generator is unaffected and still runs at `temperature=0`. See `decisions.md` D13.
+
 `.env` is gitignored. Never commit it.
+
+---
+
+## Running the evaluation (Day 5)
+
+```bash
+python -m src.evaluate --recall              # free, no API   -> results/recall.csv
+python -m src.evaluate --judge               # cached; $0 to re-run
+python -m src.evaluate --report              # -> results/metrics.csv
+python -m src.evaluate --sample-validation   # 50 blind claims for hand-labelling
+python -m src.evaluate --validate            # agreement + Cohen's kappa
+```
+
+`--recall` needs no API key at all and is the fastest way to confirm your clone reproduces
+the published numbers: B1 recall@5 should be **0.9133**, and the run asserts that α=1.0
+reproduces B1 exactly on all 150 queries.
 
 ---
 
@@ -146,6 +192,9 @@ explains the split and why it exists.
 | 401 from OpenAI | Key scope wrong — needs Chat completions = Request. |
 | `insufficient_quota` | Billing/credits, not permissions. |
 | `pandas<3.0.0` conflict warning | Only if you installed `parquet-tools` yourself. Harmless; it isn't a project dep. |
+| `Can't call numpy() on Tensor that requires grad` — **second** query in the demo, first one fine | Torch's grad mode is thread-local and Streamlit reruns in a new thread. `embed.py` scopes `torch.no_grad()` to the forward passes for this reason — don't refactor it into one global call in the model loader. |
+| Demo shows an empty page after moving a slider | You're on an old copy of `app/streamlit_app.py`. The searched query must live in `st.session_state["active"]`, not a one-shot flag. |
+| Demo feels slow on the first query only | Expected — the ~3 s SBERT + CLIP load. It's behind `@st.cache_resource`, so it's paid once per process. |
 
 ---
 
@@ -157,12 +206,21 @@ src/day1_split.py           DONE  story_type labels + index_pool/test split
 src/inspect_data.py         DONE  read-only data explorer
 scripts/setup.sh            DONE  this guide, automated
 scripts/fix_openmp.sh       DONE  macOS libomp fix
-src/embed.py                TODO  Day 2 — SBERT + CLIP encoders
-src/index.py                TODO  Day 2 — build/load/search FAISS
-src/retrieve.py             TODO  Day 2 — text-only + fused retrieval
-src/generate.py             TODO  Day 3 — prompt + LLM + abstention
-app/streamlit_app.py        TODO  Day 4 — demo with text/multimodal toggle
-src/evaluate.py             TODO  Day 5 — faithfulness + recall@k
+src/embed.py                DONE  clean_body + chunk + SBERT/CLIP encoders
+src/index.py                DONE  build/load/search FAISS + smoke checks
+src/retrieve.py             DONE  text-only + fused retrieval  (run with -m)
+src/queries.py              DONE  test headlines -> topic + question queries
+src/generate.py             DONE  prompt + LLM + abstention + batch runner
+src/bench.py                DONE  re-measure timings -> results/timings.csv
+app/streamlit_app.py        DONE  the demo — side-by-side B1 vs M + abstention UI
+src/evaluate.py             DONE  faithfulness judge + recall@k + ablation
+```
+
+Once set up, the demo is the fastest way to see the whole pipeline work:
+
+```bash
+python src/embed.py && python src/index.py   # build the indexes (~35 s, gitignored)
+streamlit run app/streamlit_app.py
 ```
 
 Read `docs/plan_7day.md` for the plan and `CLAUDE.md` for architecture,

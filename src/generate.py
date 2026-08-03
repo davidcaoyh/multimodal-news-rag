@@ -76,7 +76,18 @@ MAX_TOKENS = 300
 TAU = 0.35
 
 CONFIGS = ("B0", "B1", "M")
-_MODE = {"B1": "text", "M": "multimodal"}
+
+# M_nocap is the Day 5 ablation, NOT part of the canonical three. M differs from B1 in two
+# ways at once — image fusion changes WHICH articles are retrieved, and captions add text
+# to the prompt — so a null B1-vs-M result cannot say which channel was inert. M_nocap
+# retrieves EXACTLY as M does and drops only the [IMAGE n: "..."] lines, so:
+#     B1 -> M_nocap   isolates the retrieval channel
+#     M_nocap -> M    isolates the caption channel
+# Because retrieval is identical to M's, B0's evidence union (D14) is unchanged and B0
+# does not need re-judging.
+ABLATION = "M_nocap"
+_MODE = {"B1": "text", "M": "multimodal", ABLATION: "multimodal"}
+_WITH_IMAGES = {"B1": False, "M": True, ABLATION: False}
 
 
 # ---------------------------------------------------------------- LLM call
@@ -207,7 +218,9 @@ def build_prompt(query: str, hits, config: str) -> tuple[str, str]:
     """-> (prompt, evidence). evidence is "" for B0 and is what Day 5 judges against."""
     if config == "B0":
         return f"{B0_INSTRUCTIONS}\nQUERY: {query}\n", ""
-    evidence = format_evidence(hits, with_images=(config == "M"))
+    # D7 Rule 1: INSTRUCTIONS is byte-identical for B1, M and M_nocap. Only the evidence
+    # block may differ between them.
+    evidence = format_evidence(hits, with_images=_WITH_IMAGES[config])
     return f"{INSTRUCTIONS}\nQUERY: {query}\n\nEVIDENCE:\n{evidence}\n", evidence
 
 
@@ -226,8 +239,8 @@ def _get_test_ids() -> set:
 def summarize(query: str, config: str = "M", k: int = 5, alpha: float = 0.5,
               tau: float = TAU, test_id: str = "", use_cache: bool = True) -> dict:
     """Run one (query, config) end to end. Returns the row that D7 Rule 2 persists."""
-    if config not in CONFIGS:
-        raise ValueError(f"config must be one of {CONFIGS}, got {config!r}")
+    if config not in (*CONFIGS, ABLATION):
+        raise ValueError(f"config must be one of {(*CONFIGS, ABLATION)}, got {config!r}")
 
     hits = [] if config == "B0" else retrieve(
         query, mode=_MODE[config], k=k, alpha=alpha, include_test=False)
@@ -407,12 +420,18 @@ def main():
     ap.add_argument("--k", type=int, default=5)
     ap.add_argument("--alpha", type=float, default=0.5)
     ap.add_argument("--tau", type=float, default=TAU)
+    ap.add_argument("--configs", nargs="+", default=list(CONFIGS),
+                    help=f"which arms to run (default {' '.join(CONFIGS)}); "
+                         f"'{ABLATION}' is the caption ablation")
+    ap.add_argument("--out", default=OUT, help="output csv (use a separate file for "
+                                               "the ablation — never overwrite " + OUT)
     args = ap.parse_args()
 
     if args.tau_scan:
         tau_scan(limit=args.limit, k=args.k, alpha=args.alpha)
     elif args.run:
-        run_test_set(limit=args.limit, k=args.k, alpha=args.alpha, tau=args.tau)
+        run_test_set(limit=args.limit, k=args.k, alpha=args.alpha, tau=args.tau,
+                     configs=tuple(args.configs), out=args.out)
     else:
         demo(args.query, k=args.k, alpha=args.alpha, tau=args.tau)
 

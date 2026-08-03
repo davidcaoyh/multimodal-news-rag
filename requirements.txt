@@ -6,6 +6,7 @@ torch
 pillow
 requests
 openai
+anthropic
 streamlit
 rouge-score
 pandas

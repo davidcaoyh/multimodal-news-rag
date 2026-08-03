@@ -12,6 +12,18 @@ SRC = "data/processed/data.parquet"
 
 
 def bucket(section):
+    """Coarse story-type label. DEAD WEIGHT — do not build analysis on `story_type`.
+
+    BBC's `section` is geographic ("Middle East", "Wales", "US & Canada"), not topical,
+    so this maps 68% of the corpus to "other", puts n=1 in "sport", and leaves 142 rows
+    with no section at all. Nothing reads `story_type`: it never enters the split (D6),
+    Day 2 ignores it, and Day 5's stratified cut was dropped rather than run on it.
+
+    Kept only because day1_split.py writes the COMMITTED parquets. Deleting it would
+    drop a column from a frozen artifact that must not be regenerated (see CLAUDE.md
+    § Data). The correct fix, if the stratified analysis is ever revived, is to
+    hand-label the 150 test items event_centric / abstract_topical — not to widen this.
+    """
     s = (section or "").lower()
     if any(w in s for w in ["world", "uk", "politics"]):
         return "event_politics"
