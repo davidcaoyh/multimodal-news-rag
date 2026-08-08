@@ -167,8 +167,9 @@ the complete research process.
   call after budget enforcement is installed. The first attempted smoke request
   was rejected before inference with HTTP 401 `missing_scope: model.request`;
   it consumed no tokens, created no cache entry, and added no budget-ledger row.
-  Execution is paused until the restricted project key grants the model-request
-  scope.
+  A retry after editing permissions returned the identical pre-inference 401 and
+  likewise cost $0. Execution is paused until a newly issued project credential
+  carries the model-request scope.
 - **Decision:** KEEP the arm; do not claim Level 3/4 multimodality until a valid
   paired API run and evaluation are complete.
 
