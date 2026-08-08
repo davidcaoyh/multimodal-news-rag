@@ -42,13 +42,13 @@ the complete research process.
 | E04 | text/image duplicate and split-leakage audit | COMPLETE | group duplicate components | `results/experiments/E04_leakage_audit/` |
 | E05 | development/validation/final-test contract | COMPLETE | use grouped research roles | `data/research/split_manifest.parquet` |
 | E06a | local VLM feasibility screen | INVALID | aborted for thermal safety; use hosted inference | `results/experiments/E06_local_model_benchmark/` |
-| E06b | M_vision actual-image generation arm | RUNNING | hosted API key and $8 software budget available | TBD |
-| E07 | query-evidence coverage metric | PLANNED | pending | TBD |
-| E08 | claim modality support attribution | PLANNED | pending | TBD |
-| E09 | visual-first/weak-text benefit conditions | PLANNED | pending | TBD |
-| E10 | conflicting and misleading image stress tests | PLANNED | pending | TBD |
-| E11 | strong text retrieval alternatives | PLANNED | pending | TBD |
-| E12 | fusion/reranking alternatives | PLANNED | pending | TBD |
+| E06b | M_vision actual-image generation arm | RUNNING | API smoke valid; proceed within $8 ledger | `results/api_usage.jsonl` |
+| E07 | group-safe dense/image fusion selection | COMPLETE | select alpha=0.75 on development | `results/experiments/E07_research_retrieval/` |
+| E08 | strong text alternatives and reranking | COMPLETE | retain lexical ceiling; do not overclaim visual retrieval | `results/experiments/E08_research_reranking/` |
+| E09 | query-evidence coverage and claim modality attribution | PLANNED | pending | TBD |
+| E10 | visual-first/weak-text benefit conditions | PLANNED | pending | TBD |
+| E11 | conflicting and misleading image stress tests | PLANNED | pending | TBD |
+| E12 | generation modality ablations | PLANNED | pending | TBD |
 | E13 | frozen final held-out comparison | PLANNED | pending | TBD |
 
 ## Inherited experiments
@@ -150,8 +150,7 @@ the complete research process.
 
 ### E06b — M_vision actual-image generation arm
 
-- **Status:** RUNNING; implementation complete, hosted key configured, execution
-  gated by a prepaid balance and software cost ledger.
+- **Status:** RUNNING; implementation complete and hosted inference validated.
 - **Research question:** Do actual retrieved image pixels add grounding value
   beyond the captions and text evidence already supplied to M?
 - **Controlled comparison:** M and M_vision use identical fused retrieval,
@@ -162,16 +161,47 @@ the complete research process.
   correspondence. Cache metadata stores image hashes rather than base64 payloads.
 - **Verification:** Unit tests confirm byte-identical text prompts/evidence for M
   and M_vision, real JPEG data URLs, low-detail mode, image-path persistence, and
-  structured generator input. All 10 current tests pass.
-- **Outcome:** No scientific outcome yet. A single cached smoke test is the next
-  call after budget enforcement is installed. The first attempted smoke request
+  structured generator input. All 18 current tests pass.
+- **Outcome:** One cached GPT-4o-mini smoke request succeeded for M_vision and
+  cost an estimated $0.000447. This validates transport and budget accounting,
+  but is not a scientific sample. The first attempted smoke request
   was rejected before inference with HTTP 401 `missing_scope: model.request`;
   it consumed no tokens, created no cache entry, and added no budget-ledger row.
   A retry after editing permissions returned the identical pre-inference 401 and
-  likewise cost $0. Execution is paused until a newly issued project credential
-  carries the model-request scope.
-- **Decision:** KEEP the arm; do not claim Level 3/4 multimodality until a valid
-  paired API run and evaluation are complete.
+  likewise cost $0. Replacing the project key resolved the scope issue.
+- **Decision:** KEEP the arm and run controlled development comparisons within
+  the $8 software budget. Do not claim a benefit until paired evaluation exists.
+
+### E07 — group-safe dense/image fusion selection
+
+- **Status:** COMPLETE.
+- **Protocol:** Evaluate 150 inherited queries on development only, with the gold
+  development article reachable among 873 pool+development candidates. Compare
+  pure image, five score-fusion weights, text-only dense retrieval, and RRF.
+- **Outcome:** alpha=0.75 achieved Recall@5 0.940 versus dense-text 0.927,
+  alpha=0.5 0.880, RRF 0.787, and pure image 0.620. The selected fusion rescued
+  three queries and harmed one at rank 5 relative to dense text.
+- **Decision:** Use alpha=0.75 for subsequent dense multimodal experiments. Reject
+  equal weighting and RRF for this corpus/query regime.
+- **Insight:** Image similarity is complementary at low weight, but it is not a
+  robust standalone retriever for ordinary text queries.
+
+### E08 — strong text alternatives and reranking
+
+- **Status:** COMPLETE.
+- **Protocol:** Add an article-level word/bigram TF-IDF baseline over headline and
+  body (captions excluded), plus dense+lexical fusion and top-30 lexical reranking.
+  Tune and compare only on the same 150 development queries.
+- **Outcome:** lexical retrieval reached Recall@5 1.000 and MRR 0.960; dense+
+  lexical reached 0.993/0.949; text reranking reached 0.973/0.907; multimodal
+  reranking reached 0.960/0.894; alpha=0.75 multimodal dense remained 0.940/0.830.
+- **Decision:** Preserve lexical retrieval as the strongest text ceiling and use
+  it to qualify the retrieval claim. Do not replace the dense multimodal path in
+  the causal image-generation experiments, because doing so would remove the
+  visual retrieval intervention being studied.
+- **Insight:** These inherited article-derived questions carry unusually strong
+  lexical cues. They can support retrieval engineering comparisons, but they are
+  biased against demonstrating a visual retrieval advantage at Recall@5.
 
 ## Experiment entry template
 

@@ -1,0 +1,9 @@
+{
+  "experiment_id": "E08",
+  "split": "development only",
+  "queries": 150,
+  "candidate_articles": 873,
+  "rerank_depth": 30,
+  "selected_method": "lexical",
+  "selection_rule": "highest recall@5, then MRR"
+}

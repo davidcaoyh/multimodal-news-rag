@@ -1,0 +1,13 @@
+{
+  "experiment_id": "E07",
+  "split": "development only",
+  "queries": 150,
+  "candidate_articles": 873,
+  "selected_by": "highest recall@5, then MRR",
+  "selected_method": "alpha_0.75",
+  "text_recall_at_5": 0.9266666666666666,
+  "selected_recall_at_5": 0.94,
+  "visual_rescues_at_5": 3,
+  "fusion_harms_at_5": 1,
+  "pure_image_only_hits_at_5": 3
+}

@@ -313,7 +313,9 @@ def _get_test_ids() -> set:
 
 
 def summarize(query: str, config: str = "M", k: int = 5, alpha: float = 0.5,
-              tau: float = TAU, test_id: str = "", use_cache: bool = True) -> dict:
+              tau: float = TAU, test_id: str = "", use_cache: bool = True,
+              candidate_ids: set[str] | None = None,
+              forbidden_ids: set[str] | None = None) -> dict:
     """Run one (query, config) end to end. Returns the row that D7 Rule 2 persists."""
     if config not in (*CONFIGS, ABLATION, VISION):
         raise ValueError(
@@ -321,11 +323,13 @@ def summarize(query: str, config: str = "M", k: int = 5, alpha: float = 0.5,
         )
 
     hits = [] if config == "B0" else retrieve(
-        query, mode=_MODE[config], k=k, alpha=alpha, include_test=False)
+        query, mode=_MODE[config], k=k, alpha=alpha, include_test=False,
+        candidate_ids=candidate_ids)
 
     # D7 Rule 3 — a test article in the generation evidence would push faithfulness
     # to ceiling and read as a great result. Assert rather than trust the default.
-    leaked = {h.article_id for h in hits} & _get_test_ids()
+    forbidden = _get_test_ids() if forbidden_ids is None else forbidden_ids
+    leaked = {h.article_id for h in hits} & forbidden
     assert not leaked, f"test articles leaked into generation evidence: {sorted(leaked)}"
 
     # Gate on the strongest RAW text score in the returned set, not on hits[0].

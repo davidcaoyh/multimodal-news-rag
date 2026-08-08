@@ -117,6 +117,41 @@ def encode_query(query: str):
     return embed_text([query])[0], embed_clip_text([query])[0]
 
 
+def component_scores(
+    query: str,
+    *,
+    include_test: bool = False,
+    candidate_ids: set[str] | None = None,
+) -> pd.DataFrame:
+    """Return one row per candidate with raw and normalized text/image scores.
+
+    This is the efficient research interface for comparing many fusion rules:
+    the query encoders run once, then alpha sweeps and rank fusion are pure NumPy.
+    It intentionally returns no passages and therefore cannot be used as
+    generation evidence.
+    """
+    st = _get_state()
+    q_text, q_img = encode_query(query)
+    passage_scores = _dense_scores(st.text_index, q_text, len(st.passages))
+    s_text = np.full(st.n_articles, -np.inf, dtype="float32")
+    np.maximum.at(s_text, st.passage_article_pos, passage_scores)
+    s_img = _dense_scores(st.img_index, q_img, st.n_articles)
+
+    if candidate_ids is not None:
+        cand = st.img_meta["id"].isin(candidate_ids).to_numpy(copy=True)
+    else:
+        cand = np.ones(st.n_articles, dtype=bool) if include_test else ~st.is_test
+    cand &= np.isfinite(s_text)
+    idx = np.flatnonzero(cand)
+    return pd.DataFrame({
+        "id": st.img_meta.iloc[idx]["id"].to_numpy(),
+        "s_text": s_text[idx],
+        "s_img": s_img[idx],
+        "n_text": _minmax(s_text[idx]),
+        "n_img": _minmax(s_img[idx]),
+    })
+
+
 def retrieve(
     query: str,
     mode: str = "multimodal",
@@ -125,6 +160,7 @@ def retrieve(
     include_test: bool = False,
     n_passages: int = 2,
     dedupe: bool = False,
+    candidate_ids: set[str] | None = None,
 ) -> list[Hit]:
     """Top-k articles for `query`.
 
@@ -138,6 +174,10 @@ def retrieve(
     n_passages  how many of the article's own passages to attach as evidence.
     dedupe      drop articles whose lead passage duplicates one already selected
                 (89/1023 BBC articles share an exact first paragraph).
+    candidate_ids
+                Optional explicit article allowlist. When supplied it replaces
+                the inherited pool/test mask and is the required interface for
+                the group-safe research split.
     """
     if mode not in ("text", "multimodal"):
         raise ValueError(f"mode must be 'text' or 'multimodal', got {mode!r}")
@@ -158,7 +198,10 @@ def retrieve(
     s_img = _dense_scores(st.img_index, q_img, st.n_articles)
 
     # --- filter BEFORE normalizing (see module docstring, point 2)
-    cand = np.ones(st.n_articles, dtype=bool) if include_test else ~st.is_test
+    if candidate_ids is not None:
+        cand = st.img_meta["id"].isin(candidate_ids).to_numpy(copy=True)
+    else:
+        cand = np.ones(st.n_articles, dtype=bool) if include_test else ~st.is_test
     cand &= np.isfinite(s_text)
     idx = np.flatnonzero(cand)
     if idx.size == 0:

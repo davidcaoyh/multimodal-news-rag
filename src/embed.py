@@ -156,7 +156,11 @@ def _get_sbert():
     if _sbert is None:
         from sentence_transformers import SentenceTransformer
 
-        _sbert = SentenceTransformer(SBERT_MODEL)
+        # The research pipeline must remain reproducible after the one-time model
+        # download.  Without this flag, transformers performs a network HEAD
+        # request even when every weight is already cached, which breaks offline
+        # evaluation and can silently resolve to a newer remote revision.
+        _sbert = SentenceTransformer(SBERT_MODEL, local_files_only=True)
     return _sbert
 
 
