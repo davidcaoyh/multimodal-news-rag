@@ -164,7 +164,11 @@ the complete research process.
   and M_vision, real JPEG data URLs, low-detail mode, image-path persistence, and
   structured generator input. All 10 current tests pass.
 - **Outcome:** No scientific outcome yet. A single cached smoke test is the next
-  call after budget enforcement is installed.
+  call after budget enforcement is installed. The first attempted smoke request
+  was rejected before inference with HTTP 401 `missing_scope: model.request`;
+  it consumed no tokens, created no cache entry, and added no budget-ledger row.
+  Execution is paused until the restricted project key grants the model-request
+  scope.
 - **Decision:** KEEP the arm; do not claim Level 3/4 multimodality until a valid
   paired API run and evaluation are complete.
 
