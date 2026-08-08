@@ -7,41 +7,41 @@ harness.
 
 ECE 1508 course project · 7-day scope · corpus: BBC News
 
-## Headline result
+## Headline result — frozen research extension
 
-**Retrieval removes hallucination. Images do not.**
+This is now an end-to-end multimodal RAG system: CLIP pixels affect retrieval and
+GPT-4o-mini receives the five retrieved images themselves, not just captions.
 
-| config | faithfulness | hallucination |
+| held-out system | usable faithfulness | usable coverage |
 |---|---:|---:|
-| **B0** no retrieval | 0.243 | **0.757** |
-| **B1** text-only RAG | **0.901** | 0.099 |
-| **M** multimodal RAG | **0.886** | 0.114 |
+| **B1** text-only RAG | **0.861** | 13/20 |
+| **M** image-fused retrieval + captions | 0.834 | 12/20 |
+| **M_vision** M + actual pixels | 0.858 | **13/20** |
 
-Retrieval cuts hallucination **3.7×**. Multimodal fusion changes nothing measurable:
-paired over 90 items, M − B1 = **−0.015**, 95% CI **[−0.043, +0.013]**, p = 0.25. The
-experiment was powered to detect any effect ≥ 4.0 points and measured 1.5 — a *bounded*
-null, not an underpowered one.
+On the 20-item duplicate-group-safe frozen final sample, **M_vision − M = +0.0366**
+over 12 jointly usable items, with paired bootstrap 95% CI **[−0.0155,+0.0888]**.
+Actual pixels sometimes help, but the held-out result does not establish a reliable
+average gain. Only 4.0% of supported M_vision claims received both text and pixel
+support; none required pixels alone. Caption-mediated M likewise did not beat B1.
 
-An ablation splits M's two channels and finds **both independently null**: image-fused
-retrieval p=0.64, caption text p=0.53. In particular the caption channel is **inert** —
-~93 words of image description per prompt move faithfulness by −1.2 points.
+A targeted 12-case development diagnostic had shown a larger M_vision gain
+(+0.205, CI [+0.057,+0.427]), illustrating why the final split was necessary. A
+five-case wrong-image stress test reduced clean-evidence faithfulness by 0.057
+(CI [−0.123,0.000]): modest, case-dependent harm rather than catastrophic copying.
 
-Full write-up: **[docs/evaluation_report.md](docs/evaluation_report.md)**.
-*(All faithfulness numbers are provisional pending human validation of the LLM judge.)*
+All judge-based numbers remain provisional until a human fills the exported 50-claim
+blind validation sheet. Full experiment history: **[docs/research_log.md](docs/research_log.md)**.
 
 ## Pipeline
 ```
-query ─► retrieve evidence ─► grounded prompt ─► GPT-4o-mini ─► summary
-              │
-    text-only  vs  text + image (late score fusion)
+query ─► text + image retrieval ─► text/captions + actual pixels ─► GPT-4o-mini
 ```
 SBERT `all-MiniLM-L6-v2` (384-d, text) + CLIP ViT-B/32 (512-d, images) → two FAISS
 `IndexFlatIP` indexes. Multimodal retrieval fuses the two score streams:
-`score = α·s_text + (1−α)·s_img`, α=0.5, with per-query min-max normalization.
+`score = α·s_text + (1−α)·s_img`, α=0.75, with per-query min-max normalization.
 
-Three configs: **B0** no retrieval · **B1** text-only RAG · **M** multimodal RAG.
-The whole project exists to compare **B1 vs M**. The generator, the prompt, and the
-corpus are held constant across all three — retrieval is the only variable.
+The frozen comparison uses **B1** text RAG · **M** image-fused retrieval plus captions ·
+**M_vision** the same M evidence plus actual pixels. M versus M_vision isolates pixel input.
 
 **Nothing is trained.** SBERT and CLIP are frozen pre-trained encoders used
 forward-only; GPT-4o-mini is a hosted API. The corpus is a searchable index, not
@@ -67,13 +67,14 @@ troubleshooting: **[docs/setup_guide.md](docs/setup_guide.md)**.
 The corpus ships with the repo — **don't rebuild it**, or your split won't match your
 teammates' and B1-vs-M numbers stop being comparable. Rationale in the setup guide.
 
-An OpenAI API key is needed from Day 3 on, and an Anthropic key from Day 5 (`.env`, see
-`.env.example`). Whole-project usage so far is **$7.24**.
+One OpenAI API key is used for GPT-4o-mini generation and GPT-5.6 Luna judging (`.env`,
+see `.env.example`). No Anthropic key is required. The extension's conservative ledger
+records **$0.208** across 214 successful calls, under a code-enforced $8 ceiling.
 
 ## Status
 
-**Days 1–5 complete.** Corpus, retrieval, generation, demo and the full evaluation are
-done and verified. Days 6–7 are on hold pending supervisor input.
+**Implementation and frozen automated evaluation are complete.** The only required
+manual task is blind human validation of 50 judge labels.
 
 | Day | Deliverable | State |
 |---|---|---|
@@ -82,12 +83,13 @@ done and verified. Days 6–7 are on hold pending supervisor input.
 | 3 | `generate.py` — prompt, LLM, abstention | ✅ done |
 | 4 | `app/streamlit_app.py` — the demo | ✅ done |
 | 5 | `evaluate.py` — faithfulness + recall@k + ablation | ✅ done |
-| 6 | HF Spaces deploy + README result | ⏸ on hold |
-| 7 | Report + polish | ⏸ on hold |
+| 6 | Group-safe actual-image research extension | ✅ done |
+| 7 | Frozen evaluation + report-ready results | ✅ done |
 | — | 50-claim human validation of the judge | ⬜ outstanding |
 
-Total API spend: **$7.24** (generation $0.29, judge $6.95 over 1,015 calls). All LLM calls
-are cached by prompt hash, so re-runs cost $0.
+The historical inherited run recorded $7.24 under its former provider setup. The new
+extension has its own auditable ledger: **$0.208 across 214 calls**. All successful LLM
+calls are cached by prompt hash, so identical re-runs cost $0.
 
 ### Corpus (Day 1 output)
 
@@ -175,11 +177,11 @@ cannot be an implementation artefact. Asserted on every `--recall` run.
 
 Recall is retrieval quality, not the research question — summary faithfulness is (above).
 
-### Evaluation (Day 5 output)
+### Historical inherited evaluation (before the research extension)
 
-513 summaries → **5,146 atomic claims** → 1,015 judge calls. Judge is `claude-sonnet-5`,
-deliberately a different model family from the generator so summaries are not self-graded,
-and blind to which arm produced each summary.
+These preserved baseline numbers used 513 summaries and 5,146 claims. They are retained
+for provenance, but the current extension uses GPT-5.6 Luna, a group-safe split, actual
+image pixels, and the frozen E12 evaluation above.
 
 | comparison | isolates | diff | 95% CI | p |
 |---|---|---:|---|---:|
@@ -214,10 +216,8 @@ willing to answer; conditional on answering it is ~90% faithful regardless.
   stratified analysis was dropped rather than run on it.
 - **26.6% of raw bodies contain video-player boilerplate.** Stripped by `clean_body()`
   in `embed.py` before chunking; 0 boilerplate passages survive into the index.
-- The generator sees **image captions, not pixels**. CLIP embeddings drive *retrieval*;
-  the caption carries visual evidence into the prompt. So what the null falsifies is
-  *caption-mediated* multimodality — a vision-capable generator was never tested, and that
-  is the highest-priority follow-up ([docs/future_work.md](docs/future_work.md) §1.1).
+- The inherited M arm sees image captions, not pixels. The new M_vision arm closes this
+  gap by sending actual retrieved images; its frozen held-out advantage remains uncertain.
 - **No retrieval statistic in the demo can answer B1 vs M.** Any metric computed on the
   text stream alone is maximised by B1 *by definition*, because B1 is the argmax of that
   stream — M's mean `s_text` is lower on 145/150 queries and higher on **0**. The two
@@ -276,7 +276,6 @@ results/validation_sample.csv   50 blind claims awaiting hand labels
   grad mode is thread-local; a single global call inside the cached model loader works
   from the CLI and breaks under Streamlit, which reruns in a new thread each time — the
   first query succeeds and the second raises. Forward values are unaffected either way.
-- **API key:** restricted OpenAI key, `Chat completions = Request` only. Embeddings run
-  locally, so no embeddings permission is needed. Day 5 additionally needs an
-  `ANTHROPIC_API_KEY` — the faithfulness judge is `claude-sonnet-5`, deliberately a
-  different model family from the generator so summaries are not self-graded.
+- **API key:** OpenAI project key with Chat Completions access. Embeddings run locally,
+  so no embeddings permission is needed. The judge is GPT-5.6 Luna; no Anthropic key is
+  required. Keep auto-reload off and use the persistent software budget ledger.

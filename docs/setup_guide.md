@@ -77,14 +77,12 @@ before torch, `KMP_DUPLICATE_LIB_OK=TRUE`, or `OMP_NUM_THREADS=1`.
 
 ## API keys
 
-Days 1–2 are fully local. Two keys are needed later, and they are **deliberately from
-different providers** — the Day 5 judge must not be the same model family as the generator,
-or summaries would be self-graded.
+Days 1–2 are fully local. The current research extension uses one OpenAI project key;
+generation and judging use different model families and physically separated caches.
 
 | key | needed from | used for | spend so far |
 |---|---|---|---|
-| `OPENAI_API_KEY` | Day 3 | `gpt-4o-mini` generator | $0.29 |
-| `ANTHROPIC_API_KEY` | Day 5 | `claude-sonnet-5` faithfulness judge | $6.95 |
+| `OPENAI_API_KEY` | generation + evaluation | GPT-4o-mini generator; GPT-5.6 Luna judge | extension ledger $0.208 |
 
 ### OpenAI (Day 3)
 
@@ -92,25 +90,19 @@ or summaries would be self-graded.
 cp .env.example .env       # then edit .env
 ```
 
-Create a **restricted** project key at <https://platform.openai.com/api-keys> with
-exactly one permission:
+Create a project key at <https://platform.openai.com/api-keys> with Chat Completions
+request access. Allowlist only the two project models where possible:
 
 > **Model capabilities → Chat completions (`/v1/chat/completions`) = Request**
 
-Everything else stays **None**. Note the dropdown says *Request*, not *Write* —
-inference endpoints use None/Request. **Embeddings are not needed**: SBERT and
-CLIP run locally. Set a **$5–10 spend cap** on the project; whole-week usage is
-well under $1.
+**Embeddings are not needed**: SBERT and CLIP run locally. Keep auto-reload off;
+the code additionally records every call and stops at an $8 software ceiling.
 
-### Anthropic (Day 5)
+### Judge (current extension)
 
-Get a key at <https://console.anthropic.com/settings/keys> and set a **$10 spend cap**.
-A Claude Code or claude.ai subscription does **not** grant script API access — the judge
-needs its own key.
-
-The full judge run is ~$5.35 for 387 summaries, or ~$7 including the caption ablation.
-Every call is cached by prompt hash in `data/llm_cache/`, so **re-running costs $0** and
-reproduces identical numbers.
+No Anthropic credential is required. GPT-5.6 Luna runs with reasoning disabled and
+strict structured output. Every call is cached by prompt hash in `data/llm_cache/`,
+so an identical rerun costs $0 and reproduces the stored result.
 
 ```bash
 python -m src.evaluate --dry-run           # print the exact request, send nothing
@@ -118,10 +110,9 @@ python -m src.evaluate --judge --limit 3   # ~$0.07 smoke test — always do thi
 python -m src.evaluate --judge             # the full run
 ```
 
-> **Do not add `temperature=0` to the judge call.** The Claude 5 family removed sampling
-> parameters and returns HTTP 400; the run will fail. Determinism comes from disabled
-> thinking, a JSON schema constraining the verdict, and prompt-hash caching instead. The
-> generator is unaffected and still runs at `temperature=0`. See `decisions.md` D13.
+> **Do not add `temperature=0` to the Luna judge call.** Determinism comes from disabled
+> reasoning, strict JSON schemas, serial execution, and prompt-hash caching. The
+> GPT-4o-mini generator remains at `temperature=0`.
 
 `.env` is gitignored. Never commit it.
 

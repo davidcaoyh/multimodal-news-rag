@@ -1,0 +1,449 @@
+test_id,config,claim_index,claim,support,supported,reason
+30b5c4969ddfed66,M,1,The evidence does not provide information about the winner of the women's final at the Australian Open 2024.,text_only,True,Evidence mentions the men’s final but provides no women’s final winner or outcome.
+30b5c4969ddfed66,M,2,The evidence discusses Emma Raducanu's return to competition.,text_only,True,Evidence describes Raducanu’s first match after eight months injured and her return to competition.
+30b5c4969ddfed66,M,3,The evidence discusses Novak Djokovic's loss.,text_only,True,Evidence explicitly reports Djokovic losing to Jannik Sinner at the Australian Open.
+30b5c4969ddfed66,M,4,The evidence discusses performances by other players.,text_only,True,"Evidence discusses Gauff, Liu, Svitolina, Wozniacki, Murray, Etcheverry, and others’ performances."
+30b5c4969ddfed66,M,5,The evidence does not mention the women's final or its outcome.,text_only,True,Evidence does not mention a women’s Australian Open final or its outcome.
+30b5c4969ddfed66,M,6,The summary concludes that there is insufficient evidence to answer the query.,unsupported,False,"No summary is provided, though the evidence supports insufficient information about the women’s final winner."
+30b5c4969ddfed66,M_vision,1,The evidence does not provide information about the winner of the women's final at the Australian Open 2024.,text_only,True,The evidence names the men's finalist but gives no winner or outcome for the women's final.
+30b5c4969ddfed66,M_vision,2,The evidence discusses Emma Raducanu's return to competition.,both,True,Text describes Raducanu returning after eight months injured; image I1 shows her playing tennis.
+30b5c4969ddfed66,M_vision,3,The evidence discusses Novak Djokovic's loss.,both,True,Text explicitly reports Djokovic's Australian Open loss; image I2 depicts Djokovic.
+30b5c4969ddfed66,M_vision,4,The evidence discusses performances by other players.,both,True,"Text discusses Gauff, Svitolina, Murray, Wiegman, Bonmati, and others; images show several performers."
+30b5c4969ddfed66,M_vision,5,The evidence does not mention the women's final or its outcome.,text_only,True,The evidence does not mention a women's Australian Open final or its outcome.
+30b5c4969ddfed66,M_vision,6,The summary concludes that there is insufficient evidence to answer the query.,unsupported,False,The evidence supports claims about Raducanu and Djokovic but does not contain a stated summary conclusion.
+cf51b562ce4b151e,B1,1,The evidence does not provide information about Emma Raducanu's performance at the Australian Open 2024.,text_only,True,"Text discusses Raducanu's preparation and possible entry, not her Australian Open performance."
+cf51b562ce4b151e,B1,2,The evidence does not provide information about Emma Raducanu's results at the Australian Open 2024.,text_only,True,No Australian Open 2024 result for Raducanu appears in the evidence.
+cf51b562ce4b151e,B1,3,The evidence does not provide details about whom Emma Raducanu may have lost to at the Australian Open 2024.,text_only,True,No opponent Raducanu may have lost to at the Australian Open is identified.
+cf51b562ce4b151e,B1,4,The evidence mentions Emma Raducanu's participation in the Australian Open 2024.,text_only,True,Text says Raducanu was scheduled to play an opening match Tuesday and discusses possible entry.
+cf51b562ce4b151e,B1,5,The evidence mentions Emma Raducanu's previous matches.,text_only,True,Text reports her Auckland match against Elena-Gabriela Ruse and mentions her meeting with Svitolina.
+cf51b562ce4b151e,B1,6,The evidence does not specify the outcome of Emma Raducanu's matches at the Australian Open 2024.,text_only,True,The evidence does not state any Australian Open match outcome for Raducanu.
+cf51b562ce4b151e,B1,7,The evidence is insufficient to answer the query.,text_only,True,"The evidence lacks Raducanu's Australian Open result or opponent, leaving the query unanswered."
+cf51b562ce4b151e,M,1,The evidence does not provide information about which player Emma Raducanu lost to at the Australian Open 2024.,text_only,True,No player Raducanu lost to at the Australian Open is identified.
+cf51b562ce4b151e,M,2,The evidence mentions Emma Raducanu's participation in the Australian Open 2024.,text_only,True,Text lists Raducanu among players scheduled to play their opening matches Tuesday.
+cf51b562ce4b151e,M,3,The evidence mentions Emma Raducanu's previous matches.,text_only,True,Text reports her Auckland win over Elena-Gabriela Ruse and forthcoming meeting with Svitolina.
+cf51b562ce4b151e,M,4,The evidence does not detail the outcome of Emma Raducanu's matches at the Australian Open 2024.,text_only,True,No outcome of any Australian Open match involving Raducanu is provided.
+cf51b562ce4b151e,M,5,The evidence does not identify any specific opponent Emma Raducanu faced at the Australian Open 2024.,text_only,True,No specific Australian Open opponent for Raducanu is named.
+cf51b562ce4b151e,M,6,The evidence is insufficient to answer the query.,text_only,True,The evidence does not provide enough information about Raducanu's Australian Open results or opponent.
+cf51b562ce4b151e,M_vision,1,The evidence does not provide information about which player Emma Raducanu lost to at the Australian Open 2024.,text_only,True,Text discusses Raducanu’s Australian Open entry but does not identify a loss or opponent.
+cf51b562ce4b151e,M_vision,2,The evidence mentions Emma Raducanu's participation in the Australian Open 2024.,text_only,True,Text explicitly says Raducanu would play her opening Australian Open match.
+cf51b562ce4b151e,M_vision,3,The evidence mentions Emma Raducanu's previous matches.,text_only,True,Text mentions her first match after eight months and her nine matches in 2023.
+cf51b562ce4b151e,M_vision,4,The evidence does not detail the outcome of Emma Raducanu's matches at the Australian Open 2024.,text_only,True,No Australian Open match outcome for Raducanu is provided.
+cf51b562ce4b151e,M_vision,5,The evidence does not identify any specific opponent Emma Raducanu faced at the Australian Open 2024.,text_only,True,The evidence names no specific Australian Open opponent for Raducanu.
+cf51b562ce4b151e,M_vision,6,The evidence is insufficient to answer the query.,text_only,True,The evidence provides relevant Australian Open participation context but does not answer who she lost to.
+02a07ad9c7a29286,B1,1,Luke Littler reached the World Darts Championship final.,text_only,True,Evidence explicitly says Littler reached the PDC World Darts Championship final.
+02a07ad9c7a29286,B1,2,Luke Littler defeated former champion Rob Cross in the semi-finals.,text_only,True,Evidence states he stunned former champion Rob Cross in the semi-final victory.
+02a07ad9c7a29286,B1,3,Luke Littler was 16 years old.,text_only,True,Evidence identifies Littler as 16 years old.
+02a07ad9c7a29286,B1,4,Luke Littler became the youngest player to reach the World Darts Championship final.,text_only,True,Evidence explicitly calls him the youngest person to reach the title decider.
+02a07ad9c7a29286,B1,5,Luke Littler had earlier wins against notable players.,text_only,True,"Evidence documents wins over Brendan Dolan, Rob Cross, and other notable players."
+02a07ad9c7a29286,B1,6,Luke Littler defeated Brendan Dolan in an earlier match.,text_only,True,Evidence explicitly says Littler swept past Brendan Dolan.
+02a07ad9c7a29286,B1,7,Luke Littler's performance garnered significant attention.,text_only,True,"Evidence describes his meteoric rise and sporting impact, supporting significant attention."
+02a07ad9c7a29286,B1,8,Luke Littler's matches were among the most-watched in the tournament's history.,text_only,True,Evidence says his semi-final set a tournament viewing record and final was anticipated highly watched.
+02a07ad9c7a29286,M,1,Luke Littler reached the World Darts Championship final.,text_only,True,Evidence explicitly says Littler reached the World Darts Championship final.
+02a07ad9c7a29286,M,2,Luke Littler defeated Rob Cross in the semi-finals.,unsupported,False,"Evidence says he stunned former champion Rob Cross, but does not explicitly identify the semi-final result."
+02a07ad9c7a29286,M,3,Luke Littler became the youngest player to reach the final of the World Darts Championship.,text_only,True,Evidence explicitly calls him the youngest person to reach the title decider.
+02a07ad9c7a29286,M,4,Luke Littler's performance throughout the championship garnered considerable attention.,text_only,True,Evidence describes his meteoric rise transcending the sport and taking him from obscurity to stardom.
+02a07ad9c7a29286,M,5,Luke Littler's matches had record viewership.,text_only,True,Evidence says his semi-final set a Sky tournament viewing record.
+02a07ad9c7a29286,M,6,Luke Littler had earlier wins against notable players.,text_only,True,Evidence documents wins over Raymond van Barneveld and other notable players.
+02a07ad9c7a29286,M,7,Luke Littler's earlier wins showcased his rapid rise in the sport.,text_only,True,"Evidence describes a meteoric rise, sporting stardom, and remarkable wins, supporting rapid rise."
+02a07ad9c7a29286,M_vision,1,Luke Littler reached the World Darts Championship final.,text_only,True,Text states Littler faced Humphries in the final and was runner-up.
+02a07ad9c7a29286,M_vision,2,Luke Littler defeated Rob Cross in the semi-finals.,text_only,True,Text explicitly says Littler defeated former champion Rob Cross in the semi-final.
+02a07ad9c7a29286,M_vision,3,Luke Littler became the youngest player to reach the final of the World Darts Championship.,text_only,True,Text explicitly calls Littler the youngest person to reach the title decider.
+02a07ad9c7a29286,M_vision,4,Luke Littler's performance throughout the championship garnered considerable attention.,text_only,True,"Text describes a meteoric rise, sporting stardom, and record tournament viewing attention."
+02a07ad9c7a29286,M_vision,5,Luke Littler's semi-final match had record viewership.,text_only,True,Text reports his semi-final peak audience was a Sky tournament viewing record.
+060d93d8f53ccd70,B1,1,Tesco has faced challenges related to rising costs in the grocery market.,unsupported,False,Evidence mentions Tesco cutting prices amid high costs but does not specifically state Tesco faced rising grocery-market costs.
+060d93d8f53ccd70,B1,2,Tesco has faced competition in the grocery market.,text_only,True,Tesco cut prices to head off competition from discount rivals Aldi and Lidl.
+060d93d8f53ccd70,B1,3,Tesco has warned that some prices may increase.,text_only,True,Tesco warned that Red Sea disruption could cause some prices to rise.
+060d93d8f53ccd70,B1,4,Tesco attributed potential price increases to disruptions in global trade routes.,text_only,True,Evidence links Tesco’s price warning to shipping diversions caused by Red Sea disruption.
+060d93d8f53ccd70,B1,5,The global trade route disruptions were affected by attacks in the Red Sea.,text_only,True,Evidence explicitly says Houthi attacks caused shipping companies to divert vessels from the Red Sea.
+060d93d8f53ccd70,B1,6,Tesco is under pressure to raise wages for its workers.,unsupported,False,"Evidence says supermarkets must raise wages, but does not specifically state Tesco is under pressure."
+060d93d8f53ccd70,B1,7,New minimum wage regulations are a reason for the pressure to raise workers' wages.,text_only,True,Supermarkets must increase wages at least in line with the new minimum wage this April.
+060d93d8f53ccd70,B1,8,Higher wages could further impact Tesco's profit margins.,unsupported,False,"Evidence says higher wages can hit business margins, but this concerns businesses generally, not Tesco specifically."
+060d93d8f53ccd70,B1,9,Tesco reported a rise in sales during the Christmas period.,text_only,True,Tesco reported UK sales rising 6.8% over six weeks through 6 January.
+060d93d8f53ccd70,B1,10,Tesco's Christmas-period sales rise indicated strong performance amid a competitive landscape.,text_only,True,Tesco reported strong Christmas sales while competing with discount rivals and other supermarkets.
+060d93d8f53ccd70,M,1,The evidence does not provide specific information about issues Tesco faced with its deliveries recently.,text_only,True,The evidence does not provide specific information about recent Tesco delivery issues.
+060d93d8f53ccd70,M,2,The evidence discusses Tesco's sales performance during the Christmas period.,text_only,True,Evidence explicitly discusses Tesco’s Christmas-period sales performance.
+060d93d8f53ccd70,M,3,Tesco reported a rise in sales during the Christmas period.,text_only,True,Tesco reported UK sales rising 6.8% over the six weeks to 6 January.
+060d93d8f53ccd70,M,4,Tesco reported a rise in market share during the Christmas period.,text_only,True,"Tesco’s market share rose to 27.6%, according to the evidence."
+060d93d8f53ccd70,M,5,The evidence discusses the competitive landscape involving other supermarkets.,text_only,True,"Evidence discusses competition among Tesco, Sainsbury’s, Aldi, and Lidl."
+060d93d8f53ccd70,M,6,The evidence mentions the impact of rising prices on sales figures.,text_only,True,Evidence says rising prices helped the value of supermarket sales figures.
+060d93d8f53ccd70,M,7,The evidence mentions the impact of rising prices on the broader retail environment.,text_only,True,"Evidence describes broader retail effects of rising prices, including changed demand and sales values."
+060d93d8f53ccd70,M,8,The evidence does not address delivery-related challenges.,text_only,True,The evidence does not address delivery-related challenges.
+060d93d8f53ccd70,M_vision,1,The evidence does not specifically address issues faced by Tesco with its deliveries.,text_only,True,"Tesco sales and pricing are discussed, but no Tesco delivery issues are addressed."
+060d93d8f53ccd70,M_vision,2,The evidence discusses Tesco's sales performance during the Christmas period.,text_only,True,Evidence explicitly reports Tesco sales during the six weeks ending 6 January.
+060d93d8f53ccd70,M_vision,3,Tesco reported a rise in sales during the Christmas period.,text_only,True,Tesco reported UK sales rose 6.8% over the Christmas-period reporting window.
+060d93d8f53ccd70,M_vision,4,Tesco reported a rise in market share during the Christmas period.,unsupported,False,Tesco's sales and market share are mentioned separately; no Tesco Christmas market-share rise is stated.
+060d93d8f53ccd70,M_vision,5,The evidence discusses the competitive landscape involving other supermarkets.,text_only,True,"Evidence discusses Tesco, Sainsbury's, Aldi, Lidl, and competition for customers."
+060d93d8f53ccd70,M_vision,6,The evidence discusses broader retail trends.,both,True,"Evidence reports overall retail sales, food and non-food trends, and supermarket performance."
+060d93d8f53ccd70,M_vision,7,The evidence mentions a decline in non-food sales.,text_only,True,"Text reports non-food purchases fell 3.9%; the chart shows overall retail decline, not specifically non-food."
+060d93d8f53ccd70,M_vision,8,The evidence mentions the impact of rising prices on consumer spending.,text_only,True,Evidence says supermarket sales value was helped by rising prices over the past year.
+060d93d8f53ccd70,M_vision,9,The evidence contains no mention of delivery challenges related to Tesco.,unsupported,False,No evidence text or image mentions delivery challenges related to Tesco.
+060d93d8f53ccd70,M_vision,10,The evidence contains no mention of logistics issues related to Tesco.,unsupported,False,No evidence text or image mentions logistics issues related to Tesco.
+e2249155d11e59ec,B1,1,The American Moon mission involves the Peregrine lander.,text_only,True,Evidence identifies Peregrine as the spacecraft for the US private Moon mission.
+e2249155d11e59ec,B1,2,The mission is part of a broader initiative by U.S. projects aiming for lunar landings in 2024.,text_only,True,Evidence calls Peregrine one of US projects aiming to land in 2024.
+e2249155d11e59ec,B1,3,The Peregrine spacecraft weighs 1.2 tons.,text_only,True,Evidence explicitly states the Peregrine spacecraft weighs 1.2 tonnes.
+e2249155d11e59ec,B1,4,The Peregrine spacecraft was launched successfully by the Vulcan rocket.,text_only,True,Evidence says Vulcan launched Peregrine after a flawless flight.
+e2249155d11e59ec,B1,5,The Peregrine spacecraft is on a trajectory to the Moon.,text_only,True,Evidence states the craft was ejected on a path to the Moon.
+e2249155d11e59ec,B1,6,The spacecraft will take weeks to position itself for a landing attempt.,text_only,True,Evidence says it will take a few weeks to position for touchdown.
+e2249155d11e59ec,B1,7,The mission includes NASA payloads.,text_only,True,Evidence explicitly mentions NASA payloads on Peregrine.
+e2249155d11e59ec,B1,8,The NASA payloads focus on preparations for future human presence on the lunar surface.,text_only,True,Evidence states NASA payloads focus on later human lunar presence.
+e2249155d11e59ec,B1,9,The mission highlights the importance of precision landing technology.,text_only,True,Evidence quotes precision landing as the mission’s focus and a major success.
+e2249155d11e59ec,M,1,The American Moon mission involves the Peregrine lander.,text_only,True,Evidence identifies Peregrine as the spacecraft for the American private Moon mission.
+e2249155d11e59ec,M,2,The mission successfully launched aboard the Vulcan rocket.,text_only,True,Evidence says Astrobotic’s venture was sent on its way by Vulcan after a flawless flight.
+e2249155d11e59ec,M,3,The launch marked a significant step toward achieving the first U.S. soft lunar landing in 51 years.,unsupported,False,"The caption describes the first US soft lunar landing in 51 years, but not a significant step."
+e2249155d11e59ec,M,4,The Peregrine spacecraft weighs 1.2 tons.,text_only,True,Evidence explicitly states the Peregrine spacecraft weighs 1.2 tonnes.
+e2249155d11e59ec,M,5,The Peregrine spacecraft is on a trajectory to the Moon.,text_only,True,Evidence states the craft was ejected on a path to the Moon.
+e2249155d11e59ec,M,6,The spacecraft will take several weeks to position itself for landing.,text_only,True,Evidence says it will take a few weeks to get into landing position.
+e2249155d11e59ec,M,7,The mission aims to prepare for future human presence on the lunar surface.,text_only,True,Evidence says Peregrine’s NASA payloads prepare for later human lunar presence.
+e2249155d11e59ec,M,8,NASA's payloads are focused on preparing for future human presence on the lunar surface.,text_only,True,Evidence explicitly states NASA’s payloads focus on preparing for later human presence.
+e2249155d11e59ec,M_vision,1,The American Moon mission involves the Peregrine lander.,text_only,True,Text explicitly identifies Astrobotic’s Peregrine spacecraft as the US Moon mission.
+e2249155d11e59ec,M_vision,2,The mission successfully launched aboard the Vulcan rocket.,text_only,True,Text says Peregrine was sent onward by the brand-new Vulcan rocket after a flawless flight.
+e2249155d11e59ec,M_vision,3,The launch marked a significant step toward achieving the first U.S. soft lunar landing in 51 years.,text_only,True,Image caption says Peregrine aimed for the first US soft lunar landing in 51 years; successful significance is unsupported.
+e2249155d11e59ec,M_vision,4,The Peregrine lander weighs 1.2 tons.,text_only,True,Text explicitly states the Peregrine spacecraft weighs 1.2 tonnes.
+e2249155d11e59ec,M_vision,5,The Peregrine lander is designed to reach a targeted landing site on the Moon.,text_only,True,Text says Peregrine will aim for flat volcanic terrain on the Moon; image shows lunar approach but not independently targeted site.
+e2249155d11e59ec,M_vision,6,The lander will take several weeks to position itself for touchdown.,text_only,True,Text explicitly says it will take a few weeks to position itself for touchdown.
+e2249155d11e59ec,M_vision,7,The mission aims to support NASA's preparations for future human presence on the lunar surface.,text_only,True,Text says NASA’s payloads focus on preparations for later human presence on the lunar surface.
+e2249155d11e59ec,M_vision,8,The mission contributes to a broader array of U.S. lunar exploration projects set for 2024.,text_only,True,Text describes Peregrine as one of several US projects aiming to land in 2024.
+de904b73ea02e0d2,B1,1,The evidence does not provide information about the RAC's comments on the motorway electric car charge point target.,text_only,True,No RAC comments or motorway charge-point target information appears in the supplied text.
+de904b73ea02e0d2,B1,2,The evidence discusses topics related to electric vehicles.,text_only,True,"The evidence discusses electric vehicles, EV charging points, and electric-car sales."
+de904b73ea02e0d2,B1,3,BT has a project to convert street cabinets into charging points.,text_only,True,The text says BT is piloting conversion of old street cabinets into charging points.
+de904b73ea02e0d2,B1,4,The government has plans to increase the number of charging points.,text_only,True,"The text states the government aims to increase charging points from over 50,000 to 300,000 by 2030."
+de904b73ea02e0d2,B1,5,The evidence does not mention the RAC or its stance on the motorway electric car charge point target.,text_only,True,The supplied evidence mentions motoring groups but does not mention RAC or its stance.
+de904b73ea02e0d2,B1,6,There is insufficient evidence to summarize the RAC's position on the motorway electric car charge point target.,text_only,True,No evidence identifies or summarizes RAC's position on the specified motorway target.
+de904b73ea02e0d2,M,1,The evidence does not provide information about the RAC's comments on the motorway electric car charge point target.,text_only,True,No RAC comments or motorway charge-point target information appears in the supplied evidence.
+de904b73ea02e0d2,M,2,The evidence discusses topics related to electric vehicles.,text_only,True,The evidence discusses EV charging infrastructure and battery-electric vehicle sales.
+de904b73ea02e0d2,M,3,BT Group has an initiative to convert street cabinets into charging points.,text_only,True,The text and image state BT could convert street cabinets into electric-car charging points.
+de904b73ea02e0d2,M,4,BT Group's initiative is intended to address a shortfall in electric car chargers.,text_only,True,The text says the conversion would help tackle a shortfall in electric-car chargers.
+de904b73ea02e0d2,M,5,The evidence does not mention the RAC.,text_only,True,The supplied evidence contains no mention of RAC.
+de904b73ea02e0d2,M,6,The evidence does not mention specific targets for motorway charging points.,text_only,True,"The evidence gives a general charging-point target, not a specific motorway charging-point target."
+de904b73ea02e0d2,M,7,There is insufficient evidence to summarize the RAC's position on the motorway electric car charge point target.,text_only,True,No evidence identifies or summarizes RAC's position on the specified motorway target.
+de904b73ea02e0d2,M_vision,1,The RAC has highlighted a significant shortfall in electric vehicle charging points in the UK.,unsupported,False,"The text describes a shortfall, but does not attribute that claim to the RAC."
+de904b73ea02e0d2,M_vision,2,"The government has a target to increase the number of electric vehicle charging points from more than 50,000 to 300,000 by 2030.",text_only,True,"The text states the government aims to increase charging points from over 50,000 to 300,000 by 2030."
+de904b73ea02e0d2,M_vision,3,The RAC has emphasized that the government's charging-point target is crucial.,unsupported,False,The text does not mention the RAC or describe the target as crucial.
+de904b73ea02e0d2,M_vision,4,Many areas outside London lack sufficient electric vehicle charging infrastructure.,unsupported,False,"The text says charging infrastructure is most severely lacking in smaller villages and towns, not specifically all areas outside London."
+de904b73ea02e0d2,M_vision,5,The lack of sufficient charging infrastructure is hindering the adoption of electric vehicles.,text_only,True,The text says motoring groups consider charger shortages to be holding back Britain’s electric-car revolution.
+de904b73ea02e0d2,M_vision,6,BT has an initiative to convert old street cabinets into charging points.,text_only,True,The text says BT will explore converting old street cabinets into electric-vehicle charging points.
+de904b73ea02e0d2,M_vision,7,The conversion of old street cabinets into charging points is presented as a potential solution to the shortage of electric vehicle chargers.,text_only,True,The text presents BT’s pilot as exploring a scalable response to the lack of chargers.
+de904b73ea02e0d2,M_vision,8,BT's initiative aims to increase the availability of chargers in residential areas where they are most needed.,text_only,True,The text says cabinets are located in residential areas where charging infrastructure is most severely lacking.
+de904b73ea02e0d2,M_vision,9,The Department for Transport has acknowledged that the number of public charge points is rising.,text_only,True,The Department for Transport spokesperson said public charge-point numbers are rising across the country.
+de904b73ea02e0d2,M_vision,10,The number of public charge points has increased by 44% since December 2022.,text_only,True,The text explicitly states public charge points increased by 44% since December 2022.
+76a2bffc125b8877,B1,1,The Peregrine lander has been contracted by NASA to carry five scientific instruments.,text_only,True,Evidence explicitly says Peregrine was contracted by NASA to carry five scientific instruments.
+76a2bffc125b8877,B1,2,The five instruments are intended to study the Moon's surface environment.,text_only,True,Evidence explicitly says the instruments will study the Moon's surface environment.
+76a2bffc125b8877,B1,3,The study of the Moon's surface environment is intended to prepare for future human missions.,text_only,True,Evidence says the studies are ahead of later human missions.
+76a2bffc125b8877,B1,4,The Peregrine lander is part of a larger lunar exploration effort.,text_only,True,Evidence describes Peregrine as part of a stampede of lunar spacecraft.
+76a2bffc125b8877,B1,5,Multiple spacecraft are expected to attempt lunar landings in 2024.,text_only,True,Evidence says as many as eight projects may attempt lunar landings in 2024.
+76a2bffc125b8877,B1,6,Some of the projects attempting lunar landings in 2024 are from other countries.,text_only,True,Evidence identifies projects from Japan and China among the 2024 efforts.
+76a2bffc125b8877,B1,7,The Peregrine lander is targeting a specific area on the Moon.,text_only,True,Evidence says Peregrine will aim for named lunar terrain.
+76a2bffc125b8877,B1,8,The targeted area is flat volcanic terrain just south of the Gruithuisen hills.,text_only,True,Evidence explicitly identifies flat volcanic terrain south of the Gruithuisen hills.
+76a2bffc125b8877,B1,9,The targeted terrain is intended to facilitate the scientific studies.,unsupported,False,Evidence does not state that the terrain facilitates scientific studies.
+76a2bffc125b8877,M,1,The Peregrine lander recently launched aboard a Vulcan rocket.,text_only,True,Text says Vulcan rocket launches the Peregrine mission; caption says it leaves Earth.
+76a2bffc125b8877,M,2,The Peregrine lander is under a contract with NASA to carry five scientific instruments.,text_only,True,Evidence explicitly says Peregrine was contracted by NASA to carry five scientific instruments.
+76a2bffc125b8877,M,3,The five instruments are intended to study the Moon's surface environment.,text_only,True,Evidence explicitly says the instruments will study the Moon's surface environment.
+76a2bffc125b8877,M,4,The study of the Moon's surface environment is intended to prepare for future human missions.,text_only,True,Evidence says the studies are ahead of later human missions.
+76a2bffc125b8877,M,5,The Peregrine lander is among several projects aiming for lunar landings in 2024.,text_only,True,Evidence describes Peregrine among spacecraft attempting lunar landings in 2024.
+76a2bffc125b8877,M,6,Multiple spacecraft from various countries are targeting the Moon's surface in 2024.,text_only,True,Evidence mentions projects from Japan and China targeting lunar landings in 2024.
+76a2bffc125b8877,M,7,The number of lunar exploration efforts has significantly increased.,unsupported,False,"Evidence describes a stampede, but does not establish a significant increase over prior efforts."
+76a2bffc125b8877,M,8,The Peregrine lander is targeting a specific area on the Moon.,text_only,True,Evidence says Peregrine will aim for a specified lunar terrain.
+76a2bffc125b8877,M,9,The targeted area is characterized by flat volcanic terrain.,text_only,True,Evidence explicitly characterizes the targeted terrain as flat and volcanic.
+76a2bffc125b8877,M,10,The targeted area is important for the planned scientific investigations.,unsupported,False,Evidence does not state that the targeted area is important for planned scientific investigations.
+76a2bffc125b8877,M_vision,1,The Peregrine lander has a contract with NASA to carry five scientific instruments.,text_only,True,Text explicitly says Astrobotic’s Peregrine was contracted by NASA to carry five scientific instruments.
+76a2bffc125b8877,M_vision,2,The five instruments are intended to study the Moon's surface environment.,text_only,True,Text explicitly states the five instruments will study the Moon’s surface environment.
+76a2bffc125b8877,M_vision,3,The Peregrine lander is part of a larger lunar exploration effort.,text_only,True,Text calls Peregrine part of a stampede of spacecraft attempting lunar landings.
+76a2bffc125b8877,M_vision,4,Multiple spacecraft are planning lunar landings in 2024.,text_only,True,Text says possibly as many as eight projects would attempt lunar landings in 2024.
+76a2bffc125b8877,M_vision,5,Some of the projects planning lunar landings in 2024 are from other countries.,text_only,True,Text explicitly mentions projects from Japan and China among the 2024 attempts.
+76a2bffc125b8877,M_vision,6,The Peregrine lander is targeting a specific area on the Moon.,text_only,True,Text identifies the targeted flat volcanic terrain just south of the Gruithuisen hills.
+76a2bffc125b8877,M_vision,7,The mission is focused on preparations for future human presence.,text_only,True,Text says NASA’s payloads focus on preparations for later human presence on the lunar surface.
+76a2bffc125b8877,M_vision,8,The mission is considered a significant step in advancing technologies necessary for sustained lunar exploration.,text_only,True,Text says the mission helps accelerate technologies needed for a more robust lunar presence.
+a18dda71df8865ef,M_vision,1,Efforts to provide aid in Gaza are ongoing.,text_only,True,Text describes daily aid collaboration and an agreement allowing more humanitarian aid; images do not establish ongoing efforts.
+a18dda71df8865ef,M_vision,2,The humanitarian situation in Gaza is severe.,both,True,"Text repeatedly describes war-ravaged conditions, displacement, damaged infrastructure, hunger, and limited services; images reinforce destruction and displacement."
+a18dda71df8865ef,M_vision,3,Qatar and France brokered a deal to increase the flow of humanitarian supplies into Gaza.,text_only,True,Text explicitly says Qatar and France brokered a deal allowing more humanitarian supplies into Gaza; images do not show brokering.
+a18dda71df8865ef,M_vision,4,The deal includes medicines designated for hostages held by Hamas.,text_only,True,Text explicitly says medicines under the deal are to reach hostages held by Hamas; images do not establish this.
+a18dda71df8865ef,M_vision,5,About 85% of Gaza's population is displaced.,text_only,True,Text explicitly reports approximately 85% displacement; images show some displaced people but cannot support the percentage.
+a18dda71df8865ef,M_vision,6,Many people in Gaza are struggling to access food.,text_only,True,Text says people struggle to find food and aid supplies; images show no clearly identifiable food-access situation.
+a18dda71df8865ef,M_vision,7,Many people in Gaza are struggling to access clean water.,text_only,True,Text says people struggle to find drinkable water; images do not independently establish clean-water access.
+a18dda71df8865ef,M_vision,8,The UN reports that the situation in Gaza is dire.,text_only,True,"UN officials and statements describe breakdown, severe shortages, hunger, displacement, and imminent famine; images depict destruction but not UN reporting."
+a18dda71df8865ef,M_vision,9,The UN reports that hunger is widespread in Gaza.,text_only,True,UN rapporteurs state every person is hungry and a quarter are starving; images do not independently establish UN-reported hunger.
+a18dda71df8865ef,M_vision,10,The UN reports that famine is imminent in Gaza.,text_only,True,UN special rapporteurs explicitly state famine is imminent; images do not independently support that forecast.
+a18dda71df8865ef,M,1,Efforts to provide aid in Gaza are ongoing.,text_only,True,Evidence describes agencies working daily and aid being delivered or planned.
+a18dda71df8865ef,M,2,Gaza is experiencing a severe humanitarian crisis.,text_only,True,"Displacement, hunger, damaged infrastructure, and unavailable services demonstrate a severe crisis."
+a18dda71df8865ef,M,3,About 85% of Gaza's population is displaced.,text_only,True,The UN says around 85% of Gaza's population has been displaced.
+a18dda71df8865ef,M,4,Qatar and France brokered a deal to increase humanitarian supplies entering Gaza.,text_only,True,Evidence explicitly identifies Qatar and France as brokers of the aid deal.
+a18dda71df8865ef,M,5,The deal includes medicines for hostages held by Hamas.,text_only,True,Evidence says the deal includes medicines for Hamas-held hostages.
+a18dda71df8865ef,M,6,Basic water services in Gaza have been severely damaged.,text_only,True,Evidence explicitly says water infrastructure has been badly damaged.
+a18dda71df8865ef,M,7,Basic electricity services in Gaza have been severely damaged.,text_only,True,Evidence explicitly says electricity infrastructure has been badly damaged.
+a18dda71df8865ef,M,8,Many people in Gaza are struggling to find food.,text_only,True,Evidence says Gaza residents are struggling to find food.
+a18dda71df8865ef,M,9,Many people in Gaza are struggling to find clean water.,text_only,True,Evidence says people struggle to find drinkable water.
+a18dda71df8865ef,M,10,The UN reports that every person in Gaza is currently hungry.,text_only,True,A UN statement says every single person in Gaza is hungry.
+a18dda71df8865ef,M,11,The UN reports that a significant portion of Gaza's population is facing starvation.,text_only,True,The UN statement says a quarter of the population are starving.
+a18dda71df8865ef,M,12,There is an urgent need for more aid to Gaza.,text_only,True,"Evidence says aid is needed amid hunger, displacement, and shortages of basic supplies."
+a18dda71df8865ef,B1,1,Efforts to provide aid in Gaza are ongoing.,text_only,True,Sources describe agencies working daily and ongoing aid deliveries.
+a18dda71df8865ef,B1,2,The situation in Gaza remains dire.,text_only,True,"Sources characterize Gaza's humanitarian situation as catastrophic, appalling, and bleak."
+a18dda71df8865ef,B1,3,Qatar and France brokered a deal to increase humanitarian aid.,text_only,True,Evidence explicitly says the deal was brokered by Qatar and France.
+a18dda71df8865ef,B1,4,The deal allows more basic supplies to enter Gaza.,text_only,True,Evidence says Israel will allow more basic supplies into Gaza.
+a18dda71df8865ef,B1,5,The deal provides medicines to hostages held by Hamas.,text_only,True,Evidence says medicines will be given to hostages held by Hamas.
+a18dda71df8865ef,B1,6,The UN reports that the humanitarian situation in Gaza is appalling.,text_only,True,The UN explicitly describes Gaza's humanitarian situation as appalling.
+a18dda71df8865ef,B1,7,Millions of people in Gaza are living in squalid conditions.,text_only,True,"Evidence says 2.2 million Palestinians live in inhumane, squalid conditions."
+a18dda71df8865ef,B1,8,Basic public services in Gaza are severely compromised.,text_only,True,Evidence says basic public services are unavailable or limited at best.
+a18dda71df8865ef,B1,9,Extensive damage to infrastructure has contributed to the compromise of basic public services in Gaza.,text_only,True,"Evidence links badly damaged infrastructure, including water and electricity, to unavailable services."
+a18dda71df8865ef,B1,10,Challenges to aid delivery persist in Gaza.,text_only,True,"Aid is described as insufficient, with agencies struggling to reach displaced people."
+a18dda71df8865ef,B1,11,More aid trucks are needed in Gaza.,text_only,True,Evidence says aid trucks entering Gaza are not nearly enough.
+a18dda71df8865ef,B1,12,The ongoing conflict complicates the delivery of assistance in Gaza.,text_only,True,"Fighting, circuitous routes, and displacement are described as hindering assistance."
+9e44023bc293e53a,B1,1,Northern business groups are advocating for changes to council tax bands.,unsupported,False,"Evidence discusses Welsh tax reform, not Northern business groups advocating council tax-band changes."
+9e44023bc293e53a,B1,2,The groups emphasize the need for more equitable taxation.,unsupported,False,"Fair taxation is advocated by Plaid Cymru, not identified groups or council-tax bands."
+9e44023bc293e53a,B1,3,The groups want taxation to target higher earners.,unsupported,False,"Plaid Cymru proposes targeting higher earners, but no Northern business groups are identified."
+9e44023bc293e53a,B1,4,The groups argue that the current system does not provide sufficient differentiation in tax rates based on income.,unsupported,False,Evidence says Wales currently cannot create tax bands; it does not state the groups’ argument.
+9e44023bc293e53a,B1,5,The groups say greater differentiation in tax rates based on income could alleviate financial pressures on local councils.,unsupported,False,No evidence links income-based tax differentiation to alleviating local-council financial pressures.
+9e44023bc293e53a,B1,6,The Welsh government wants greater powers to set new tax rates and bands.,text_only,True,Evidence states Plaid Cymru says Wales needs powers to set new rates and tax bands.
+9e44023bc293e53a,B1,7,The Welsh government wants powers similar to those available in Scotland.,text_only,True,Evidence explicitly contrasts Welsh powers with Scottish powers to create new tax bands.
+9e44023bc293e53a,B1,8,The Welsh government says these powers would help ensure that people who can afford to pay more contribute fairly.,text_only,True,Plaid Cymru’s leader says higher earners should be targeted and pay more fairly.
+9e44023bc293e53a,B1,9,The push for reform is part of a broader discussion about creating a fairer society.,text_only,True,Plaid Cymru connects reform with creating a fair society.
+9e44023bc293e53a,B1,10,The push for reform is part of a broader discussion about addressing financial challenges faced by local authorities.,unsupported,False,"Evidence discusses council financial pressures separately, without linking them to Welsh tax reform."
+9e44023bc293e53a,M,1,Northern business groups are advocating for changes to council tax bands.,unsupported,False,"Evidence discusses Welsh tax reform, not Northern business groups advocating council tax-band changes."
+9e44023bc293e53a,M,2,The groups want to create a fairer taxation system.,unsupported,False,"Evidence supports fair taxation language in Wales, but not a group’s broader stated aim as phrased."
+9e44023bc293e53a,M,3,The groups argue that the current system does not allow for targeted adjustments based on income levels.,unsupported,False,"Evidence says Wales currently lacks power to create tax bands, but does not state this argument by groups."
+9e44023bc293e53a,M,4,The groups say targeted adjustments based on income levels could alleviate financial pressures on lower-income residents.,unsupported,False,Evidence targets higher earners but does not say this would relieve lower-income residents’ financial pressures.
+9e44023bc293e53a,M,5,The call for reform aligns with discussions in Wales.,unsupported,False,"Evidence presents Welsh tax reform alongside other Welsh issues, but does not establish alignment."
+9e44023bc293e53a,M,6,There is a push in Wales for the government to have the power to set new tax rates and bands.,text_only,True,Evidence states Wales needs powers to set new tax rates and tax bands.
+9e44023bc293e53a,M,7,The proposed Welsh powers would be similar to the system in Scotland.,text_only,True,Evidence explicitly compares the proposed Welsh powers with Scotland’s tax-band powers.
+9e44023bc293e53a,M,8,The aim is to ensure that people who can afford to pay more contribute fairly.,text_only,True,The Welsh proposal targets people able to pay more and seeks fairness.
+9e44023bc293e53a,M,9,The aim is to support community services without overburdening lower earners.,unsupported,False,"Evidence supports fair taxation, but not specifically supporting community services without burdening lower earners."
+9e44023bc293e53a,M_vision,1,Northern business groups are advocating for changes to council tax bands.,unsupported,False,"Evidence discusses Welsh political proposals, not Northern business groups advocating council-tax band changes."
+9e44023bc293e53a,M_vision,2,The groups want to create a fairer taxation system.,unsupported,False,"Fairer taxation is described as a Plaid Cymru aim, but not attributed to Northern business groups."
+9e44023bc293e53a,M_vision,3,The groups argue that the current system does not allow for targeted adjustments based on income levels.,unsupported,False,"Evidence says Wales currently can vary UK-set rates, while Scotland created new bands; no Northern groups appear."
+9e44023bc293e53a,M_vision,4,The groups say targeted adjustments based on income levels could alleviate financial pressures on lower-income residents.,unsupported,False,"Evidence mentions targeting higher earners, but does not say this alleviates lower-income residents' pressures."
+9e44023bc293e53a,M_vision,5,The Welsh government is seeking powers to set new tax rates and bands.,text_only,True,Text explicitly says the Welsh government needs powers to set new tax rates and bands.
+9e44023bc293e53a,M_vision,6,The proposed Welsh powers would be similar to those in Scotland.,text_only,True,Text explicitly compares proposed Welsh powers with Scottish powers to create new tax bands.
+9e44023bc293e53a,M_vision,7,The purpose of the proposed powers is to ensure that higher earners contribute more.,both,True,"Plaid Cymru's stated purpose is targeting people able to pay more, namely higher earners."
+9e44023bc293e53a,M_vision,8,The proposed changes are intended to promote equity in taxation.,text_only,True,The proposal is explicitly framed as creating a fair society and targeting taxation fairly.
+9e44023bc293e53a,M_vision,9,The push for reform reflects broader concern about the financial sustainability of local councils.,unsupported,False,"Evidence reports council financial crises and service pressures, but does not connect them to this tax reform push."
+9e44023bc293e53a,M_vision,10,The push for reform reflects a need for adequate funding to maintain essential services.,unsupported,False,"Evidence separately documents council funding pressures and essential-service concerns, but not this reform's stated rationale."
+935f5da232d9692b,B1,1,"The coverage outlines a plan involving Israel, Egypt, and the United States to secure the border between Egypt and Gaza.",text_only,True,"Evidence explicitly says Israel, Egypt, and the US would work to secure the Egypt-Gaza border."
+935f5da232d9692b,B1,2,The plan emphasizes the need for regional planning to avoid a potential political vacuum in Gaza.,text_only,True,Chatham House authors urge regional planning to prevent a Palestinian political vacuum.
+935f5da232d9692b,B1,3,The plan emphasizes the need for regional investment to avoid a potential political vacuum in Gaza.,text_only,True,Chatham House authors urge regional investment to prevent a Palestinian political vacuum.
+935f5da232d9692b,B1,4,The plan emphasizes the need for regional planning to avoid a humanitarian crisis in Gaza.,unsupported,False,"Planning is linked to lawlessness and political vacuum, not explicitly preventing humanitarian crisis."
+935f5da232d9692b,B1,5,The plan emphasizes the need for regional investment to avoid a humanitarian crisis in Gaza.,unsupported,False,"Investment is linked to lawlessness and political vacuum, not explicitly preventing humanitarian crisis."
+935f5da232d9692b,B1,6,Israel's control over the entry of goods into Gaza will persist.,text_only,True,Evidence says Israel’s rigid control over Gaza’s goods entry would continue.
+935f5da232d9692b,B1,7,There are calls for measures to prevent harm to Palestinians.,text_only,True,The ICJ called for measures avoiding killing Palestinians and causing serious harm.
+935f5da232d9692b,B1,8,There are calls for measures to improve humanitarian conditions in Gaza.,text_only,True,"The ICJ called for immediate, effective measures addressing Gaza’s humanitarian catastrophe."
+935f5da232d9692b,B1,9,The United States is advocating for a durable peace.,text_only,True,Blinken described a US vision and approach delivering durable peace.
+935f5da232d9692b,B1,10,The advocated durable peace requires Israel to make difficult choices and concessions to its Arab neighbors.,text_only,True,Evidence says the proposal requires hard choices and concessions from Israel to Arab neighbours.
+935f5da232d9692b,B1,11,The situation in Gaza is dire.,text_only,True,"Evidence describes famine, disease, death, and a humanitarian catastrophe in Gaza."
+935f5da232d9692b,B1,12,There has been significant destruction in Gaza.,text_only,True,Evidence states much of Gaza City has been reduced to rubble.
+935f5da232d9692b,B1,13,The population of Gaza has been significantly displaced.,text_only,True,"Evidence reports 1.9 million people, or 85% of Gaza’s population, displaced."
+935f5da232d9692b,M,1,"An Israeli minister outlined plans for Gaza involving collaboration between Israel, Egypt, and the United States to secure the border between Egypt and Gaza.",unsupported,False,"Evidence describes a plan involving Israel, Egypt, and the US, but not an Israeli minister outlining it."
+935f5da232d9692b,M,2,The proposal emphasizes the need for regional planning to prevent lawlessness in Gaza.,text_only,True,Regional planning is explicitly linked to preventing lawlessness in Gaza.
+935f5da232d9692b,M,3,The proposal emphasizes the need for regional investment to prevent lawlessness in Gaza.,text_only,True,Regional investment is explicitly linked to preventing lawlessness in Gaza.
+935f5da232d9692b,M,4,The proposal emphasizes the need for regional planning to prevent a political vacuum in Gaza.,text_only,True,Regional planning is explicitly linked to preventing a Palestinian political vacuum.
+935f5da232d9692b,M,5,The proposal emphasizes the need for regional investment to prevent a political vacuum in Gaza.,text_only,True,Regional investment is explicitly linked to preventing a Palestinian political vacuum.
+935f5da232d9692b,M,6,The proposal addresses humanitarian concerns in Gaza.,text_only,True,"The proposal mentions famine, disease, and death, indicating humanitarian concerns."
+935f5da232d9692b,M,7,Israel's strict control over the entry of goods into Gaza will persist.,text_only,True,Evidence says Israel’s rigid control over Gaza’s goods entry would continue.
+935f5da232d9692b,M,8,The specifics of how Gazans might return to their homes remain unclear.,text_only,True,Evidence says the Israeli government has not outlined how Gazans could return home.
+935f5da232d9692b,M,9,The timing of when Gazans might return to their homes remains unclear.,text_only,True,Evidence says the Israeli government has not outlined when Gazans could return home.
+935f5da232d9692b,M,10,The Israeli government maintains that no Israelis will remain in Gaza after the conflict.,text_only,True,Evidence states official Israeli policy is that ultimately no Israelis will remain in Gaza.
+935f5da232d9692b,M,11,The future of Gaza after the war is uncertain.,text_only,True,Evidence asks what will be left after the war and describes extensive destruction and uncertainty.
+935f5da232d9692b,M_vision,1,Israel's plans for Gaza after the war involve a continued military campaign until Hamas is no longer a threat.,text_only,True,Text states Israel's campaign continues until total victory and Hamas is no longer a threat.
+935f5da232d9692b,M_vision,2,No Israelis are expected to remain in Gaza.,text_only,True,Text explicitly says official policy is that ultimately no Israelis will remain in Gaza.
+935f5da232d9692b,M_vision,3,"There is a collaborative plan involving Israel, Egypt, and the United States to secure the border between Egypt and Gaza.",text_only,True,"Text explicitly describes Israel, Egypt, and the US working together to secure the border."
+935f5da232d9692b,M_vision,4,Details of the collaborative border-security plan remain vague.,text_only,True,Text says border security involves solving tunnels and describes the proposal as little more than bullet points.
+935f5da232d9692b,M_vision,5,Details regarding the humanitarian situation in Gaza remain vague.,unsupported,False,"Text mentions famine, disease, and death but does not say humanitarian details remain vague."
+935f5da232d9692b,M_vision,6,Details regarding the future governance of Gaza remain vague.,text_only,True,Text asks what remains of the political vacuum and calls civilian-square details blurry.
+935f5da232d9692b,M_vision,7,Ongoing destruction in Gaza has led to significant humanitarian concerns.,both,True,"Text describes destruction and humanitarian catastrophe, including famine, disease, and death."
+935f5da232d9692b,M_vision,8,There have been warnings about potential lawlessness in Gaza.,text_only,True,Text warns that a potential outcome could materialize as lawlessness.
+935f5da232d9692b,M_vision,9,There have been warnings about a potential political vacuum in Gaza if regional planning does not occur.,text_only,True,Text warns of a Palestinian political vacuum without serious regional planning.
+935f5da232d9692b,M_vision,10,There have been warnings about a potential political vacuum in Gaza if regional investment does not occur.,text_only,True,Text warns of a Palestinian political vacuum without serious regional investment.
+6db4924d15b74dad,B1,1,"The coverage reports that 100 days after Hamas's attack on Israel, approximately 1,200 people had been killed in the attack.",text_only,True,"Evidence reports about 1,200 killed in Hamas's attack and references 101 days afterward."
+6db4924d15b74dad,B1,2,The coverage reports that hostages were taken during Hamas's attack on Israel.,text_only,True,Multiple excerpts explicitly state Hamas took approximately 240 hostages.
+6db4924d15b74dad,B1,3,The coverage reports that Israel has been engaged in a military campaign aimed at destroying Hamas.,text_only,True,Evidence describes Israel's campaign or offensive as aimed at destroying Hamas.
+6db4924d15b74dad,B1,4,"The coverage reports that more than 25,000 people have been killed in Gaza since Israel's offensive began.",text_only,True,"Evidence [2] explicitly reports more than 25,000 killed in Gaza since the offensive began."
+6db4924d15b74dad,B1,5,The coverage reports that ongoing military operations continue in the region.,text_only,True,"Evidence reports continuing fighting, raids, bombardment, and operations in Gaza."
+6db4924d15b74dad,B1,6,The coverage reports that protests are taking place in Israel regarding the handling of the hostages and the broader conflict.,text_only,True,Evidence reports protests by relatives of hostages and growing anti-government anger in Israel.
+6db4924d15b74dad,B1,7,The coverage reports that divisions exist within the Israeli government about the future approach to Gaza.,text_only,True,Evidence explicitly describes sharp divisions within Netanyahu's government.
+6db4924d15b74dad,B1,8,The coverage reports that divisions exist within the Israeli government about potential rebuilding efforts in Gaza.,text_only,True,Evidence describes cabinet disagreement over rebuilding Gaza and allowing Palestinians to stay.
+6db4924d15b74dad,M,1,"The coverage reports that 100 days after Hamas's attack on Israel, approximately 1,200 people had been killed in the attack.",text_only,True,"Evidence reports approximately 1,200 people killed in Hamas's attack and describes the timing as about 101 days later."
+6db4924d15b74dad,M,2,The coverage reports that more than 240 hostages were taken during Hamas's attack on Israel.,unsupported,False,"Evidence says about 240 hostages were taken, not more than 240."
+6db4924d15b74dad,M,3,The coverage reports that the conflict has escalated significantly.,text_only,True,"Evidence mentions war, heightened alert, intensifying fighting, and prolonged operations, supporting escalation."
+6db4924d15b74dad,M,4,"The coverage reports that Israel's military operations in Gaza have led to more than 25,000 deaths.",text_only,True,"Evidence [2] reports more than 25,000 killed in Gaza; other excerpts report lower figures."
+6db4924d15b74dad,M,5,"The coverage attributes the figure of more than 25,000 deaths in Gaza to the Hamas-run health ministry.",text_only,True,"Evidence explicitly attributes the more-than-25,000 figure to the Hamas-run health ministry."
+6db4924d15b74dad,M,6,The coverage reports that the deaths in Gaza were primarily among civilians.,unsupported,False,"Evidence says Gaza deaths were mostly children and women, not primarily civilians generally."
+6db4924d15b74dad,M,7,The coverage reports that ongoing Israeli military actions are aimed at destroying Hamas.,text_only,True,Evidence explicitly says Israel's military operations aim to eradicate or destroy Hamas.
+6db4924d15b74dad,M,8,The coverage reports that concerns are growing over the fate of hostages still held by Hamas.,text_only,True,Evidence reports continuing concern over approximately 130 or more hostages still held by Hamas.
+6db4924d15b74dad,M,9,The coverage reports increasing public discontent in Israel regarding the government's handling of the situation.,text_only,True,Evidence reports growing anti-government anger in Israel and protests by hostage relatives.
+6db4924d15b74dad,M,10,The coverage reports increasing public discontent in Israel regarding the slow progress of the military campaign.,text_only,True,Evidence links growing anti-government anger to apparent slow progress and hostage concerns.
+6db4924d15b74dad,M_vision,1,The coverage reports that significant violence and casualties have continued in the region following Hamas's attack on Israel on October 7.,text_only,True,"Text reports continuing attacks, deaths, injuries, and heightened regional alert after October 7."
+6db4924d15b74dad,M_vision,2,"The coverage reports that approximately 1,200 Israelis were killed in the attack.",text_only,True,"Text repeatedly reports approximately 1,200 people killed, mostly civilians, in the October 7 attack."
+6db4924d15b74dad,M_vision,3,The coverage reports that more than 240 hostages were taken in the attack.,unsupported,False,"Text reports about 240 hostages, not more than 240."
+6db4924d15b74dad,M_vision,4,The coverage reports that Israel has conducted extensive military operations in Gaza in response to the attack.,text_only,True,Text explicitly reports Israel's air and ground operation in Gaza following the attack.
+6db4924d15b74dad,M_vision,5,"The coverage reports that more than 25,000 people have been killed in Gaza as a result of the military operations.",text_only,True,"Text reports more than 25,000 killed in Gaza in evidence [2]."
+6db4924d15b74dad,M_vision,6,The coverage reports that those killed in Gaza were primarily civilians.,unsupported,False,"Text says most killed in the October 7 attack were civilians, but does not say this of Gaza deaths."
+6db4924d15b74dad,M_vision,7,The coverage reports that ongoing Israeli military actions continue.,text_only,True,Text reports Israel continued bombardment and ongoing air and ground operations.
+6db4924d15b74dad,M_vision,8,The coverage reports that there has been a lack of progress in resolving the hostage crisis.,text_only,True,Text reports hostages remain missing and protests demand prioritizing their release.
+6db4924d15b74dad,M_vision,9,The coverage reports that protests in Israel have been prompted by the lack of progress in resolving the hostage crisis.,text_only,True,Text explicitly links protests by hostage relatives to the unresolved hostage situation.
+6db4924d15b74dad,M_vision,10,The coverage reports that the conflict is expected to persist into 2024.,text_only,True,Text says Israel expected fighting in Gaza throughout 2024.
+6db4924d15b74dad,M_vision,11,The coverage reports that both sides remain engaged in continued hostilities.,text_only,True,"Text reports Israeli operations and Hamas attacks, rockets, and hostages, indicating continued hostilities."
+1c2cf0692ea35a78,M_vision,1,"The evidence does not provide information specifically about a landslide in Yunnan, China.",unsupported,False,No text or image mentions Yunnan or a Yunnan landslide.
+1c2cf0692ea35a78,M_vision,2,The evidence discusses landslides caused by a recent earthquake in Japan.,text_only,True,Text explicitly reports landslide damage after Japan’s earthquake.
+1c2cf0692ea35a78,M_vision,3,The evidence discusses damage caused by a recent earthquake in Japan.,both,True,Text and images show or describe earthquake-related damage in Japan.
+1c2cf0692ea35a78,M_vision,4,The evidence details the destruction of infrastructure caused by the earthquake in Japan.,text_only,True,"Text details damaged expressways, highways, houses, and power infrastructure."
+1c2cf0692ea35a78,M_vision,5,The evidence describes the earthquake's impact on local communities in Japan.,text_only,True,"Text describes deaths, displacement, collapsed homes, outages, and rescue needs."
+1c2cf0692ea35a78,M_vision,6,Reports mention collapsed buildings in the affected areas.,both,True,Text reports collapsed houses and buildings; images visibly show collapsed structures.
+1c2cf0692ea35a78,M_vision,7,Reports mention power outages in the affected areas.,text_only,True,"Text explicitly reports more than 36,000 households without power."
+1c2cf0692ea35a78,M_vision,8,Reports mention ongoing rescue efforts in the affected areas.,text_only,True,Text repeatedly describes continuing rescue and lifesaving operations.
+1c2cf0692ea35a78,M_vision,9,The evidence does not mention Yunnan.,both,True,The supplied evidence contains no reference to Yunnan.
+1c2cf0692ea35a78,M_vision,10,The evidence does not mention outcomes related to Yunnan.,both,True,No Yunnan-related outcomes are mentioned in the text or images.
+556da39750eea302,B1,1,United Airlines conducted inspections on some of its Boeing 737 Max 9 aircraft.,text_only,True,Evidence states United carried out inspections on some 737 Max 9 planes.
+556da39750eea302,B1,2,The inspections were mandated by the Federal Aviation Administration (FAA).,text_only,True,"Evidence explicitly calls the inspections required by, or ordered by, the FAA."
+556da39750eea302,B1,3,The inspections followed a mid-air incident involving an Alaska Airlines flight.,text_only,True,Evidence links the inspections to the Alaska Airlines blowout and emergency landing.
+556da39750eea302,B1,4,The inspections were expected to take four to eight hours per aircraft.,text_only,True,Evidence says required inspections would take around four to eight hours per aircraft.
+556da39750eea302,B1,5,Some Boeing 737 Max 9 aircraft were removed from service as a result of the inspections.,text_only,True,Evidence says United removed some aircraft from service.
+556da39750eea302,B1,6,The removal of aircraft from service resulted in approximately 60 flight cancellations by United Airlines.,text_only,True,Evidence says removing aircraft was expected to cause about 60 cancellations Saturday.
+556da39750eea302,B1,7,The FAA ordered the inspections because of concerns about significant problems with the 737 Max 9.,unsupported,False,"Evidence mentions significant problems, but does not establish they caused the FAA inspection order."
+556da39750eea302,B1,8,Recent incidents highlighted concerns about significant problems with the 737 Max 9.,text_only,True,Evidence says the blowout renewed scrutiny and highlighted significant problems with the 737 Max 9.
+556da39750eea302,B1,9,Turkish Airlines responded to the FAA's directive.,text_only,True,Evidence says Turkish Airlines grounded five 737 Max 9s after the FAA action.
+556da39750eea302,B1,10,Flydubai responded to the FAA's directive.,unsupported,False,Evidence says Flydubai reported its aircraft were unaffected and had completed safety checks.
+556da39750eea302,B1,11,Some airlines grounded their 737 Max 9 aircraft.,text_only,True,Evidence states Turkish Airlines grounded five aircraft and the FAA grounded certain aircraft.
+556da39750eea302,M,1,United Airlines conducted inspections on some of its Boeing 737 Max 9 aircraft.,text_only,True,Evidence states United carried out inspections on some Boeing 737 Max 9 planes.
+556da39750eea302,M,2,The inspections were mandated by the Federal Aviation Administration (FAA).,text_only,True,"Evidence explicitly describes the inspections as required by, or ordered by, the FAA."
+556da39750eea302,M,3,The inspections followed an incident involving an Alaska Airlines flight.,text_only,True,Evidence says inspections followed the Alaska Airlines emergency and blowout incident.
+556da39750eea302,M,4,The FAA ordered immediate inspections of 737 Max 9 aircraft worldwide.,text_only,True,Evidence states the FAA ordered immediate inspections of 737 Max 9s worldwide.
+556da39750eea302,M,5,A door plug blew off a 737 Max 9 during flight.,unsupported,False,Evidence states a door plug blew off one Boeing plane; aircraft model is not explicitly given there.
+556da39750eea302,M,6,The door-plug incident led to emergency landings.,unsupported,False,"Evidence states the Alaska Airlines incident forced an emergency landing, but not plural landings."
+556da39750eea302,M,7,United Airlines reported that the inspections would result in approximately 60 flight cancellations.,text_only,True,Evidence says United expected approximately 60 cancellations from removing aircraft from service.
+556da39750eea302,M,8,The FAA's actions prompted a broader investigation into Boeing's manufacturing processes.,text_only,True,Evidence states the FAA launched an investigation examining Boeing's processes after grounding planes.
+556da39750eea302,M,9,The broader investigation revealed issues such as loose bolts.,text_only,True,Evidence explicitly says reviews uncovered issues such as loose bolts.
+556da39750eea302,M,10,The FAA's actions raised concerns about the safety of the 737 Max 9 model.,text_only,True,"Evidence describes renewed scrutiny and concerns about the 737 Max, including significant problems."
+556da39750eea302,M_vision,1,United Airlines conducted inspections on its Boeing 737 Max 9 aircraft.,text_only,True,Text states United completed FAA-required inspections on some 737 Max 9 aircraft.
+556da39750eea302,M_vision,2,The inspections were mandated by the Federal Aviation Administration (FAA).,text_only,True,Text explicitly says United's inspections were required by the FAA.
+556da39750eea302,M_vision,3,The inspections followed an incident involving an Alaska Airlines flight.,text_only,True,Text links the inspections and grounding to the Alaska Airlines emergency incident.
+556da39750eea302,M_vision,4,A door plug blew off an Alaska Airlines aircraft mid-air.,text_only,True,Text explicitly describes an Alaska Airlines door plug blowing off mid-flight.
+556da39750eea302,M_vision,5,The incident led to the grounding of certain 737 Max 9 aircraft.,text_only,True,Text states the FAA grounded certain 737 Max 9 aircraft after the incident.
+556da39750eea302,M_vision,6,The grounding resulted in approximately 60 flight cancellations for United Airlines.,text_only,True,Text says removing United aircraft from service was expected to cause about 60 cancellations.
+556da39750eea302,M_vision,7,The FAA's inspections revealed issues such as loose bolts.,text_only,True,Text states post-emergency reviews uncovered issues including loose bolts.
+556da39750eea302,M_vision,8,The findings prompted a broader investigation into Boeing's manufacturing processes and quality control.,text_only,True,"Text describes an FAA investigation into Boeing processes and audits of production, following discovered issues."
+556da39750eea302,M_vision,9,Boeing committed to increasing quality inspections in response to the incident and the FAA's findings.,text_only,True,Text states Boeing announced additional inspections throughout its build process after the blowout.
+556da39750eea302,M_vision,10,Boeing committed to increasing oversight in response to the incident and the FAA's findings.,unsupported,False,"Text supports increased inspections and independent assessments, but not a distinct general oversight commitment."
+6d829e7bd943bfc0,B1,1,Aditya Verma appeared in a Spanish court.,text_only,True,Evidence says Verma’s one-day trial occurred at Spain’s National Court.
+6d829e7bd943bfc0,B1,2,Verma joked to friends about blowing up a flight from London Gatwick to Menorca.,text_only,True,Evidence explicitly says he joked about blowing up a London Gatwick–Menorca flight.
+6d829e7bd943bfc0,B1,3,Verma claimed to be a member of the Taliban.,text_only,True,"Evidence quotes Verma saying, “I’m a member of the Taliban.”"
+6d829e7bd943bfc0,B1,4,Verma's comments were taken seriously.,unsupported,False,Evidence says no evidence was found indicating the message was a real threat.
+6d829e7bd943bfc0,B1,5,UK security services alerted Spanish authorities while the easyJet plane was still in the air.,text_only,True,Evidence says UK security services flagged the message while the plane was airborne.
+6d829e7bd943bfc0,B1,6,The Spanish court acquitted Verma of public disorder.,text_only,True,Evidence says a Spanish court cleared him of public disorder.
+6d829e7bd943bfc0,B1,7,The court found no evidence that Verma's remarks constituted a real threat.,text_only,True,Evidence states nothing was found indicating the message was a real threat.
+6d829e7bd943bfc0,B1,8,The trial took place at Spain's National Court.,text_only,True,Evidence identifies Spain’s National Court as the trial venue.
+6d829e7bd943bfc0,B1,9,The trial took place a year and a half after the incident.,text_only,True,Evidence says the trial occurred a year-and-a-half after the incident.
+6d829e7bd943bfc0,M,1,Aditya Verma appeared in a Spanish court.,text_only,True,Evidence says Verma’s one-day trial took place at Spain’s National Court.
+6d829e7bd943bfc0,M,2,Verma joked to friends about blowing up a flight from London Gatwick to Menorca.,text_only,True,Evidence explicitly describes his joke about blowing up a London Gatwick–Menorca flight.
+6d829e7bd943bfc0,M,3,Verma was tried for public disorder as a result of the joke.,unsupported,False,"Evidence says a Spanish court cleared him of public disorder, not that he was tried for it."
+6d829e7bd943bfc0,M,4,The comments were made in July 2022.,text_only,True,Evidence says he made the comments in July 2022.
+6d829e7bd943bfc0,M,5,The court found that Verma's comments did not constitute a real threat.,text_only,True,Text and image caption say the message was not a real threat.
+6d829e7bd943bfc0,M,6,UK security services flagged Verma's message to Spanish authorities while the flight was still in the air.,text_only,True,Evidence says UK security services flagged the message while the easyJet plane was airborne.
+6d829e7bd943bfc0,M,7,Verma was acquitted of the charges.,text_only,True,Evidence says a Spanish court cleared Verma of public disorder.
+6d829e7bd943bfc0,M_vision,1,Aditya Verma appeared in a Spanish court.,text_only,True,Text says Verma's trial occurred at Spain's National Court; image shows a courtroom but not his identity.
+6d829e7bd943bfc0,M_vision,2,Verma joked to friends about blowing up a flight from London to Menorca.,text_only,True,Text explicitly says he joked to friends about blowing up a flight from London Gatwick to Menorca.
+6d829e7bd943bfc0,M_vision,3,Verma claimed to be a member of the Taliban.,text_only,True,"Text quotes Verma saying, ""I'm a member of the Taliban."""
+6d829e7bd943bfc0,M_vision,4,Verma's comments were taken seriously.,unsupported,False,"Text says authorities flagged the message, but the court found no real threat; seriousness is not supported."
+6d829e7bd943bfc0,M_vision,5,UK security services alerted Spanish authorities while the flight was still in the air.,text_only,True,Text explicitly says UK security services flagged the message to Spanish authorities while the plane was airborne.
+6d829e7bd943bfc0,M_vision,6,The Spanish court acquitted Verma of public disorder.,text_only,True,Text says a Spanish court cleared him of public disorder.
+6d829e7bd943bfc0,M_vision,7,The court determined that there was no evidence to suggest Verma's remarks constituted a real threat.,both,True,"Text states nothing was found indicating a real threat, and the image caption says it was not real."
+6d829e7bd943bfc0,M_vision,8,The trial took place at Spain's National Court.,text_only,True,Text explicitly identifies Spain's National Court as the trial venue.
+6d829e7bd943bfc0,M_vision,9,The trial took place a year and a half after the incident.,text_only,True,Text explicitly says the trial occurred a year-and-a-half after the incident.
+a5e6dc1584d225ec,B1,1,Chinese authorities have detained a British national.,unsupported,False,"Evidence says the detainee was a foreigner, not specifically British."
+a5e6dc1584d225ec,B1,2,The British national is accused of spying for MI6.,text_only,True,Evidence identifies alleged MI6 spying but does not establish British nationality.
+a5e6dc1584d225ec,B1,3,MI6 is the United Kingdom’s foreign intelligence service.,text_only,True,Evidence explicitly calls MI6 Britain’s foreign intelligence service.
+a5e6dc1584d225ec,B1,4,The arrest is part of China’s broader campaign against foreign espionage.,text_only,True,Evidence calls it the latest arrest in a campaign against foreign spying.
+a5e6dc1584d225ec,B1,5,China has publicized various cases of alleged spying activities as part of this campaign.,text_only,True,Evidence says China has increasingly publicised alleged Western espionage cases.
+a5e6dc1584d225ec,B1,6,The British government has arranged consular visits following the arrest.,unsupported,False,"Evidence says consular visits were arranged, but not by the British government."
+a5e6dc1584d225ec,B1,7,The British government has not provided further comments on the situation.,text_only,True,Evidence explicitly says the British government has not commented on the claims.
+a5e6dc1584d225ec,B1,8,China’s Ministry of State Security has warned citizens about the dangers posed by foreign spies.,text_only,True,Evidence says the MSS raises alarms about dangers of foreign spies.
+a5e6dc1584d225ec,B1,9,China’s Ministry of State Security has increased efforts to raise awareness of espionage issues.,text_only,True,Evidence says the ministry has increasingly raised public awareness about foreign spying.
+a5e6dc1584d225ec,M,1,Chinese authorities have detained a British national.,unsupported,False,"Evidence identifies the detainee only as a foreigner, not specifically British."
+a5e6dc1584d225ec,M,2,The British national is accused of spying for MI6.,text_only,True,Evidence says the foreigner was alleged to spy for Britain’s MI6.
+a5e6dc1584d225ec,M,3,The detention is part of China’s ongoing campaign against foreign espionage.,text_only,True,Evidence calls this the latest arrest in a campaign against foreign spying.
+a5e6dc1584d225ec,M,4,China’s Ministry of State Security has publicly highlighted this case.,text_only,True,Evidence says the MSS stated the individual was detained for alleged spying.
+a5e6dc1584d225ec,M,5,The case is part of a broader effort to raise awareness about foreign spying activities.,text_only,True,Evidence describes public campaigns raising awareness of foreign spying.
+a5e6dc1584d225ec,M,6,The British government has arranged consular visits following the arrest.,unsupported,False,"Evidence says consular visits were arranged, without attributing them to Britain."
+a5e6dc1584d225ec,M,7,The British government has not provided specific comments on the situation.,text_only,True,Evidence says the British government has not commented on the claims.
+a5e6dc1584d225ec,M,8,The incident reflects China’s increasing focus on alleged espionage by Western nations.,text_only,True,Evidence says China increasingly publicises alleged espionage by Western countries.
+a5e6dc1584d225ec,M,9,Previous accusations against the CIA are cited in connection with China’s focus on alleged espionage by Western nations.,text_only,True,Evidence explicitly mentions previous alleged activity by the CIA.
+a5e6dc1584d225ec,M_vision,1,Chinese authorities have detained a foreign individual.,text_only,True,Text states Chinese authorities detained an alleged foreign spy.
+a5e6dc1584d225ec,M_vision,2,The foreign individual is alleged to be spying for Britain’s MI6.,text_only,True,Text explicitly says the foreigner was alleged to spy for Britain's MI6.
+a5e6dc1584d225ec,M_vision,3,The detention is part of a broader campaign to combat foreign espionage.,text_only,True,Text describes the arrest as part of China's campaign against foreign spying.
+a5e6dc1584d225ec,M_vision,4,China’s Ministry of State Security has been publicizing cases of alleged spying.,text_only,True,Text says the Ministry has increasingly publicized espionage arrest cases.
+a5e6dc1584d225ec,M_vision,5,The recent arrest is among the cases publicized by China’s Ministry of State Security.,text_only,True,Text identifies the MI6 detention as among cases publicized by the ministry.
+a5e6dc1584d225ec,M_vision,6,Previous cases primarily involved the CIA.,unsupported,False,"Text says previous cases focused on the CIA, not that they primarily involved it."
+a5e6dc1584d225ec,M_vision,7,The British government has arranged consular visits following the arrest.,unsupported,False,"Text says consular visits were arranged, but does not attribute this to Britain."
+a5e6dc1584d225ec,M_vision,8,The British government has not confirmed the individual’s nationality.,unsupported,False,"Text says authorities did not identify the consular country, not that Britain failed to confirm nationality."
+a5e6dc1584d225ec,M_vision,9,The incident reflects China’s increasing focus on foreign intelligence activities within its borders.,text_only,True,Text describes increased publicity and campaigns concerning foreign spying in China.
+f0e21d85bbfdba7b,B1,1,The evidence does not provide specific information about the reopening of train lines from Carmarthen to Bangor.,unsupported,False,No evidence specifically addresses reopening train lines from Carmarthen to Bangor.
+f0e21d85bbfdba7b,B1,2,The evidence discusses disruptions to various train services in the UK due to severe weather conditions.,text_only,True,"Multiple sources describe cancellations, delays, closures, and disruptions to UK train services during storms."
+f0e21d85bbfdba7b,B1,3,Flooding and fallen trees are affecting multiple train routes.,text_only,True,"Flooding affects several routes, and fallen trees disrupt the Lisburn line and other railway infrastructure."
+f0e21d85bbfdba7b,B1,4,National Rail and other train companies have advised against travel.,text_only,True,Great Western Railway advised against rail travel; other operators issued travel warnings and disruption notices.
+f0e21d85bbfdba7b,B1,5,National Rail and other train companies have indicated that services are significantly impacted by the weather.,text_only,True,"Sources report cancellations, delays, closures, diversions, and severe disruption caused by weather."
+f0e21d85bbfdba7b,B1,6,The evidence provides no details regarding the Carmarthen to Bangor line specifically.,unsupported,False,No evidence specifically discusses the Carmarthen to Bangor line.
+f0e21d85bbfdba7b,M,1,The evidence does not provide specific information about the reopening of train lines from Carmarthen to Bangor.,unsupported,False,No evidence specifically addresses reopening train lines from Carmarthen to Bangor.
+f0e21d85bbfdba7b,M,2,The evidence discusses various disruptions and closures affecting train services in different regions due to severe weather conditions.,text_only,True,"Sources describe weather-related cancellations, delays, closures, and disruption across several rail regions."
+f0e21d85bbfdba7b,M,3,Flooding and fallen trees are affecting train services.,text_only,True,Evidence explicitly links flooding and fallen trees to affected railway lines and services.
+f0e21d85bbfdba7b,M,4,The reports highlight the impact of storms on rail operations.,text_only,True,"Reports describe storms causing cancellations, delays, closures, cable damage, and broader rail disruption."
+f0e21d85bbfdba7b,M,5,The evidence does not mention plans or timelines related to the Carmarthen to Bangor train lines.,unsupported,False,No source mentions plans or timelines for Carmarthen-to-Bangor train lines.
+f0e21d85bbfdba7b,M_vision,1,The evidence does not provide specific information about the reopening of train lines from Carmarthen to Bangor.,unsupported,False,No Carmarthen-to-Bangor reopening information appears in the supplied text or images.
+f0e21d85bbfdba7b,M_vision,2,The evidence discusses various disruptions to train services across the UK due to severe weather conditions.,text_only,True,"Text describes weather-related train disruptions, cancellations, delays, and closures across multiple UK locations."
+f0e21d85bbfdba7b,M_vision,3,Flooding and fallen trees are affecting multiple rail lines.,both,True,Text mentions flooded tracks and fallen trees; images independently show flooding and fallen trees.
+f0e21d85bbfdba7b,M_vision,4,There are cancellations and delays on different routes.,text_only,True,"Text explicitly reports cancellations, delays, and service alterations on several routes."
+f0e21d85bbfdba7b,M_vision,5,The evidence provides no details regarding the Carmarthen to Bangor line.,unsupported,False,The supplied evidence does not mention the Carmarthen-to-Bangor line.
+f0e21d85bbfdba7b,M_vision,6,The evidence provides no details regarding plans for reopening the Carmarthen to Bangor line.,unsupported,False,No information addresses plans to reopen the Carmarthen-to-Bangor line.
+0c1244b85425067a,M,1,The evidence does not provide information about Alexei Navalny's January video from prison.,text_only,True,Navalny and a January prison video are not mentioned anywhere in the supplied evidence.
+0c1244b85425067a,M,2,The evidence discusses forced video apologies in Russia.,text_only,True,Evidence explicitly describes humiliating and forced video apologies in Russia.
+0c1244b85425067a,M,3,The evidence discusses a separate criminal case involving a DJ.,text_only,True,Evidence describes DJ Leigh Brookfield's criminal case involving urinating on a cancer patient.
+0c1244b85425067a,M,4,The evidence discusses a bombing incident linked to a pro-war blogger.,text_only,True,Evidence discusses Darya Trepova's bombing that killed pro-war blogger Vladlen Tatarsky.
+0c1244b85425067a,M,5,The evidence discusses comments from Vladimir Putin about the war in Ukraine.,text_only,True,Evidence reports Putin's New Year speech and limited mention of the Ukraine war.
+0c1244b85425067a,M,6,The evidence does not pertain to Alexei Navalny or his statements.,text_only,True,No evidence mentions Alexei Navalny or any statements by him.
+0c1244b85425067a,M,7,There is insufficient evidence to summarize what Navalny said in his video.,text_only,True,No evidence reports what Navalny said in any video.
+bcded98e450023c8,B1,1,Sir Jeffrey Donaldson is facing pressure regarding the DUP's position on a new deal to end the ongoing political impasse in Northern Ireland.,text_only,True,Evidence says the DUP faces pressure over backing a new deal to end the impasse.
+bcded98e450023c8,B1,2,Donaldson has not made a definitive decision on the deal.,text_only,True,No vote or decision was taken on the deal.
+bcded98e450023c8,B1,3,Donaldson has taken time to review the deal with party officers.,text_only,True,Evidence states Donaldson took more time to go through the deal with party officers.
+bcded98e450023c8,B1,4,Donaldson reportedly has the majority support of the party officers.,text_only,True,Evidence says Donaldson reportedly has a majority of officers supporting him.
+bcded98e450023c8,B1,5,The DUP has expressed that it will continue to engage with the government.,text_only,True,The DUP said it would continue to engage with the government.
+bcded98e450023c8,B1,6,The DUP has not provided detailed commentary on its stance.,text_only,True,The DUP said it would not give a running commentary on its position.
+bcded98e450023c8,B1,7,Donaldson has called for a better financial package for incoming ministers.,text_only,True,Evidence explicitly says Donaldson called for a better financial package for incoming ministers.
+bcded98e450023c8,B1,8,Donaldson is focused on securing favorable terms for the party.,unsupported,False,The evidence does not state that Donaldson is focused on securing favorable terms for the party.
+bcded98e450023c8,M,1,Sir Jeffrey Donaldson is facing pressure regarding the DUP's position on a new deal to end the ongoing political impasse in Northern Ireland.,text_only,True,Evidence says the DUP faced pressure over backing a new deal to end the impasse.
+bcded98e450023c8,M,2,Donaldson has not made a definitive decision on the deal.,text_only,True,Evidence says no vote or decision was taken on the deal.
+bcded98e450023c8,M,3,Donaldson has taken time to review the deal with party officers.,text_only,True,Evidence states Donaldson took more time to go through the deal with party officers.
+bcded98e450023c8,M,4,Donaldson reportedly has the majority support of the party officers.,text_only,True,Evidence says Donaldson reportedly has a majority of officers supporting him.
+bcded98e450023c8,M,5,The DUP has indicated that it will continue to engage with the government.,text_only,True,The DUP said it would continue to engage with the government.
+bcded98e450023c8,M,6,The DUP has not provided specific details about its stance or future actions.,text_only,True,The DUP would not give a running commentary on its position.
+bcded98e450023c8,M,7,The situation remains unresolved.,text_only,True,Evidence says nothing changed and no decision was taken.
+bcded98e450023c8,M,8,The political deadlock continues.,text_only,True,Evidence explicitly says the deadlock continues.
+bcded98e450023c8,M_vision,1,Sir Jeffrey Donaldson is facing pressure regarding the DUP's position on a new deal to end the ongoing political impasse in Northern Ireland.,text_only,True,Text says the DUP faced pressure to state whether it would back a new deal ending the impasse.
+bcded98e450023c8,M_vision,2,A meeting of party officers took place recently.,text_only,True,Text explicitly reports that party officers met.
+bcded98e450023c8,M_vision,3,No decisions were made at the recent meeting of party officers.,text_only,True,Text explicitly says there was no vote and no decision was taken.
+bcded98e450023c8,M_vision,4,The political deadlock continues.,text_only,True,Text explicitly states that the deadlock continues.
+bcded98e450023c8,M_vision,5,Donaldson has majority support among the party officers.,text_only,True,Text says Donaldson has a majority of officers supporting him.
+bcded98e450023c8,M_vision,6,Donaldson's majority support among the party officers is crucial for any future proposals he may present.,text_only,True,Text says officer support is critical and discusses his future presentation of the deal.
+bcded98e450023c8,M_vision,7,Donaldson has called for a better financial package for incoming ministers.,text_only,True,Text explicitly says Donaldson called for a better financial package for incoming ministers.
+bcded98e450023c8,M_vision,8,Donaldson's call for a better financial package indicates his stance that improved conditions are needed to facilitate political progress.,unsupported,False,The text reports his request but does not state that it indicates improved conditions are needed for political progress.
+9bb3a8fb413510c1,B1,1,Sarah Ferguson is the Duchess of York.,text_only,True,Evidence identifies Sarah Ferguson as the Duchess of York.
+9bb3a8fb413510c1,B1,2,Sarah Ferguson has been diagnosed with malignant melanoma.,text_only,True,Evidence explicitly states Sarah Ferguson was diagnosed with malignant melanoma.
+9bb3a8fb413510c1,B1,3,Malignant melanoma is a type of skin cancer.,text_only,True,Evidence explicitly describes malignant melanoma as a form of skin cancer.
+9bb3a8fb413510c1,B1,4,The malignant melanoma was discovered during Sarah Ferguson's treatment for breast cancer.,text_only,True,Evidence states the melanoma was discovered during treatment for breast cancer.
+9bb3a8fb413510c1,B1,5,Sarah Ferguson said that receiving another cancer diagnosis was a shock.,text_only,True,Her quoted statement says another cancer diagnosis was a shock.
+9bb3a8fb413510c1,B1,6,Sarah Ferguson remains in good spirits.,text_only,True,Her quoted statement says she is in good spirits.
+9bb3a8fb413510c1,B1,7,Sarah Ferguson is grateful for the support she has received.,text_only,True,Her quoted statement says she is grateful for messages of love and support.
+9bb3a8fb413510c1,B1,8,A spokesman said that further investigations will be conducted.,text_only,True,Evidence says a spokesman stated she will have further investigations.
+9bb3a8fb413510c1,B1,9,The further investigations are intended to ensure that the melanoma has been detected early.,text_only,True,Evidence states investigations will ensure the melanoma was caught in its early stages.
+9bb3a8fb413510c1,M,1,Sarah Ferguson is the Duchess of York.,text_only,True,Evidence identifies Sarah Ferguson as the Duchess of York.
+9bb3a8fb413510c1,M,2,Sarah Ferguson has been diagnosed with malignant melanoma.,text_only,True,Evidence explicitly states Sarah Ferguson was diagnosed with malignant melanoma.
+9bb3a8fb413510c1,M,3,Malignant melanoma is a type of skin cancer.,text_only,True,Evidence explicitly describes malignant melanoma as a form of skin cancer.
+9bb3a8fb413510c1,M,4,The malignant melanoma was discovered during Sarah Ferguson's treatment for breast cancer.,text_only,True,Evidence states the melanoma was discovered during treatment for breast cancer.
+9bb3a8fb413510c1,M,5,Sarah Ferguson said that receiving another cancer diagnosis was a shock.,text_only,True,Her quoted statement says another cancer diagnosis was a shock.
+9bb3a8fb413510c1,M,6,Sarah Ferguson remains in good spirits.,text_only,True,Her quoted statement says she is in good spirits.
+9bb3a8fb413510c1,M,7,Sarah Ferguson is grateful for the support she has received.,text_only,True,Her quoted statement says she is grateful for messages of love and support.
+9bb3a8fb413510c1,M,8,A spokesman said that further investigations will be conducted.,text_only,True,Evidence says a spokesman stated she will have further investigations.
+9bb3a8fb413510c1,M,9,The further investigations are intended to ensure that the melanoma has been detected early.,text_only,True,Evidence states investigations will ensure the melanoma was caught in its early stages.
+9bb3a8fb413510c1,M_vision,1,Sarah Ferguson is the Duchess of York.,text_only,True,"Text identifies Sarah Ferguson as formerly married to Prince Andrew, but does not call her Duchess of York."
+9bb3a8fb413510c1,M_vision,2,Sarah Ferguson has been diagnosed with malignant melanoma.,text_only,True,Text explicitly says Sarah Ferguson had been diagnosed with malignant melanoma.
+9bb3a8fb413510c1,M_vision,3,Malignant melanoma is a type of skin cancer.,text_only,True,Text explicitly defines malignant melanoma as a form of skin cancer.
+9bb3a8fb413510c1,M_vision,4,The malignant melanoma was discovered during Sarah Ferguson's treatment for breast cancer.,text_only,True,Text explicitly says melanoma was discovered during treatment for her breast cancer.
+9bb3a8fb413510c1,M_vision,5,Sarah Ferguson said that receiving the diagnosis was a shock.,text_only,True,Her quoted statement calls another cancer diagnosis a shock.
+9bb3a8fb413510c1,M_vision,6,Sarah Ferguson is in good spirits.,text_only,True,Her quoted statement says she is in good spirits.
+9bb3a8fb413510c1,M_vision,7,Sarah Ferguson is grateful for the support she has received.,text_only,True,Her quoted statement says she is grateful for messages of love and support.
+9bb3a8fb413510c1,M_vision,8,A spokesman said that further investigations will be conducted.,text_only,True,Text says a spokesman stated she will have further investigations.
+9bb3a8fb413510c1,M_vision,9,The further investigations are intended to ensure that the melanoma has been caught early.,text_only,True,Text explicitly says investigations will ensure the melanoma was caught in early stages.

@@ -1,5 +1,10 @@
 # Architecture
 
+> **Current extension:** `M_vision` supplies actual retrieved image pixels to
+> GPT-4o-mini, research roles are duplicate-group-safe (707 pool / 166 development /
+> 150 final), selected fusion is alpha=0.75, and the judge is GPT-5.6 Luna. Diagrams
+> below that name Claude or alpha=0.5 document the preserved inherited baseline.
+
 How the system fits together, what each stage guarantees, and which parts are
 load-bearing for the experiment. Read this before changing anything in `src/`.
 

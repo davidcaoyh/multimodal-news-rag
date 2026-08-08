@@ -1,0 +1,11 @@
+comparison,category,n,mean_difference
+M-B1,business_technology_science,2,-0.1069444444444444
+M-B1,international,3,-0.016642616642616643
+M-B1,politics_conflict,4,-0.05093240093240091
+M-B1,society_culture,2,0.0625
+M-B1,sports,1,-0.1428571428571429
+M_vision-M,business_technology_science,2,0.16249999999999998
+M_vision-M,international,3,0.006878306878306854
+M_vision-M,politics_conflict,4,0.018939393939393936
+M_vision-M,society_culture,2,-0.0625
+M_vision-M,sports,1,0.1428571428571429

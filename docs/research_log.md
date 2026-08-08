@@ -48,7 +48,8 @@ the complete research process.
 | E09 | diagnostic four-arm development generation | COMPLETE | preserve targeted design | `results/experiments/E09_development_generation/` |
 | E10 | image-aware claim support and modality attribution | COMPLETE | actual pixels promising on diagnostic sample | `results/experiments/E10_development_claim_evaluation/` |
 | E11 | wrong-image stress test | COMPLETE | report modest case-dependent harm | `results/experiments/E11_wrong_image_stress/` |
-| E12 | frozen final held-out comparison | FROZEN | execute without further tuning | `configs/final_research.json` |
+| E12 | frozen final held-out comparison | COMPLETE | pixels help selectively; average gain uncertain | `results/experiments/E12_final_comparison/` |
+| E13 | 50-claim human judge validation | READY | requires a human annotator | `results/experiments/E12_final_comparison/human_validation_50.csv` |
 
 ## Inherited experiments
 
@@ -236,16 +237,40 @@ the complete research process.
 - **Interpretation:** Image conflict causes modest, case-dependent harm rather
   than catastrophic visual copying in this small stress set.
 
-### E12 — frozen held-out protocol
+### E12 — frozen held-out comparison
 
-- **Status:** FROZEN before final outcomes.
+- **Status:** COMPLETE; protocol was frozen before final outcomes.
 - **Protocol:** Twenty seeded final-test articles, balanced four each across five
   declared section families. Headline-only natural queries; pool-only evidence;
   B1, M, and M_vision; alpha=0.75, k=5, tau=0.35; no further tuning.
 - **Primary metric:** Macro claim faithfulness on jointly usable summaries with
   paired bootstrap intervals. Coverage, visual attribution, and category cuts are
   secondary.
-- **Artifact:** `configs/final_research.json`.
+- **Outcome:** On jointly usable cases, B1=0.861, M=0.834, M_vision=0.858.
+  M_vision-M=+0.0366 over n=12, 95% bootstrap CI [-0.0155,+0.0888].
+  M-B1=-0.0405, CI [-0.0892,+0.0076]. Usable coverage was 13/20,
+  12/20, and 13/20 respectively. Pixel-supported claims were 4.0% of
+  supported claims in usable M_vision summaries; none required pixels alone.
+- **Retrieval:** Recall@5 was 1.00 for dense text, selected alpha=0.75 fusion,
+  and lexical retrieval; image-only was 0.55. The selected fusion tied rather
+  than improved on text in the small final sample.
+- **Interpretation:** The large targeted development gain did not generalize.
+  Actual pixels are sometimes useful, especially in individual visual cases,
+  but no reliable average faithfulness improvement is established.
+- **Efficiency:** median retrieval 35 ms/query after load; extension API ledger
+  $0.208; embedding build about 40 seconds; index plus embedding files ~38 MB.
+- **Artifacts:** `configs/final_research.json` and
+  `results/experiments/E12_final_comparison/`.
+
+### E13 — human judge validation
+
+- **Status:** READY / MANUAL.
+- **Artifact:** 50 blind usable claims with system label and automated verdict
+  omitted: `results/experiments/E12_final_comparison/human_validation_50.csv`.
+- **Action:** A human fills `human_supported` with `y` or `n` and optionally
+  `human_modality`; then run `python -m src.final_validation --validate`.
+- **Rule:** AI-generated labels do not count as human validation. Until this is
+  complete, all judge-derived faithfulness numbers remain provisional.
 
 ## Experiment entry template
 

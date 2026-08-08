@@ -52,7 +52,11 @@ sys.path.insert(0, str(ROOT))
 os.chdir(ROOT)
 
 from src.generate import ABSTAIN, TAU, summarize  # noqa: E402
+from src.research_data import ids as research_ids  # noqa: E402
 from src.retrieve import retrieve  # noqa: E402
+
+POOL_IDS = research_ids("pool")
+FORBIDDEN_IDS = research_ids("development") | research_ids("final_test")
 
 st.set_page_config(page_title="Multimodal RAG — news summarization",
                    page_icon="📰", layout="wide")
@@ -70,7 +74,8 @@ CHIPS = [
 
 ARM = {
     "B1": ("Text-only", "B1", "SBERT passages → FAISS"),
-    "M": ("Multimodal", "M", "SBERT + CLIP → late fusion"),
+    "M": ("Caption-mediated", "M", "SBERT + CLIP → late fusion; text + captions"),
+    "M_vision": ("Actual-image", "M_vision", "late fusion + captions + image pixels"),
     "B0": ("No retrieval", "B0", "the hallucination ceiling"),
 }
 
@@ -92,10 +97,11 @@ def warm_up():
 @st.cache_data(show_spinner=False)
 def run_arm(query: str, config: str, k: int, alpha: float, tau: float):
     """One (query, config) -> (record, hits). Cached per widget state."""
-    rec = summarize(query, config=config, k=k, alpha=alpha, tau=tau)
+    rec = summarize(query, config=config, k=k, alpha=alpha, tau=tau,
+                    candidate_ids=POOL_IDS, forbidden_ids=FORBIDDEN_IDS)
     hits = [] if config == "B0" else retrieve(
         query, mode=("text" if config == "B1" else "multimodal"),
-        k=k, alpha=alpha, include_test=False)
+        k=k, alpha=alpha, include_test=False, candidate_ids=POOL_IDS)
     return rec, hits
 
 
@@ -140,10 +146,12 @@ def render_evidence(hits, config: str, unique_ids: set):
         st.caption("No retrieval — B0 answers from the model's own knowledge.")
         return
 
-    with_captions = config == "M"
+    with_captions = config in {"M", "M_vision"}
+    with_pixels = config == "M_vision"
     st.caption(
         f"{len(hits)} articles · "
-        + ("passages **+ image captions** go into the prompt" if with_captions
+        + ("passages + captions **+ actual pixels** go into the prompt" if with_pixels
+           else "passages **+ image captions** go into the prompt" if with_captions
            else "passages only — images shown for provenance, **not** sent to the model"))
 
     for i, h in enumerate(hits, 1):
@@ -234,8 +242,9 @@ def render_arm(query: str, config: str, k: int, alpha: float, tau: float,
 st.sidebar.title("Controls")
 view = st.sidebar.radio(
     "View",
-    ["Side by side (B1 vs M)", "Text-only (B1)", "Multimodal (M)"],
-    help="The toggle. B1 and M run identical code with retrieval as the only difference.")
+    ["Side by side (B1 vs M_vision)", "Text-only (B1)",
+     "Caption-mediated (M)", "Actual-image (M_vision)"],
+    help="The default compares the frozen text baseline with end-to-end pixel input.")
 show_b0 = st.sidebar.checkbox(
     "Also show B0 (no retrieval)", value=False,
     help="LLM alone, no evidence — the hallucination upper bound.")
@@ -243,7 +252,7 @@ show_b0 = st.sidebar.checkbox(
 st.sidebar.divider()
 k = st.sidebar.slider("k — articles retrieved", 1, 10, 5)
 alpha = st.sidebar.slider(
-    "α — text weight in fusion", 0.0, 1.0, 0.5, 0.05,
+    "α — text weight in fusion", 0.0, 1.0, 0.75, 0.05,
     help="score = α·s_text + (1−α)·s_img on per-query min-max normalized streams. "
          "α = 1.0 makes M identical to B1.")
 tau = st.sidebar.slider(
@@ -257,8 +266,9 @@ st.sidebar.divider()
 st.sidebar.caption(
     "SBERT `all-MiniLM-L6-v2` (384-d) · CLIP `ViT-B-32-quickgelu` (512-d) · "
     "FAISS `IndexFlatIP` · generator `gpt-4o-mini` @ temperature 0, held constant "
-    "across all arms.\n\nPool: 873 BBC articles (Jan 2024), 11,052 passages, "
-    "1,023 images. The 150 test articles are excluded from retrieval.")
+    "across all arms.\n\nResearch pool: 707 BBC articles (Jan 2024), 11,052 "
+    "indexed passages, 1,023 indexed images. Development and final-test groups "
+    "are excluded from generation evidence.")
 
 if not os.path.exists(ROOT / ".env"):
     st.sidebar.error("No `.env` found — retrieval will work, generation will not.")
@@ -266,10 +276,10 @@ if not os.path.exists(ROOT / ".env"):
 
 # ---------------------------------------------------------------- main
 
-st.title("Does multimodal retrieval reduce hallucination?")
+st.title("When do actual images help grounded news summarization?")
 st.caption(
-    "Same corpus, same generator, same prompt, same temperature. The **only** difference "
-    "between the two arms is whether image similarity contributes to retrieval.")
+    "Same corpus, retrieval, generator, prompt, and temperature. M‑vision adds the "
+    "retrieved image pixels to the caption-mediated multimodal arm.")
 
 warm_up()
 
@@ -304,16 +314,17 @@ st.divider()
 # Which articles each arm found that the other did not. Computed before rendering
 # so both columns can badge them — this is the independent variable made visible.
 ids = {}
-for c in ("B1", "M"):
+for c in ("B1", "M_vision"):
     _, hits = run_arm(query, c, k, alpha, tau)
     ids[c] = [h.article_id for h in hits]
-only = {"B1": set(ids["B1"]) - set(ids["M"]), "M": set(ids["M"]) - set(ids["B1"]),
-        "B0": set()}
+only = {"B1": set(ids["B1"]) - set(ids["M_vision"]),
+        "M_vision": set(ids["M_vision"]) - set(ids["B1"]),
+        "M": set(), "B0": set()}
 
 if view.startswith("Side"):
-    n_new = len(only["M"])
+    n_new = len(only["M_vision"])
     st.metric("articles multimodal retrieved that text-only did not",
-              f"{n_new}/{len(ids['M'])}")
+              f"{n_new}/{len(ids['M_vision'])}")
     if n_new == 0:
         st.caption("Identical top-k on this query — it happened on 5/150 test queries.")
 
@@ -334,9 +345,9 @@ if view.startswith("Side"):
     with left:
         render_arm(query, "B1", k, alpha, tau, only["B1"])
     with right:
-        render_arm(query, "M", k, alpha, tau, only["M"])
+        render_arm(query, "M_vision", k, alpha, tau, only["M_vision"])
 else:
-    config = "B1" if "B1" in view else "M"
+    config = "B1" if "B1" in view else ("M_vision" if "M_vision" in view else "M")
     render_arm(query, config, k, alpha, tau, only[config])
 
 if show_b0:

@@ -1,0 +1,26 @@
+{
+  "retrieval": {
+    "queries": 20,
+    "wall_seconds_including_encoder_load": 7.747234106063843,
+    "median_seconds_per_query": 0.03476529198815115,
+    "p95_seconds_per_query": 0.3496960110816916
+  },
+  "index_bytes": {
+    "text.faiss": 16975917,
+    "img.faiss": 2095149,
+    "text_emb.npy": 16976000,
+    "img_emb.npy": 2095232
+  },
+  "api": {
+    "calls": 214,
+    "estimated_spend_usd": 0.207608,
+    "budget_usd": 8.0,
+    "remaining_software_budget_usd": 7.792392,
+    "by_model_usd": {
+      "gpt-4o-mini": 0.111297,
+      "gpt-5.6-luna": 0.096312
+    }
+  },
+  "embedding_build_wall_seconds_observed": 40.0,
+  "generation_latency": "not systematically instrumented; do not reconstruct post hoc"
+}

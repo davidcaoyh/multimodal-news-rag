@@ -118,10 +118,10 @@ def _call(system: str, content, schema: dict, category: str):
     return parsed
 
 
-def _opaque_map(test_id: str) -> dict[str, str]:
-    labels = list("ABCD")
+def _opaque_map(test_id: str, configs=CONFIGS) -> dict[str, str]:
+    labels = list("ABCD")[:len(configs)]
     random.Random(int(test_id, 16)).shuffle(labels)
-    return dict(zip(CONFIGS, labels))
+    return dict(zip(configs, labels))
 
 
 def _normalize_item_id(value: str) -> str:
@@ -129,9 +129,9 @@ def _normalize_item_id(value: str) -> str:
     return value.removeprefix("ITEM ").strip()
 
 
-def _decompose(rows: pd.DataFrame, labels: dict[str, str]):
+def _decompose(rows: pd.DataFrame, labels: dict[str, str], configs):
     sections = []
-    for config in CONFIGS:
+    for config in configs:
         summary = rows.loc[rows.config == config, "summary"].iloc[0]
         sections.append(f"ITEM {labels[config]}\nSUMMARY:\n{summary}")
     prompt = """Split every summary below into atomic, self-contained factual claims.
@@ -181,23 +181,34 @@ contradicted, or absent support. Never use outside knowledge. Give a reason of a
 
 def _evaluate_case(rows: pd.DataFrame) -> list[dict]:
     test_id = rows.test_id.iloc[0]
-    labels = _opaque_map(test_id)
-    claims = _decompose(rows, labels)
+    # A hard abstention is a coverage outcome, not a factual claim. Keep it out
+    # of both judge passes entirely; _report() counts it from the summary table.
+    rows = rows[rows.summary.map(refusal_kind) != "hard"].copy()
+    if rows.empty:
+        return []
+    present = set(rows.config)
+    configs = tuple(c for c in CONFIGS if c in present)
+    labels = _opaque_map(test_id, configs)
+    claims = _decompose(rows, labels, configs)
     if set(claims) != set(labels.values()):
         raise RuntimeError(f"decomposer item mismatch for {test_id}: {set(claims)}")
-    text_configs = ("B1", "M_nocap", "M")
-    text_content = _verification_content(rows, labels, claims, text_configs)
-    text_judged = _call(
-        "You verify factual claims against only the supplied evidence.",
-        text_content, TEXT_VERIFY_SCHEMA, "research_verify_text",
-    )
-    vision_content = _verification_content(
-        rows, labels, claims, ("M_vision",), include_images=True
-    )
-    vision_judged = _call(
-        "You verify factual claims against only the supplied text and images.",
-        vision_content, VERIFY_SCHEMA, "research_verify_vision",
-    )
+    text_configs = tuple(c for c in configs if c != "M_vision")
+    text_judged = {"items": []}
+    if text_configs:
+        text_content = _verification_content(rows, labels, claims, text_configs)
+        text_judged = _call(
+            "You verify factual claims against only the supplied evidence.",
+            text_content, TEXT_VERIFY_SCHEMA, "research_verify_text",
+        )
+    vision_judged = {"items": []}
+    if "M_vision" in configs:
+        vision_content = _verification_content(
+            rows, labels, claims, ("M_vision",), include_images=True
+        )
+        vision_judged = _call(
+            "You verify factual claims against only the supplied text and images.",
+            vision_content, VERIFY_SCHEMA, "research_verify_vision",
+        )
     verdicts = {_normalize_item_id(x["item_id"]): x["verdicts"]
                 for x in [*text_judged["items"], *vision_judged["items"]]}
     reverse = {label: config for config, label in labels.items()}
@@ -247,7 +258,12 @@ def _report(claims: pd.DataFrame, summaries: pd.DataFrame, out: Path):
     for cut, allowed in (("nonhard", {"usable", "soft"}), ("usable", {"usable"})):
         eligible = per_item[per_item.kind.isin(allowed)]
         wide = eligible.pivot(index="test_id", columns="config", values="faithfulness")
-        for left, right in [("B1", "M"), ("M_nocap", "M"), ("M", "M_vision")]:
+        comparisons = [("B1", "M"), ("M", "M_vision")]
+        if "M_nocap" in set(eligible.config):
+            comparisons.insert(1, ("M_nocap", "M"))
+        for left, right in comparisons:
+            if left not in wide.columns or right not in wide.columns:
+                continue
             valid = wide[[left, right]].dropna()
             diff = (valid[right] - valid[left]).to_numpy()
             lo, hi = _bootstrap(diff)
@@ -259,8 +275,8 @@ def _report(claims: pd.DataFrame, summaries: pd.DataFrame, out: Path):
                     & claims.test_id.isin(usable_vision_ids)]
     visual_rate = float(vision.support.isin(["image_only", "both"]).mean()) if len(vision) else 0.0
     diagnostics = {
-        "experiment_id": "E10",
-        "split": "development diagnostic sample",
+        "experiment_id": "E12_final" if "category" in summaries else "E10",
+        "split": "frozen final test" if "category" in summaries else "development diagnostic sample",
         "items": int(summaries.test_id.nunique()),
         "summaries": len(summaries),
         "claims": len(claims),
@@ -273,6 +289,12 @@ def _report(claims: pd.DataFrame, summaries: pd.DataFrame, out: Path):
     summary.to_csv(out / "metrics.csv", index=False)
     pd.DataFrame(pairs).to_csv(out / "paired_differences.csv", index=False)
     per_item.to_csv(out / "per_item.csv", index=False)
+    if "category" in summaries:
+        annotated = per_item.merge(
+            summaries[["test_id", "category"]].drop_duplicates(),
+            on="test_id", validate="many_to_one"
+        )
+        annotated.to_csv(out / "per_item_by_category.csv", index=False)
     (out / "diagnostics.json").write_text(json.dumps(diagnostics, indent=2) + "\n")
     print(summary.to_string(index=False))
     print(pd.DataFrame(pairs).to_string(index=False))
@@ -282,6 +304,7 @@ def _report(claims: pd.DataFrame, summaries: pd.DataFrame, out: Path):
 def run(source: Path = DEFAULT_IN, out: Path = DEFAULT_OUT, delay: float = 31.0,
         limit: int | None = None):
     summaries = pd.read_csv(source).fillna({"evidence": "", "image_paths": ""})
+    source_configs = tuple(c for c in CONFIGS if c in set(summaries.config))
     out.mkdir(parents=True, exist_ok=True)
     claims_path = out / "claims.csv"
     existing = pd.read_csv(claims_path) if claims_path.exists() else pd.DataFrame()
@@ -295,8 +318,8 @@ def run(source: Path = DEFAULT_IN, out: Path = DEFAULT_OUT, delay: float = 31.0,
         if test_id in completed:
             continue
         rows = summaries[summaries.test_id == test_id]
-        if set(rows.config) != set(CONFIGS):
-            raise RuntimeError(f"incomplete four-arm case {test_id}")
+        if set(rows.config) != set(source_configs):
+            raise RuntimeError(f"incomplete case {test_id}: expected {source_configs}")
         all_rows.extend(_evaluate_case(rows))
         pd.DataFrame(all_rows).to_csv(claims_path, index=False)
         print(f"  {number}/{len(test_ids)} cases, {len(all_rows)} claims", flush=True)
