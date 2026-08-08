@@ -1,0 +1,15 @@
+{
+  "experiment_id": "E05",
+  "seed": 1508,
+  "target_final_test": 150,
+  "corpus_rows": 1023,
+  "pool_rows": 707,
+  "development_rows": 166,
+  "final_test_rows": 150,
+  "inherited_test_rows": 150,
+  "extra_development_rows_from_duplicate_groups": 16,
+  "duplicate_components": 44,
+  "largest_duplicate_component": 6,
+  "candidate_edges_crossing_roles": 0,
+  "policy": "Inherited test becomes development because it was used for alpha exploration. Near-duplicate connected components are assigned atomically."
+}

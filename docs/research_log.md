@@ -39,8 +39,8 @@ the complete research process.
 | E01 | inherited retrieval alpha sweep | COMPLETE | exploratory only | `results/recall.csv` |
 | E02 | inherited M_nocap caption ablation | NULL | preserve | `results/summaries_ablation.csv` |
 | E03 | blind human validation of baseline judge | PLANNED | pending | TBD |
-| E04 | text/image duplicate and split-leakage audit | PLANNED | pending | TBD |
-| E05 | development/validation/final-test contract | PLANNED | pending | TBD |
+| E04 | text/image duplicate and split-leakage audit | COMPLETE | group duplicate components | `results/experiments/E04_leakage_audit/` |
+| E05 | development/validation/final-test contract | COMPLETE | use grouped research roles | `data/research/split_manifest.parquet` |
 | E06 | M_vision actual-image generation arm | PLANNED | pending | TBD |
 | E07 | query-evidence coverage metric | PLANNED | pending | TBD |
 | E08 | claim modality support attribution | PLANNED | pending | TBD |
@@ -85,6 +85,49 @@ the complete research process.
 - **Insight:** Caption text did not add measurable grounding value once the
   retrieved articles were fixed.
 
+### E04 — text/image duplicate and split-leakage audit
+
+- **Status:** COMPLETE
+- **Commit:** research branch after `0cae0cd`
+- **Question:** Do exact or near-duplicate text/images cross the inherited random
+  pool/test split?
+- **Protocol:** character 3–5-gram TF-IDF cosine at `>=0.85`, exact image SHA-256,
+  and 64-bit image dHash distance `<=5`. Candidate pairs are evidence for manual
+  inspection, not automatic declarations that two stories are identical.
+- **Outcome:** 102 candidate edges: 90 byte-identical image pairs, 9 near-image
+  pairs, and 3 near-text pairs. Twenty edges crossed the inherited split: 18
+  exact images, 1 near image, and 1 near-text pair, involving 29 articles.
+- **Interpretation:** The inherited split is not group-safe. Many repeated images
+  belong to follow-up coverage of the same event, which can inflate image recall
+  and weaken claims of held-out generalization.
+- **Decision:** KEEP. Build research roles by connected duplicate components and
+  retain the inherited comparison only as a historical baseline.
+- **Artifacts:** `results/experiments/E04_leakage_audit/candidate_pairs.csv` and
+  `summary.json`.
+- **Limitations:** dHash is a deliberately lightweight visual screen. Cropped or
+  semantically equivalent but visually different images may remain undetected;
+  all threshold candidates still require interpretation.
+
+### E05 — group-safe research roles
+
+- **Status:** COMPLETE
+- **Question:** How can exploratory model selection and final evaluation be
+  separated without discarding the inherited work?
+- **Policy:** The inherited 150 test articles become development data because
+  alpha and prompts were already explored on them. All connected duplicate
+  components touching them follow into development. A new seeded 150-article
+  final test is selected by whole groups; remaining articles form the pool.
+- **Outcome:** 707 pool, 166 development, and 150 final-test articles. Sixteen
+  formerly pooled articles moved to development with duplicate-linked inherited
+  test articles. There are 44 multi-article duplicate components, largest size 6,
+  and zero E04 candidate edges crossing the new research roles.
+- **Decision:** KEEP. Use `data/research/split_manifest.parquet` for all new
+  experiments. Do not modify the baseline processed parquets.
+- **Artifacts:** `data/research/split_manifest.parquet` and
+  `results/experiments/E05_research_split/summary.json`.
+- **Limitations:** The 707-item pool is smaller than the inherited pool and may
+  increase refusal. That is preferable to reporting leakage-contaminated gains.
+
 ## Experiment entry template
 
 Copy this section for every new experiment.
@@ -109,4 +152,3 @@ Copy this section for every new experiment.
 - Decision: KEEP / REJECT / INVESTIGATE
 - Limitations or invalidating conditions:
 ```
-

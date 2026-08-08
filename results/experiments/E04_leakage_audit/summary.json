@@ -1,0 +1,23 @@
+{
+  "experiment_id": "E04",
+  "corpus_rows": 1023,
+  "pool_rows": 873,
+  "test_rows": 150,
+  "text_threshold": 0.85,
+  "text_neighbors_per_item": 10,
+  "image_max_hamming": 5,
+  "candidate_pairs": 102,
+  "cross_split_pairs": 20,
+  "cross_split_articles": 29,
+  "pairs_by_kind": {
+    "image_exact": 90,
+    "image_near": 9,
+    "text_near": 3
+  },
+  "cross_split_by_kind": {
+    "image_exact": 18,
+    "image_near": 1,
+    "text_near": 1
+  },
+  "interpretation": "Candidate pairs require manual inspection. Similarity thresholds identify possible leakage; they do not by themselves prove duplicate news content."
+}
