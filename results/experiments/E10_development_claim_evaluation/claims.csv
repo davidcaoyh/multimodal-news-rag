@@ -1,0 +1,459 @@
+test_id,config,claim_index,claim,support,supported,reason
+bdbd051eed422090,M_nocap,1,Shipping costs have surged significantly.,unsupported,False,"Evidence mentions rising commodity prices and prices affecting consumers, not explicitly shipping costs."
+bdbd051eed422090,M_nocap,2,Attacks by Houthi rebels in the Red Sea increased by 500% between November and December.,text_only,True,Evidence explicitly states Houthi attacks increased 500% between November and December.
+bdbd051eed422090,M_nocap,3,Major shipping companies have ceased operations in the Red Sea region.,text_only,True,Evidence says major shipping companies ceased sailing or stopped vessels using the Red Sea route.
+bdbd051eed422090,M_nocap,4,Insurance costs increased tenfold.,text_only,True,Evidence explicitly states insurance costs rose tenfold.
+bdbd051eed422090,M_nocap,5,Twenty percent of the world's container ships were forced to reroute around the southern tip of Africa.,text_only,True,Evidence says 20% of container ships avoided the Red Sea and used southern Africa routes.
+bdbd051eed422090,M_nocap,6,The rerouting added substantial delays to shipping times.,text_only,True,Evidence specifies rerouting delays of 12 to 18 days on certain routes.
+bdbd051eed422090,M_nocap,7,The disruption is expected to impact global supply chains.,text_only,True,Evidence says rerouting could severely disrupt global supply chains.
+bdbd051eed422090,M_nocap,8,The disruption is expected to contribute to rising inflation.,text_only,True,Evidence says inflation is at risk of rising following Red Sea attacks.
+bdbd051eed422090,M_nocap,9,Maersk reports that the effects are being felt by consumers.,text_only,True,Evidence says Maersk reported effects were felt down to the end consumer.
+bdbd051eed422090,M_nocap,10,The situation prompted military responses from the United States and the United Kingdom.,text_only,True,Evidence states the US and UK launched military strikes against the Houthis.
+bdbd051eed422090,M_nocap,11,The military responses aim to deter further Houthi attacks on commercial shipping.,unsupported,False,Evidence reports strikes but does not state their purpose was deterring further attacks.
+bdbd051eed422090,M,1,Shipping costs have surged significantly.,unsupported,False,"Evidence mentions rising commodity prices, not explicitly significantly higher shipping costs."
+bdbd051eed422090,M,2,Attacks by Houthi rebels in the Red Sea increased by 500% between November and December.,text_only,True,Evidence explicitly states Houthi attacks increased 500% between November and December.
+bdbd051eed422090,M,3,Major shipping companies have ceased operations in the Red Sea region.,text_only,True,Evidence says major shipping companies ceased sailing or stopped using the Red Sea route.
+bdbd051eed422090,M,4,Insurance costs increased tenfold.,text_only,True,Evidence explicitly states insurance costs rose tenfold.
+bdbd051eed422090,M,5,Twenty percent of the world's container ships were forced to reroute around the southern tip of Africa.,text_only,True,Evidence reports 20% of container ships avoided the Red Sea via southern Africa.
+bdbd051eed422090,M,6,The rerouting added substantial delays to shipping times.,text_only,True,Evidence states rerouting can add 12 to 18 days on specified routes.
+bdbd051eed422090,M,7,The disruption is expected to impact global supply chains.,text_only,True,Evidence says rerouting could severely disrupt global supply chains.
+bdbd051eed422090,M,8,The disruption is expected to contribute to rising inflation.,text_only,True,Evidence says disruption could push prices up and inflation may rise again.
+bdbd051eed422090,M,9,Maersk reports that the effects are being felt by consumers.,text_only,True,Evidence says Maersk reported effects were felt down to the end consumer.
+bdbd051eed422090,M,10,The situation prompted military responses from the United States and the United Kingdom.,text_only,True,Evidence states the US and UK launched military strikes and shows US-UK strikes.
+bdbd051eed422090,M,11,The military responses aim to deter further Houthi attacks on commercial shipping.,unsupported,False,Evidence reports strikes after attacks but does not explicitly state deterrence as their aim.
+bdbd051eed422090,M_vision,1,Shipping costs have surged significantly.,unsupported,False,"Text reports insurance costs rose tenfold and rerouting affected shipping, but does not explicitly state shipping costs surged."
+bdbd051eed422090,M_vision,2,Attacks by Houthi rebels in the Red Sea increased by 500% between November and December.,text_only,True,Text explicitly says Houthi attacks increased 500% between November and December.
+bdbd051eed422090,M_vision,3,Major shipping companies have ceased operations in the Red Sea region.,text_only,True,Text explicitly says major shipping companies ceased sailing in the region.
+bdbd051eed422090,M_vision,4,Insurance costs increased tenfold.,text_only,True,Text explicitly states insurance costs rose 10-fold since early December.
+bdbd051eed422090,M_vision,5,Vessels were forced to reroute around the southern tip of Africa.,text_only,True,Text says companies rerouted vessels around Africa’s southern tip; image shows a container ship but not rerouting.
+bdbd051eed422090,M_vision,6,The rerouting added significant transit time.,text_only,True,Text specifies rerouting around Africa can add 12 to 18 days of transit time.
+bdbd051eed422090,M_vision,7,The disruption is impacting global supply chains.,text_only,True,Text says diversion may cause severe disruption to global supply chains.
+bdbd051eed422090,M_vision,8,The disruption is contributing to rising prices.,text_only,True,Text says disruption could push up prices and has driven up commodity prices.
+bdbd051eed422090,M_vision,9,Economists warn of potential inflation risks resulting from the disruption.,text_only,True,Text explicitly reports an economist warning inflation may rise following Red Sea attacks.
+bdbd051eed422090,M_vision,10,The situation prompted military responses from the United States and the United Kingdom.,text_only,True,Text states the US and UK launched military strikes against the Houthis.
+bdbd051eed422090,M_vision,11,The military responses aim to protect commercial shipping in the area.,unsupported,False,"Text describes strikes and shipping attacks, but does not state the military responses aimed to protect commercial shipping."
+bdbd051eed422090,B1,1,Shipping costs have surged significantly.,unsupported,False,"Evidence reports insurance costs rising tenfold, but not general shipping costs."
+bdbd051eed422090,B1,2,Attacks by Houthi rebels in the Red Sea increased by 500% between November and December.,text_only,True,Evidence explicitly states Houthi attacks increased 500% between November and December.
+bdbd051eed422090,B1,3,Major shipping companies stopped using the Red Sea route.,text_only,True,Evidence says major shipping companies ceased sailing or stopped using the Red Sea route.
+bdbd051eed422090,B1,4,The companies opted to travel around Africa's Cape of Good Hope instead.,text_only,True,"Evidence states companies rerouted around Africa, including the Cape of Good Hope."
+bdbd051eed422090,B1,5,The route around the Cape of Good Hope is longer and more expensive.,text_only,True,Evidence describes the Cape route as longer and says it adds expense.
+bdbd051eed422090,B1,6,The rerouting can add 12 to 18 days to shipping times.,text_only,True,Evidence states delays of 12 days and up to 18 days on specified routes.
+bdbd051eed422090,B1,7,The disruption led to a tenfold increase in insurance costs.,text_only,True,Evidence explicitly reports insurance costs rose tenfold since early December.
+bdbd051eed422090,B1,8,The disruption raised concerns about inflation.,text_only,True,"An economist warned Red Sea disruption could push prices up, indicating inflation concerns."
+bdbd051eed422090,B1,9,The disruption raised concerns about economic growth.,text_only,True,The economist warned disruption would hit economic growth.
+bdbd051eed422090,B1,10,Delays and vessel rerouting are expected to impact global supply chains.,text_only,True,Evidence says rerouting and disruption could severely disrupt global supply chains.
+637cc4c8a3e7684c,B1,1,Voters have varying opinions about party leaders in the context of upcoming elections.,unsupported,False,"Evidence discusses leaders and elections, but not varying voter opinions about them."
+637cc4c8a3e7684c,B1,2,Some Conservative MPs appreciate Lee Anderson's outspoken style.,text_only,True,Former Tory MPs are explicitly said to love Anderson’s outspoken style.
+637cc4c8a3e7684c,B1,3,Some Conservative MPs believe Lee Anderson's style resonates with the concerns of real voters.,text_only,True,Those MPs think Anderson reflects real voters’ concerns.
+637cc4c8a3e7684c,B1,4,Some people criticize the Conservative leadership as weak and chaotic.,text_only,True,"Labour calls Sunak weak, and describes Tory chaos over Rwanda."
+637cc4c8a3e7684c,B1,5,Some people particularly criticize the Conservative leadership's handling of the Rwanda bill.,text_only,True,Labour specifically criticizes the government’s handling of the Rwanda bill.
+637cc4c8a3e7684c,B1,6,Some Liberal Democrats call for the party to present its policies more boldly.,text_only,True,Senior party figures call for bolder emphasis on Liberal Democrat policies.
+637cc4c8a3e7684c,B1,7,Some Liberal Democrats suggest that voters are seeking clear alternatives as the general election approaches.,text_only,True,Evidence says opposition parties face pressure to explain what voters should vote for.
+637cc4c8a3e7684c,B1,8,Young voters in Taiwan prioritize economic issues over national security.,text_only,True,Survey respondents prioritize economic development over national security and cross-strait relations.
+637cc4c8a3e7684c,B1,9,Young voters in Taiwan's priorities indicate a shift in what they expect from their leaders.,unsupported,False,Evidence reports priorities but does not establish a shift in expectations of leaders.
+637cc4c8a3e7684c,M_nocap,1,Voter sentiment towards party leaders appears largely negative.,text_only,True,"Evidence describes polls as dire and political gloom, indicating broadly negative sentiment."
+637cc4c8a3e7684c,M_nocap,2,Voter sentiment is particularly negative towards the Conservative Party under Rishi Sunak.,text_only,True,"Polls remain dire for Conservatives, with gloom surrounding Sunak’s leadership."
+637cc4c8a3e7684c,M_nocap,3,Recent polls indicate a significant gap between the Conservatives and Labour.,text_only,True,YouGov projects Labour a 120-seat majority and reports an 18-point lead.
+637cc4c8a3e7684c,M_nocap,4,Recent polls put the Conservatives 18 points behind Labour.,text_only,True,Evidence explicitly says Conservatives trail Labour by 18 points in polls.
+637cc4c8a3e7684c,M_nocap,5,The polling gap has led Conservative MPs to worry about their job security.,text_only,True,Conservatives are described as fearful for their jobs.
+637cc4c8a3e7684c,M_nocap,6,The polling gap has led Conservative MPs to worry about the party's future.,unsupported,False,Evidence reports gloom and concern but not specifically worry about the party’s future.
+637cc4c8a3e7684c,M_nocap,7,Some Conservative MPs have called for a vote of confidence in Rishi Sunak.,text_only,True,Mutters indicate some Tory MPs submitted letters seeking a confidence vote.
+637cc4c8a3e7684c,M_nocap,8,Calls for a vote of confidence reflect dissatisfaction with Sunak's leadership.,unsupported,False,"Confidence-vote letters imply dissatisfaction, though the evidence does not explicitly state their motivation."
+637cc4c8a3e7684c,M_nocap,9,The Liberal Democrats are attempting to capitalize on dissatisfaction with the Conservatives.,text_only,True,Lib Dems target disgruntled Tory voters and highlight their own policies.
+637cc4c8a3e7684c,M_nocap,10,The Liberal Democrats suggest that opposition parties need to clarify their policies to attract voters.,text_only,True,Evidence says opposition parties face pressure to spell out what people should vote for.
+637cc4c8a3e7684c,M,1,Voter sentiment towards party leaders appears largely negative.,text_only,True,"Evidence reports dire polls, gloom, and failed attempts to improve Conservative standing."
+637cc4c8a3e7684c,M,2,Voter sentiment is particularly negative towards the Conservative Party under Rishi Sunak.,text_only,True,"Conservative polls are dire, with gloom and criticism directed at Sunak’s leadership."
+637cc4c8a3e7684c,M,3,Recent polls indicate a significant gap between the Conservatives and Labour.,text_only,True,Evidence reports Labour’s projected majority and an 18-point polling lead.
+637cc4c8a3e7684c,M,4,Recent polls put the Conservatives 18 points behind Labour.,text_only,True,The evidence explicitly reports Conservatives trailing Labour by 18 points.
+637cc4c8a3e7684c,M,5,The polling gap has led Conservative MPs to worry about their electoral prospects.,text_only,True,Conservatives are described as fearful for their jobs and electoral prospects.
+637cc4c8a3e7684c,M,6,Some Conservative MPs have called for a vote of confidence in Rishi Sunak.,text_only,True,A handful of Tory MPs reportedly submitted letters seeking a confidence vote.
+637cc4c8a3e7684c,M,7,Calls for a vote of confidence reflect a lack of confidence in Sunak's leadership.,unsupported,False,"Seeking a confidence vote indicates dissatisfaction, though the claim’s wording is interpretive."
+637cc4c8a3e7684c,M,8,The Liberal Democrats are attempting to capitalize on dissatisfaction within the Conservative Party.,text_only,True,Lib Dems target disgruntled Tory voters and criticize possible Conservative leadership changes.
+637cc4c8a3e7684c,M,9,The Liberal Democrats are targeting disillusioned Conservative voters.,text_only,True,Evidence explicitly says targeting disgruntled Tory voters is part of the strategy.
+637cc4c8a3e7684c,M,10,Some Liberal Democrats call for the party to articulate its own policies more clearly.,text_only,True,Several senior Liberal Democrats call for bolder emphasis on party policies.
+637cc4c8a3e7684c,M_vision,1,Voter sentiment towards party leaders appears largely negative.,text_only,True,"Evidence describes dire Conservative polling and gloom, but not broadly negative sentiment toward all party leaders."
+637cc4c8a3e7684c,M_vision,2,Voter sentiment is particularly negative towards the Conservative Party under Rishi Sunak.,text_only,True,"Text reports dire Tory polls, gloom among Conservatives, and repeated failures under Sunak."
+637cc4c8a3e7684c,M_vision,3,Recent polls indicate a significant gap between the Conservatives and Labour.,text_only,True,Text reports Labour leading Conservatives by 18 points and projecting a large Labour majority.
+637cc4c8a3e7684c,M_vision,4,Recent polls put the Conservatives 18 points behind Labour.,text_only,True,Text explicitly says the Conservatives trail Labour by 18 points in polls.
+637cc4c8a3e7684c,M_vision,5,The polling gap has led Conservative MPs to worry about the party's future.,text_only,True,Text says Conservatives fear for their jobs and warns of a decade of decline.
+637cc4c8a3e7684c,M_vision,6,The polling gap has led Conservative MPs to worry about Sunak's leadership.,text_only,True,Text reports letters seeking a confidence vote and calls for Sunak's replacement.
+637cc4c8a3e7684c,M_vision,7,Some Conservative MPs have called for a vote of confidence in Rishi Sunak.,text_only,True,Text says a handful of Tory MPs submitted letters calling for a confidence vote.
+637cc4c8a3e7684c,M_vision,8,Some Conservative MPs have expressed dissatisfaction with Sunak's handling of key policies.,text_only,True,Text describes irritation with government handling and open rebellion over the Rwanda Bill.
+637cc4c8a3e7684c,M_vision,9,The Liberal Democrats are attempting to capitalize on dissatisfaction within the Conservative Party.,text_only,True,Text says Liberal Democrats target Conservative seats and highlights Tory dissatisfaction indirectly.
+637cc4c8a3e7684c,M_vision,10,Opposition parties are being urged to clarify their positions as the general election approaches.,text_only,True,Text says opposition parties face pressure to explain what voters should support as well as oppose.
+ef09bed7263a6f1c,B1,1,Ministers are considering various options to expedite justice for victims of the Post Office scandal.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,B1,2,The Post Office scandal has been described as a significant miscarriage of justice.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,B1,3,Government lawyers are exploring the possibility of specific legislation aimed at exonerating the hundreds of affected sub-postmasters.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,B1,4,Prime Minister Rishi Sunak has acknowledged the legal complexities involved.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,B1,5,Rishi Sunak said that the Justice Secretary is reviewing options.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,B1,6,One option under review is potentially stripping the Post Office of its role in the appeal process.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,B1,7,There is a push to reduce bureaucracy in compensation schemes.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,B1,8,The push to reduce bureaucracy is intended to accelerate the process for victims awaiting settlements.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,1,Ministers are considering various options to expedite justice for victims of the Post Office scandal.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,2,The Post Office scandal has been described as a significant miscarriage of justice.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,3,Rishi Sunak said that the Justice Secretary is exploring the possibility of exonerating all those convicted.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,4,Rishi Sunak said that removing the Post Office's role in the appeal process is being considered.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,5,There is discussion about creating specific legislation aimed at addressing the scandal directly.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,6,The proposed legislation could facilitate the exoneration of hundreds of sub-postmasters.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,7,The government is under pressure to act quickly.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,8,Public sentiment is influencing the pressure on the government to act quickly.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_nocap,9,Recent media portrayals of the issue are influencing the pressure on the government to act quickly.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M,1,Ministers are considering various options to expedite justice for victims of the Post Office scandal.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M,2,The Post Office scandal has been described as a significant miscarriage of justice.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M,3,Rishi Sunak indicated that Justice Secretary Alex Chalk is exploring the possibility of exonerating all those wrongfully convicted.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M,4,Rishi Sunak indicated that removing the Post Office's role in the appeal process is being considered.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M,5,There is discussion about creating specific legislation aimed at addressing the scandal directly.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M,6,Some government officials are expressing urgency due to public pressure.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M,7,Efforts are being made to reduce bureaucratic hurdles in compensation processes for victims.,unsupported,False,NO_VERDICT_RETURNED
+ef09bed7263a6f1c,M_vision,1,Ministers are considering various options to expedite justice for victims of the Post Office scandal.,text_only,True,"Government is reviewing options, including removing the Post Office from appeals, while lawyers explore legislation."
+ef09bed7263a6f1c,M_vision,2,The Post Office scandal has been described as a significant miscarriage of justice.,text_only,True,The scandal is explicitly called an appalling and widespread miscarriage of justice.
+ef09bed7263a6f1c,M_vision,3,Rishi Sunak said that the Justice Secretary is exploring the possibility of exonerating all those wrongfully convicted.,text_only,True,Sunak said Alex Chalk was examining whether all convictions could be exonerated.
+ef09bed7263a6f1c,M_vision,4,Rishi Sunak said that removing the Post Office's role in the appeal process is being considered.,text_only,True,Sunak identified stripping the Post Office from the appeal process as an option under review.
+ef09bed7263a6f1c,M_vision,5,There is discussion about creating specific legislation aimed at addressing the scandal directly.,text_only,True,Government lawyers explored carefully drafted legislation specifically addressing the Post Office scandal.
+ef09bed7263a6f1c,M_vision,6,The discussion has a sense of urgency driven by public sentiment.,text_only,True,Reports say public mood and outcry created pressure for government to act quickly.
+ef09bed7263a6f1c,M_vision,7,The government is under pressure to streamline compensation processes for the victims.,text_only,True,The minister sought to reduce bureaucracy and accelerate compensation processes.
+ef09bed7263a6f1c,M_vision,8,Many victims are still awaiting settlements.,text_only,True,Thousands of people were still waiting for compensation settlements.
+020d3d213643f8ec,B1,1,Israeli troops are pushing deep into Khan Younis.,text_only,True,Evidence says Israeli forces pushed into remaining parts and reached Khan Younis's heart.
+020d3d213643f8ec,B1,2,Khan Younis is viewed as a Hamas stronghold.,text_only,True,Khan Younis is explicitly described as a Hamas stronghold.
+020d3d213643f8ec,B1,3,Israeli troops are searching for top Hamas officials believed to be hiding in Khan Younis.,text_only,True,Israeli forces say they are searching for Hamas officials believed hiding there.
+020d3d213643f8ec,B1,4,The Israel Defense Forces have engaged in close-quarters combat.,text_only,True,Evidence explicitly reports close-quarters combat.
+020d3d213643f8ec,B1,5,The Israel Defense Forces have conducted airstrikes.,text_only,True,Evidence explicitly reports directed airstrikes.
+020d3d213643f8ec,B1,6,The fighting and airstrikes have resulted in significant casualties among Hamas fighters.,unsupported,False,"Dozens of terrorists were reportedly eliminated, but not specifically identified as Hamas fighters."
+020d3d213643f8ec,B1,7,The military operation aims to dismantle Hamas's military infrastructure in Khan Younis.,text_only,True,The IDF says dismantling Hamas's military framework is central to the operation.
+020d3d213643f8ec,B1,8,The military operation includes targeting Hamas command centers.,text_only,True,The IDF explicitly targeted command and control centres.
+020d3d213643f8ec,B1,9,The military operation includes targeting Hamas outposts.,text_only,True,The IDF explicitly targeted Hamas outposts.
+020d3d213643f8ec,B1,10,"Despite having superior strength, the Israel Defense Forces are encountering fierce resistance from Hamas forces.",text_only,True,Evidence describes superior strength and significant or fierce resistance from Hamas.
+020d3d213643f8ec,B1,11,The fierce resistance is complicating the Israel Defense Forces' efforts in the region.,unsupported,False,Evidence reports fierce resistance but does not say it complicated IDF efforts.
+020d3d213643f8ec,M_nocap,1,Israeli troops are pushing deep into Khan Younis.,text_only,True,Evidence says Israeli forces pushed into remaining parts and reached Khan Younis's heart.
+020d3d213643f8ec,M_nocap,2,Khan Younis is viewed as a Hamas stronghold.,text_only,True,Khan Younis is explicitly described as a Hamas stronghold.
+020d3d213643f8ec,M_nocap,3,Israeli troops are searching for top Hamas officials believed to be hiding in Khan Younis.,text_only,True,Israeli forces say they search for Hamas officials believed hiding in Khan Younis.
+020d3d213643f8ec,M_nocap,4,The Israel Defense Forces have engaged in close-quarters combat.,text_only,True,Evidence explicitly reports close-quarters combat.
+020d3d213643f8ec,M_nocap,5,The Israel Defense Forces have conducted airstrikes.,text_only,True,Evidence explicitly reports directed airstrikes.
+020d3d213643f8ec,M_nocap,6,The fighting and airstrikes have resulted in significant casualties among Hamas fighters.,unsupported,False,"Dozens were eliminated, but evidence does not specifically identify them as Hamas fighters."
+020d3d213643f8ec,M_nocap,7,The military operation has faced fierce resistance.,text_only,True,Evidence says troops faced fierce resistance from Hamas forces.
+020d3d213643f8ec,M_nocap,8,The Khan Younis Brigade is one of Hamas's strongest factions.,text_only,True,The Khan Younis Brigade is described as one of Hamas's two strongest brigades.
+020d3d213643f8ec,M_nocap,9,The military operation has faced particularly fierce resistance from the Khan Younis Brigade.,text_only,True,Evidence explicitly says fierce resistance came from the Khan Younis Brigade.
+020d3d213643f8ec,M_nocap,10,The Israel Defense Forces have targeted Hamas infrastructure.,text_only,True,The IDF targeted Hamas infrastructure according to the evidence.
+020d3d213643f8ec,M_nocap,11,The targeted Hamas infrastructure includes tunnels used for holding hostages.,unsupported,False,"Evidence mentions a hostage-holding tunnel, but does not say it was targeted."
+020d3d213643f8ec,M_nocap,12,The humanitarian situation in Khan Younis remains dire.,text_only,True,"Evidence reports casualties, displacement, shortages, and hospitals nearing collapse."
+020d3d213643f8ec,M_nocap,13,Many civilians are trapped in the area.,text_only,True,Evidence says displaced people sheltered there and ambulances were trapped.
+020d3d213643f8ec,M_nocap,14,Many civilians in the area are in need of assistance.,text_only,True,Evidence reports civilians struggling for supplies and casualties needing medical access.
+020d3d213643f8ec,M,1,Israeli troops are pushing deep into Khan Younis.,text_only,True,Evidence says Israeli forces pushed into remaining parts and reached Khan Younis's heart.
+020d3d213643f8ec,M,2,Khan Younis is viewed as a Hamas stronghold.,text_only,True,Khan Younis is explicitly described as a Hamas stronghold.
+020d3d213643f8ec,M,3,Israeli troops are searching for top Hamas officials believed to be hiding in Khan Younis.,text_only,True,Israeli forces say they search for Hamas officials believed hiding in Khan Younis.
+020d3d213643f8ec,M,4,The Israel Defense Forces have engaged in close-quarters combat.,text_only,True,Evidence explicitly reports close-quarters combat.
+020d3d213643f8ec,M,5,The Israel Defense Forces have conducted airstrikes.,text_only,True,Evidence explicitly reports directed airstrikes and bombardment.
+020d3d213643f8ec,M,6,The fighting and airstrikes have resulted in significant casualties among Hamas fighters.,unsupported,False,"Dozens were eliminated, but evidence does not specifically identify them as Hamas fighters."
+020d3d213643f8ec,M,7,The military operation has faced fierce resistance from Hamas's Khan Younis Brigade.,text_only,True,Evidence explicitly reports fierce resistance from Hamas's Khan Younis Brigade.
+020d3d213643f8ec,M,8,The fighting has been intense around hospitals.,text_only,True,The image caption reports fighting around hospitals; text also describes hospital fighting.
+020d3d213643f8ec,M,9,The fighting has been intense around shelters where many displaced civilians are located.,unsupported,False,Evidence places displaced civilians in shelters but does not explicitly say fighting occurred around shelters.
+020d3d213643f8ec,M,10,The fighting has led to intense fighting around hospitals and shelters where many displaced civilians are located.,unsupported,False,"Hospital fighting is supported, but fighting around shelters is not established."
+020d3d213643f8ec,M,11,The Israel Defense Forces aim to dismantle Hamas's military infrastructure in Khan Younis.,text_only,True,The IDF says dismantling Hamas's military framework is central to the operation.
+020d3d213643f8ec,M,12,The Israel Defense Forces claim that Hamas's military infrastructure exploits civilian populations.,text_only,True,The IDF claims Hamas exploits the civilian population.
+020d3d213643f8ec,M,13,The Israel Defense Forces claim that Hamas's military infrastructure exploits civilian facilities.,text_only,True,The IDF claims Hamas exploits shelters and hospitals.
+020d3d213643f8ec,M_vision,1,Israeli troops are pushing deep into Khan Younis.,text_only,True,Text says Israeli forces pushed into remaining parts of Khan Younis and continued pushing into southern Gaza.
+020d3d213643f8ec,M_vision,2,Khan Younis is viewed as a Hamas stronghold.,text_only,True,Text explicitly describes Khan Younis as a Hamas stronghold.
+020d3d213643f8ec,M_vision,3,Israeli troops are searching for top Hamas officials believed to be hiding in Khan Younis.,text_only,True,Text says Israeli forces search for top Hamas officials believed hiding in Khan Younis.
+020d3d213643f8ec,M_vision,4,The Israel Defense Forces have engaged in close-quarters combat.,text_only,True,Text explicitly reports close-quarters combat by Israeli troops.
+020d3d213643f8ec,M_vision,5,The Israel Defense Forces have conducted airstrikes.,text_only,True,Text explicitly reports directed air strikes and intense Israeli strikes.
+020d3d213643f8ec,M_vision,6,The fighting and airstrikes have resulted in significant casualties among Hamas fighters and civilians.,unsupported,False,"Text reports dozens killed and casualties, but does not establish significant casualties among both fighters and civilians."
+020d3d213643f8ec,M_vision,7,The military operation has faced fierce resistance from Hamas's Khan Younis Brigade.,text_only,True,Text says troops faced fierce resistance from Hamas's Khan Younis Brigade.
+020d3d213643f8ec,M_vision,8,The military operation has created severe humanitarian challenges.,both,True,"Text documents mass displacement, hunger, lack of supplies, and overwhelmed medical services."
+020d3d213643f8ec,M_vision,9,Hospitals are overwhelmed.,text_only,True,Text says Nasser Hospital was overwhelmed and near collapse; image shows medical treatment but not overwhelm.
+020d3d213643f8ec,M_vision,10,Residents are trapped amid ongoing fighting.,both,True,Text reports ambulances trapped and residents unable to evacuate; images show distress and crowded shelters.
+020d3d213643f8ec,M_vision,11,The Israel Defense Forces aim to dismantle Hamas's military infrastructure in Khan Younis.,text_only,True,Text says the operation targeted and aimed to dismantle Hamas military infrastructure and command centers.
+020d3d213643f8ec,M_vision,12,The Israel Defense Forces claim that Hamas's military infrastructure exploits civilian populations.,text_only,True,"Text explicitly reports the IDF claim that Hamas exploits civilians, shelters, and hospitals."
+744c413bc02c7dc7,B1,1,The US is considering military action against Yemen's Houthi rebels.,text_only,True,Evidence says the US hinted it could take military action against Yemen’s Houthi rebels.
+744c413bc02c7dc7,B1,2,The UK is considering military action against Yemen's Houthi rebels.,text_only,True,Evidence says the UK hinted it could take military action against Yemen’s Houthi rebels.
+744c413bc02c7dc7,B1,3,The Houthis have carried out attacks on commercial shipping in the Red Sea.,text_only,True,Evidence explicitly describes Houthi attacks on commercial shipping in the Red Sea.
+744c413bc02c7dc7,B1,4,The Houthis have targeted vessels since November.,text_only,True,Evidence states the Houthis targeted foreign ships since the Israel-Hamas war started.
+744c413bc02c7dc7,B1,5,The Houthis say their attacks are retaliation for events in Gaza.,text_only,True,Evidence says Houthi attacks responded to Israel’s military operation in Gaza.
+744c413bc02c7dc7,B1,6,The Houthis' attacks have included drone strikes.,text_only,True,Evidence explicitly reports Houthi drone attacks and drones being shot down.
+744c413bc02c7dc7,B1,7,The Houthis' attacks have included missile strikes.,text_only,True,Evidence explicitly reports Houthi missile attacks and missiles being shot down.
+744c413bc02c7dc7,B1,8,The attacks have threatened international navigation.,text_only,True,Evidence describes the attacks as threatening international navigation.
+744c413bc02c7dc7,B1,9,The attacks have threatened global trade.,text_only,True,Evidence states the attacks threaten the global economy and world trade.
+744c413bc02c7dc7,B1,10,The US has conducted airstrikes against Houthi targets.,text_only,True,Evidence reports US air strikes against Houthi targets in Yemen.
+744c413bc02c7dc7,B1,11,The UK has conducted airstrikes against Houthi targets.,text_only,True,Evidence reports four RAF Typhoon jets conducted air strikes on Houthi targets.
+744c413bc02c7dc7,B1,12,The UK has expressed readiness to take further direct action to protect shipping lanes.,text_only,True,Evidence quotes the UK saying it would not hesitate to take further action protecting shipping.
+744c413bc02c7dc7,B1,13,The US and UK are responding to Houthi attacks to protect maritime security.,text_only,True,Evidence links US and UK actions to defending commercial shipping and freedom of navigation.
+744c413bc02c7dc7,B1,14,The situation risks escalating regional tensions.,text_only,True,Evidence describes the strikes as escalating the crisis and risking Middle East escalation.
+744c413bc02c7dc7,B1,15,The situation could potentially involve a broader conflict with Iran.,text_only,True,Evidence says escalation could potentially pull the West and Iran into direct confrontation.
+744c413bc02c7dc7,M_nocap,1,The US is considering military action against the Houthi rebels in Yemen.,text_only,True,Evidence says the US hinted it could take military action against Yemen’s Houthi rebels.
+744c413bc02c7dc7,M_nocap,2,The UK is considering military action against the Houthi rebels in Yemen.,text_only,True,Evidence says the UK hinted it could take military action against Yemen’s Houthi rebels.
+744c413bc02c7dc7,M_nocap,3,The Houthis have carried out attacks on commercial shipping in the Red Sea.,text_only,True,Evidence explicitly reports Houthi attacks on commercial shipping in the Red Sea.
+744c413bc02c7dc7,M_nocap,4,The Houthis have targeted merchant vessels since November.,text_only,True,Evidence states the Houthis attacked merchant vessels in the Red Sea since November.
+744c413bc02c7dc7,M_nocap,5,The Houthis say their actions are in response to Israel's military operations in Gaza.,text_only,True,Evidence says the Houthis responded to Israel’s military operation in Gaza.
+744c413bc02c7dc7,M_nocap,6,The US has conducted airstrikes on Houthi military targets.,text_only,True,Evidence reports US air strikes on Houthi military targets.
+744c413bc02c7dc7,M_nocap,7,The UK has conducted airstrikes on Houthi military targets.,text_only,True,Evidence reports UK air strikes on Houthi military targets.
+744c413bc02c7dc7,M_nocap,8,The airstrikes aim to protect international navigation.,unsupported,False,"Evidence says the US and UK sought to protect free flow of commerce, not explicitly international navigation."
+744c413bc02c7dc7,M_nocap,9,The airstrikes aim to restore stability in the region.,text_only,True,Evidence explicitly says the aim was to restore stability in the Red Sea.
+744c413bc02c7dc7,M_nocap,10,The US has indicated that it will continue taking necessary actions to defend against Houthi threats to maritime security.,text_only,True,Evidence says the US would continue taking action against ongoing Houthi threats to shipping.
+744c413bc02c7dc7,M_nocap,11,The UK has indicated that it will continue taking necessary actions to defend against Houthi threats to maritime security.,unsupported,False,Evidence does not state the UK would continue necessary actions against maritime threats.
+744c413bc02c7dc7,M,1,The US is considering military action against the Houthi rebels in Yemen.,text_only,True,Evidence says the US hinted it could take military action against Yemen’s Houthi rebels.
+744c413bc02c7dc7,M,2,The UK is considering military action against the Houthi rebels in Yemen.,text_only,True,Evidence says the UK hinted it could take military action against Yemen’s Houthi rebels.
+744c413bc02c7dc7,M,3,The Houthis have carried out attacks on commercial shipping in the Red Sea.,text_only,True,Evidence explicitly reports Houthi attacks on commercial shipping in the Red Sea.
+744c413bc02c7dc7,M,4,The Houthis have been launching attacks since November.,text_only,True,Evidence states Houthi attacks began in November.
+744c413bc02c7dc7,M,5,The Houthis say their attacks are retaliation for Israel's military actions in Gaza.,text_only,True,Evidence says the Houthis described attacks as retaliation for Israel’s actions in Gaza.
+744c413bc02c7dc7,M,6,The US has conducted airstrikes targeting Houthi military facilities.,text_only,True,Evidence reports US air strikes targeting Houthi military targets or facilities.
+744c413bc02c7dc7,M,7,The UK has conducted airstrikes targeting Houthi military facilities.,text_only,True,Evidence reports UK air strikes targeting Houthi military targets or facilities.
+744c413bc02c7dc7,M,8,The airstrikes aim to protect international navigation.,unsupported,False,"Evidence links the attacks to danger for international navigation, but not explicitly that airstrikes aim to protect it."
+744c413bc02c7dc7,M,9,The airstrikes aim to restore stability in the region.,text_only,True,Evidence explicitly states the stated aim was to restore stability in the Red Sea.
+744c413bc02c7dc7,M,10,The US has indicated that it will continue taking action as long as the Houthis pose a threat to maritime security.,text_only,True,Evidence says the US would continue action while Houthi fighters endanger mariners and disrupt shipping lanes.
+744c413bc02c7dc7,M,11,The UK has indicated that it will continue taking action as long as the Houthis pose a threat to maritime security.,unsupported,False,"Evidence says the UK would not hesitate to protect security, but not specifically continued action while threats persist."
+744c413bc02c7dc7,M_vision,1,The US is considering military action against the Houthi rebels in Yemen.,text_only,True,Text says the US and UK have hinted they could take military action.
+744c413bc02c7dc7,M_vision,2,The UK is considering military action against the Houthi rebels in Yemen.,text_only,True,Text says the US and UK have hinted they could take military action.
+744c413bc02c7dc7,M_vision,3,The Houthis have carried out ongoing attacks on commercial shipping in the Red Sea.,text_only,True,Text repeatedly describes ongoing Houthi attacks on commercial or merchant shipping in the Red Sea.
+744c413bc02c7dc7,M_vision,4,The Houthis' attacks on commercial shipping in the Red Sea have escalated since November.,unsupported,False,"Text establishes attacks began in November and describes subsequent dozens of attacks, indicating continuation but not explicitly escalation."
+744c413bc02c7dc7,M_vision,5,The US has conducted recent airstrikes against the Houthis.,text_only,True,Text reports recent US airstrikes against Houthi military facilities and targets.
+744c413bc02c7dc7,M_vision,6,The US airstrikes aimed to degrade the Houthis' military capabilities.,text_only,True,Centcom says the strikes would degrade Houthi capabilities.
+744c413bc02c7dc7,M_vision,7,The US airstrikes targeted missile sites.,text_only,True,Text states missile sites were targeted in the latest pre-emptive strikes.
+744c413bc02c7dc7,M_vision,8,The targeted missile sites posed a threat to international navigation.,text_only,True,Centcom says missiles on launch rails presented an imminent threat to merchant vessels and US Navy ships.
+744c413bc02c7dc7,M_vision,9,The airstrikes are part of a broader response to the Houthis' actions.,text_only,True,Text presents strikes as responses to Houthi attacks on shipping and actions against the Houthis.
+744c413bc02c7dc7,M_vision,10,The Houthis say their actions are retaliatory against Israel's military operations in Gaza.,text_only,True,Text says the Houthis described attacks as responding to Israel’s military operation in Gaza.
+744c413bc02c7dc7,M_vision,11,The US and UK have emphasized their commitment to protecting maritime security.,text_only,True,Text says the US and UK aimed to protect navigation and defend lives and commerce.
+744c413bc02c7dc7,M_vision,12,The US and UK have emphasized their commitment to protecting the free flow of commerce in the region.,text_only,True,Joint statements explicitly emphasize protecting the free flow of commerce in critical waterways.
+0d4db02711e24409,B1,1,The evidence primarily discusses the exoneration of Glynn Simmons.,unsupported,False,Most evidence excerpts concern Trump; only one excerpt concerns Simmons.
+0d4db02711e24409,B1,2,Glynn Simmons was released from prison after 48 years.,unsupported,False,"Simmons was released in July 2023, but 48 years describes imprisonment duration, not explicitly release timing."
+0d4db02711e24409,B1,3,Glynn Simmons was declared innocent of a murder charge.,text_only,True,The text says Simmons was declared innocent in the 1974 murder of Carolyn Sue Rogers.
+0d4db02711e24409,B1,4,"After his release, Simmons emphasized the need for criminal justice reform.",text_only,True,Simmons explicitly called for criminal justice reform and rethinking the system.
+0d4db02711e24409,B1,5,Simmons indicated that broader questions about the justice system remain unresolved.,unsupported,False,No unresolved broader justice-system questions are specifically stated.
+0d4db02711e24409,B1,6,The evidence does not provide specific details about Chris Mason.,text_only,True,Chris Mason is not mentioned anywhere in the supplied evidence.
+0d4db02711e24409,B1,7,The evidence does not address questions related to Chris Mason's justice.,text_only,True,Chris Mason and questions about his justice are absent from the evidence.
+0d4db02711e24409,B1,8,The evidence focuses on Simmons' experience and its implications for criminal justice reform.,unsupported,False,"The Simmons excerpt links his experience to criminal justice reform, but coverage is mostly unrelated cases."
+0d4db02711e24409,M_nocap,1,The coverage does not provide specific information about questions remaining after Chris Mason's justice.,text_only,True,"Chris Mason is not mentioned, so no information about questions after his justice is provided."
+0d4db02711e24409,M_nocap,2,The coverage discusses various legal proceedings.,text_only,True,"The excerpts cover trials, wrongful convictions, inquiries, and another criminal court case."
+0d4db02711e24409,M_nocap,3,The coverage discusses a trial involving E. Jean Carroll and Donald Trump.,text_only,True,One excerpt explicitly describes the E. Jean Carroll and Donald Trump trial.
+0d4db02711e24409,M_nocap,4,The judge in the Carroll-Trump trial set strict limitations on Trump's testimony.,text_only,True,The judge barred testimony suggesting Carroll fabricated her account or had a motive.
+0d4db02711e24409,M_nocap,5,The coverage mentions the exoneration of Glynn Simmons after 48 years.,text_only,True,The Simmons excerpt says he was exonerated after 48 years.
+0d4db02711e24409,M_nocap,6,The coverage mentions ongoing inquiries related to wrongful convictions.,text_only,True,The Malkinson excerpt mentions a CCRC review and a judge-led inquiry.
+0d4db02711e24409,M_nocap,7,The coverage does not connect these topics to Chris Mason.,text_only,True,Chris Mason is not connected to any topics in the supplied coverage.
+0d4db02711e24409,M_nocap,8,The coverage does not outline any remaining questions about Chris Mason's justice.,text_only,True,"Chris Mason is absent, so no remaining questions about his justice are outlined."
+0d4db02711e24409,M_nocap,9,The evidence does not address the query directly.,text_only,True,The evidence addresses several legal topics but does not identify the query or Chris Mason.
+0d4db02711e24409,M,1,The coverage primarily discusses ongoing legal proceedings involving high-profile cases.,text_only,True,"The excerpts cover multiple court cases, including Carroll-Trump, Simmons, Malkinson, and Calocane."
+0d4db02711e24409,M,2,The coverage particularly focuses on the trial of E. Jean Carroll against Donald Trump.,unsupported,False,"Two excerpts concern the Carroll-Trump proceedings, but other cases are also covered."
+0d4db02711e24409,M,3,The judge warned Trump about his conduct in court.,text_only,True,The judge threatened to revoke Trump's right to attend if he was disruptive.
+0d4db02711e24409,M,4,The judge indicated that disruptive behavior could lead to Trump's removal from court.,text_only,True,The judge said Trump's right to attend could be forfeited for disruptive conduct.
+0d4db02711e24409,M,5,There are concerns about potential chaos Trump might introduce during his testimony.,text_only,True,Counsel said Trump might intentionally turn the trial into a circus or sow chaos.
+0d4db02711e24409,M,6,Trump's legal team is preparing for a contentious exchange.,unsupported,False,"The evidence describes disputes and warnings, but not the legal team's preparation for contentious exchanges."
+0d4db02711e24409,M,7,The evidence touches on broader themes of justice and wrongful convictions.,text_only,True,The Simmons and Malkinson excerpts concern wrongful convictions and justice-system reform or review.
+0d4db02711e24409,M,8,The cases of Glynn Simmons and Andy Malkinson are presented as examples of wrongful imprisonment.,text_only,True,Simmons's text and image describe wrongful imprisonment; Malkinson's text describes wrongful conviction and imprisonment.
+0d4db02711e24409,M,9,The cases of Glynn Simmons and Andy Malkinson highlight the need for reform in the criminal justice system.,unsupported,False,"Simmons explicitly calls for reform; Malkinson evidence concerns review and inquiry, not explicitly reform."
+0d4db02711e24409,M_vision,1,The coverage highlights ongoing legal proceedings involving E. Jean Carroll and Donald Trump.,text_only,True,Items 1 and 4 explicitly cover ongoing legal proceedings involving Carroll and Trump.
+0d4db02711e24409,M_vision,2,The coverage focuses on tensions in the courtroom.,text_only,True,Item 1 describes angry exchanges and threats during courtroom proceedings.
+0d4db02711e24409,M_vision,3,The judge warned Trump about his behavior.,text_only,True,Item 1 states Judge Kaplan threatened to revoke Trump's right to attend if disruptive.
+0d4db02711e24409,M_vision,4,The judge emphasized that Trump must adhere to specific restrictions during his testimony.,text_only,True,Item 4 specifies restrictions barring Trump from disputing the assault or attacking Carroll's account or motives.
+0d4db02711e24409,M_vision,5,The restrictions on Trump's testimony have raised concerns about potential disruptions.,text_only,True,Item 4 reports concerns Trump might intentionally turn the trial into a circus and sow chaos.
+0d4db02711e24409,M_vision,6,The coverage discusses broader implications of wrongful convictions.,text_only,True,"Items 2 and 3 discuss wrongful convictions and criminal-justice-system failures, implying broader implications."
+0d4db02711e24409,M_vision,7,The cases of Glynn Simmons and Andy Malkinson are presented as examples of wrongful convictions.,text_only,True,Items 2 and 3 explicitly identify Simmons and Malkinson as victims of wrongful convictions.
+0d4db02711e24409,M_vision,8,The cases underscore the need for criminal justice reform.,text_only,True,Item 2 explicitly calls for criminal justice reform following discussion of Simmons's wrongful imprisonment.
+0d4db02711e24409,M_vision,9,The cases underscore the impact of such injustices on individuals' lives.,text_only,True,Items 2 and 3 describe prolonged imprisonment and profound life impact from wrongful convictions.
+57f67219c9ab0596,B1,1,The coverage discusses the Post Office scandal.,text_only,True,Multiple headlines and passages explicitly discuss the Post Office scandal.
+57f67219c9ab0596,B1,2,"The coverage particularly highlights the impact of the ITV drama ""Mr Bates vs The Post Office.""",text_only,True,Evidence repeatedly describes the ITV drama's role in renewing attention and justice efforts.
+57f67219c9ab0596,B1,3,The drama has reignited public interest in the Post Office scandal.,text_only,True,Alan's story is said to have reignited public consciousness around the scandal.
+57f67219c9ab0596,B1,4,The series focuses on former Post Office chief executive Paula Vennells.,text_only,True,The evidence explicitly says the series focuses on Paula Vennells.
+57f67219c9ab0596,B1,5,The series focuses on sub-postmaster Alan Bates's experiences.,text_only,True,The series centers on Alan Bates's story.
+57f67219c9ab0596,B1,6,Alan Bates led a legal battle that resulted in the overturning of wrongful convictions.,text_only,True,Alan Bates led and won a legal battle paving the way for convictions overturned.
+57f67219c9ab0596,B1,7,There is a call for formal apologies from current Post Office boss Nick Read and Paula Vennells.,text_only,True,Nick Read and Paula Vennells were asked to formally apologise.
+57f67219c9ab0596,B1,8,Victims have expressed frustration over the lack of accountability.,text_only,True,Lord Arbuthnot said scores of people got away with things they should not have.
+57f67219c9ab0596,B1,9,Victims have expressed frustration over the prolonged suffering caused by the faulty IT system.,text_only,True,Evidence describes prolonged suffering and immense pressure caused by apparent losses.
+57f67219c9ab0596,B1,10,The drama conveys the emotional toll on people affected by the scandal.,text_only,True,The producer says drama brings victims' true emotional impact to life.
+57f67219c9ab0596,B1,11,The coverage emphasizes the need for justice and retribution against those responsible.,text_only,True,Lord Arbuthnot called for retribution against those responsible.
+57f67219c9ab0596,M_nocap,1,The coverage discusses the Post Office scandal.,text_only,True,The evidence headlines and passages explicitly discuss the Post Office scandal.
+57f67219c9ab0596,M_nocap,2,"The coverage particularly focuses on the ITV series ""Mr Bates vs The Post Office.""",text_only,True,Several passages focus on the ITV series and its effects.
+57f67219c9ab0596,M_nocap,3,The series highlights sub-postmaster Alan Bates's experiences.,text_only,True,The series centers on sub-postmaster Alan Bates's story.
+57f67219c9ab0596,M_nocap,4,The series highlights wrongful convictions stemming from a flawed IT system.,text_only,True,Evidence links wrongful prosecutions to faulty Horizon information.
+57f67219c9ab0596,M_nocap,5,The series has reignited public interest in the scandal.,text_only,True,The series is described as reigniting public interest or consciousness.
+57f67219c9ab0596,M_nocap,6,The series has reignited public anger regarding the scandal.,text_only,True,The evidence explicitly reports renewed anger after the mini-series aired.
+57f67219c9ab0596,M_nocap,7,There are calls for accountability from various figures.,text_only,True,"Lord Arbuthnot, Nick Read, and others discuss retribution, justice, and compensation."
+57f67219c9ab0596,M_nocap,8,"Lord Arbuthnot criticized the focus on a single individual, Paula Vennells.",text_only,True,"Lord Arbuthnot criticized focusing on one person, though Paula Vennells is identified as that focus."
+57f67219c9ab0596,M_nocap,9,Lord Arbuthnot said that many others have escaped scrutiny.,text_only,True,Lord Arbuthnot said scores of people got away with improper conduct.
+57f67219c9ab0596,M_nocap,10,The drama has an emotional impact.,text_only,True,The producer describes drama's power to forge human connection and emotional impact.
+57f67219c9ab0596,M_nocap,11,The drama illustrates the suffering of the victims.,text_only,True,The producer says drama dramatizes the pain suffered by sub-postmasters.
+57f67219c9ab0596,M_nocap,12,The series has prompted discussions about the need for justice for those affected.,text_only,True,The evidence discusses justice for victims and convictions being overturned.
+57f67219c9ab0596,M_nocap,13,The series has prompted discussions about fair compensation for those affected.,text_only,True,"The evidence discusses compensation payments and calls for full, fair compensation."
+57f67219c9ab0596,M,1,The coverage discusses the Post Office scandal.,text_only,True,The evidence explicitly discusses the Post Office scandal.
+57f67219c9ab0596,M,2,The coverage particularly focuses on former chief executive Paula Vennells.,text_only,True,Paula Vennells is repeatedly identified as the series focus.
+57f67219c9ab0596,M,3,"The coverage particularly focuses on the impact of the ITV series ""Mr Bates vs The Post Office.""",text_only,True,"Evidence discusses the series' impact, including renewed interest and emotional connection."
+57f67219c9ab0596,M,4,The series has reignited public interest in the scandal.,text_only,True,Alan's story is said to have reignited public consciousness around the scandal.
+57f67219c9ab0596,M,5,The series has reignited public sympathy for the victims.,text_only,True,Evidence reports widespread sympathy for victims after the mini-series aired.
+57f67219c9ab0596,M,6,The victims include sub-postmaster Alan Bates.,text_only,True,Alan Bates is explicitly identified as a sub-postmaster and central figure.
+57f67219c9ab0596,M,7,Alan Bates fought against wrongful convictions based on a flawed IT system.,text_only,True,"Alan led a legal battle concerning convictions, while Horizon was flawed."
+57f67219c9ab0596,M,8,"Critics, including Lord Arbuthnot, emphasize the need for accountability beyond Paula Vennells.",text_only,True,Lord Arbuthnot says focusing on one person is wrong and calls for retribution.
+57f67219c9ab0596,M,9,Critics highlight that many individuals involved in the scandal have not faced repercussions.,text_only,True,Lord Arbuthnot says scores of people got away with improper conduct.
+57f67219c9ab0596,M,10,The series provides an emotional portrayal of the victims' experiences.,text_only,True,The producer says drama brings victims' emotional impact and pain to life.
+57f67219c9ab0596,M,11,The series suggests that drama can effectively convey the human impact of injustices.,text_only,True,The producer explicitly says drama can bring the human impact of injustices to life.
+57f67219c9ab0596,M_vision,1,The coverage discusses the Post Office scandal.,both,True,Multiple captions and articles explicitly discuss the Post Office scandal.
+57f67219c9ab0596,M_vision,2,The coverage particularly focuses on former chief executive Paula Vennells.,text_only,True,Text explicitly says the ITV series focuses on former chief executive Paula Vennells.
+57f67219c9ab0596,M_vision,3,"The coverage particularly focuses on the impact of the ITV series ""Mr Bates vs the Post Office.""",text_only,True,Articles repeatedly discuss the ITV series and its effects on public attention and justice.
+57f67219c9ab0596,M_vision,4,The series has reignited public interest in the scandal.,text_only,True,Text explicitly says the drama reignited public consciousness around the scandal.
+57f67219c9ab0596,M_vision,5,The series has reignited public sympathy for the victims.,text_only,True,Text says there has been widespread sympathy for victims after the series aired.
+57f67219c9ab0596,M_vision,6,The victims include sub-postmaster Alan Bates.,both,True,Text identifies Alan Bates as a victim; images label or depict Alan Bates.
+57f67219c9ab0596,M_vision,7,Alan Bates fought against wrongful convictions based on a flawed IT system.,text_only,True,"Text says Bates led a legal battle enabling convictions to be overturned, involving flawed Horizon information."
+57f67219c9ab0596,M_vision,8,There is a call for accountability from those responsible for the scandal.,text_only,True,Lord Arbuthnot explicitly calls for retribution against those responsible.
+57f67219c9ab0596,M_vision,9,There is an emphasis on the need for justice for the victims.,both,True,Text repeatedly refers to justice being achieved for affected victims; an image also says “Justice for Post Office Victims.”
+57f67219c9ab0596,M_vision,10,There is an emphasis on the need for fair compensation for the victims.,text_only,True,Text explicitly calls for full and fair compensation for those affected.
+57f67219c9ab0596,M_vision,11,The drama conveys the emotional toll on people affected by the scandal.,text_only,True,The producer says drama brings to life the emotional impact and pain suffered by victims.
+57f67219c9ab0596,M_vision,12,The drama highlights the importance of storytelling in raising awareness about such issues.,text_only,True,Text explains drama’s unique power to forge connection and renew public interest in issues.
+449086b68a9f66e1,M_vision,1,The coverage highlights the profound suffering of families in Gaza.,text_only,True,"Text describes widespread suffering, displacement, destruction, shortages, and vulnerable children in Gaza."
+449086b68a9f66e1,M_vision,2,"Families in Gaza face challenges, particularly involving children and parents.",text_only,True,"Text discusses displaced fathers, children’s vulnerability, and inability to provide necessities."
+449086b68a9f66e1,M_vision,3,A father expressed despair over losing his home.,text_only,True,A displaced father explicitly says he lost his home and describes inability to provide necessities.
+449086b68a9f66e1,M_vision,4,The father expressed despair over being unable to provide for his children.,text_only,True,The father explicitly says he is no longer able to provide life’s simplest requirements for his children.
+449086b68a9f66e1,M_vision,5,The destruction was caused by the ongoing conflict.,text_only,True,"Text attributes destruction and suffering to war, airstrikes, bombardment, and Israeli attacks."
+449086b68a9f66e1,M_vision,6,Many families face inadequate humanitarian supplies.,text_only,True,Text explicitly mentions grossly inadequate humanitarian supplies and shortages affecting Gaza’s population.
+449086b68a9f66e1,M_vision,7,Many families face inadequate healthcare.,text_only,True,"Text explicitly describes dwindling healthcare, damaged hospitals, and shortages in medical equipment."
+449086b68a9f66e1,M_vision,8,Many families are in dire circumstances.,both,True,"Text portrays displacement, destroyed homes, shortages, bombardment, and severe suffering."
+449086b68a9f66e1,M_vision,9,Families of hostages have protested in Israel.,both,True,Text says protesters included relatives of hostages; image shows people protesting with signs.
+449086b68a9f66e1,M_vision,10,Families of hostages have expressed anguish.,text_only,True,"Text identifies protesters’ anguish over loved ones held hostage, while the image shows protest activity."
+449086b68a9f66e1,M_vision,11,Families of hostages face moral dilemmas regarding aid to Gaza.,text_only,True,Text says protesters call aid delivery amid hostage captivity a moral failure and fear Hamas receiving it.
+449086b68a9f66e1,M_vision,12,The loved ones of the protesting hostage families remain captive.,text_only,True,"Text says protesters’ loved ones are still held by Hamas, with more than 100 hostages discussed."
+449086b68a9f66e1,M,1,The coverage highlights the profound suffering experienced by families in Gaza.,text_only,True,"Reports describe suffering, displacement, deprivation, fear, and loss among Gaza’s families."
+449086b68a9f66e1,M,2,The coverage focuses on the plight of children in Gaza.,text_only,True,Children are described as disproportionately victims and especially heartbreaking in the coverage.
+449086b68a9f66e1,M,3,The coverage focuses on the emotional toll on parents in Gaza.,unsupported,False,"A father’s loss and grief are reported, but coverage-wide focus on parental emotional toll is unsupported."
+449086b68a9f66e1,M,4,A father expressed despair over losing his home.,text_only,True,Mohammed al-Khaldi says he lost his home.
+449086b68a9f66e1,M,5,A father expressed despair over being unable to provide for his children.,text_only,True,He says he cannot provide life’s simplest requirements for his children.
+449086b68a9f66e1,M,6,The destruction was caused by the conflict.,text_only,True,"The reports explicitly connect destruction and displacement to war, airstrikes, and attacks."
+449086b68a9f66e1,M,7,Many families have been displaced.,text_only,True,The majority of Gaza’s population and many Gazans are explicitly described as displaced.
+449086b68a9f66e1,M,8,Many families struggle to access basic necessities.,text_only,True,"People struggle to find food, drink, medicine, shelter, healthcare, and humanitarian supplies."
+449086b68a9f66e1,M,9,Families of hostages have protested in Israel.,text_only,True,The evidence says some protesters are related to hostages.
+449086b68a9f66e1,M,10,Families of hostages have expressed emotional pain.,unsupported,False,"The evidence shows concern for captive loved ones, but does not explicitly state emotional pain."
+449086b68a9f66e1,M,11,Families of hostages face moral dilemmas regarding aid to Gaza.,text_only,True,Protesters view aid delivery during hostage captivity as a moral failure and fear diversion.
+449086b68a9f66e1,M,12,The loved ones of the protesting hostage families remain captive.,text_only,True,Protesters’ loved ones are explicitly described as still being held by Hamas.
+449086b68a9f66e1,M_nocap,1,The coverage highlights the profound suffering and challenges faced by families in Gaza.,text_only,True,"Evidence describes displacement, deprivation, inadequate supplies, healthcare shortages, and family loss."
+449086b68a9f66e1,M_nocap,2,Fathers such as Mohammed al-Khaldi express an inability to provide basic necessities for their children.,text_only,True,Mohammed al-Khaldi explicitly says he cannot provide life’s simplest requirements for his children.
+449086b68a9f66e1,M_nocap,3,The inability to provide basic necessities is attributed to the ongoing conflict.,text_only,True,"His inability is connected to losing his home, shop, income, and war-related destruction."
+449086b68a9f66e1,M_nocap,4,The situation in Gaza is described as dire.,text_only,True,The evidence calls Gaza’s plight urgent and describes bleak suffering and inadequate supplies.
+449086b68a9f66e1,M_nocap,5,Many families in Gaza have been displaced.,text_only,True,The majority of Gaza’s population is described as displaced.
+449086b68a9f66e1,M_nocap,6,Many families struggle to find food.,text_only,True,Displaced people fight daily to find food.
+449086b68a9f66e1,M_nocap,7,Many families struggle to find water.,text_only,True,Displaced people fight daily to find drink.
+449086b68a9f66e1,M_nocap,8,Many families struggle to find medical care.,text_only,True,"Healthcare is dwindling, hospitals are damaged, and treatment is often unavailable."
+449086b68a9f66e1,M_nocap,9,A father mourns the deaths of his family members in an Israeli strike.,text_only,True,"A father’s wife, grandchild, son, and daughter were killed in an Israeli strike."
+449086b68a9f66e1,M_nocap,10,The deaths of the family members illustrate the pain and despair felt by parents in the region.,unsupported,False,"His funeral statement expresses profound grief, but broader parental despair is not established."
+449086b68a9f66e1,M_nocap,11,The plight of children in Gaza is emphasized as especially heartbreaking.,text_only,True,Judge Donoghue called the plight of children especially heartbreaking.
+449086b68a9f66e1,M_nocap,12,The situation affecting families constitutes a broader humanitarian crisis.,text_only,True,"Evidence describes widespread suffering, displacement, healthcare shortages, inadequate supplies, and humanitarian relief pressure."
+449086b68a9f66e1,B1,1,The coverage highlights the profound suffering of families in Gaza.,text_only,True,"Reports describe displacement, deprivation, fear, loss, and inadequate healthcare affecting Gaza’s families."
+449086b68a9f66e1,B1,2,Fathers such as Mohammed al-Khaldi express despair over being unable to provide basic necessities for their children.,text_only,True,Mohammed al-Khaldi says he cannot provide his children life’s simplest requirements.
+449086b68a9f66e1,B1,3,The inability to provide basic necessities is attributed to the ongoing conflict.,text_only,True,His inability follows loss caused amid the air and ground operation and massive destruction.
+449086b68a9f66e1,B1,4,The destruction in Gaza has caused widespread displacement.,text_only,True,The majority of Gaza’s population is explicitly described as displaced.
+449086b68a9f66e1,B1,5,Many families struggle to find food.,text_only,True,The population is reported to fight daily to find food.
+449086b68a9f66e1,B1,6,Many families struggle to find water.,text_only,True,The population is reported to fight daily to find drink.
+449086b68a9f66e1,B1,7,Many families struggle to find medical care.,text_only,True,"Hospitals are damaged, equipment is scarce, and patients often go without treatment."
+449086b68a9f66e1,B1,8,Families in Gaza live in constant fear.,text_only,True,"A Gaza woman says, “We are living in fear and terror.”"
+449086b68a9f66e1,B1,9,Families in Gaza experience trauma.,text_only,True,"Fear, terror, bereavement, and children’s distress are described, supporting trauma-related suffering."
+449086b68a9f66e1,B1,10,Children exhibit signs of distress.,text_only,True,Children cannot sleep and wet themselves because of missile sounds and fear.
+449086b68a9f66e1,B1,11,Hostages are part of the humanitarian crisis.,text_only,True,"Hostages’ medicines, captivity, aid, and release negotiations are explicitly discussed."
+449086b68a9f66e1,B1,12,Negotiations for the release of hostages are ongoing.,text_only,True,Reports describe serious discussions and planned meetings about releasing Israeli hostages.
+449086b68a9f66e1,B1,13,The plight of hostages and negotiations for their release complicate the humanitarian crisis.,text_only,True,Evidence shows hostage concerns affect aid delivery and occur amid ongoing fighting.
+449086b68a9f66e1,B1,14,Families face the challenge of captivity.,text_only,True,Families are described as having loved ones held by Hamas.
+449086b68a9f66e1,B1,15,Families face the challenge of survival amid violence.,text_only,True,"Families struggle for food, drink, medicine, shelter, and safety amid armed clashes."
+3ee8ef988f72fa5d,B1,1,The evidence does not provide information regarding a mother in a UK court after her children's deaths in Colorado.,text_only,True,No evidence mentions a UK-court mother after children's deaths in Colorado.
+3ee8ef988f72fa5d,B1,2,The evidence discusses family court reporting in England and Wales.,text_only,True,Evidence explicitly discusses family court reporting in England and Wales.
+3ee8ef988f72fa5d,B1,3,The evidence discusses a miscarriage of justice involving the Post Office.,text_only,True,Evidence explicitly describes the Post Office scandal as a widespread miscarriage of justice.
+3ee8ef988f72fa5d,B1,4,The evidence discusses a trial of a mother in the United States for her son's school shooting.,text_only,True,Evidence describes Jennifer Crumbley's US trial related to her son's Michigan school shooting.
+3ee8ef988f72fa5d,B1,5,The evidence discusses a trial concerning the care of a baby by parents.,text_only,True,"Evidence discusses family courts, Post Office convictions, a US shooting trial, and a UK baby trial."
+3ee8ef988f72fa5d,B1,6,None of the discussed matters directly relates to the query about the mother in a UK court.,text_only,True,No evidence directly addresses the specified mother in a UK court after Colorado deaths.
+3ee8ef988f72fa5d,M_nocap,1,The evidence does not provide information directly related to a mother in a UK court after her children's deaths in Colorado.,text_only,True,No evidence mentions a UK-court mother after children's deaths in Colorado.
+3ee8ef988f72fa5d,M_nocap,2,The evidence discusses family courts in England and Wales.,text_only,True,Evidence explicitly discusses family courts in England and Wales.
+3ee8ef988f72fa5d,M_nocap,3,The evidence discusses a trial involving a mother in Michigan.,text_only,True,Evidence explicitly describes Jennifer Crumbley's trial in Michigan.
+3ee8ef988f72fa5d,M_nocap,4,The evidence discusses a trial concerning a couple accused of manslaughter in the UK.,text_only,True,Evidence describes a UK trial involving a couple accused of their baby's manslaughter.
+3ee8ef988f72fa5d,M_nocap,5,None of the evidence addresses the specific query about the mother or her circumstances.,text_only,True,No evidence addresses the specific mother or circumstances described in the query.
+3ee8ef988f72fa5d,M,1,The evidence does not provide any information regarding a mother in a UK court after her children's deaths in Colorado.,text_only,True,No evidence mentions a UK-court mother after children's deaths in Colorado.
+3ee8ef988f72fa5d,M,2,The evidence discusses family courts in England and Wales.,text_only,True,Text and caption explicitly discuss family courts in England and Wales.
+3ee8ef988f72fa5d,M,3,The evidence discusses a trial involving a mother in Michigan related to a school shooting.,text_only,True,Text and caption explicitly describe a Michigan mother's school-shooting-related trial.
+3ee8ef988f72fa5d,M,4,The evidence discusses a trial concerning the manslaughter of a newborn baby in the UK.,text_only,True,Text and captions describe a UK trial concerning newborn Victoria's manslaughter.
+3ee8ef988f72fa5d,M,5,None of the discussed matters relates to the specific query about the mother in a UK court after her children's deaths in Colorado.,text_only,True,"The evidence covers related but different matters, not the specified mother and Colorado deaths."
+3ee8ef988f72fa5d,M_vision,1,The evidence does not provide information directly related to a mother in a UK court after her children's deaths in Colorado.,text_only,True,"The evidence concerns courts and cases in England, Wales, Michigan, and Scotland, not Colorado."
+3ee8ef988f72fa5d,M_vision,2,The evidence discusses family courts in England and Wales.,both,True,Evidence [1] explicitly discusses family courts in England and Wales.
+3ee8ef988f72fa5d,M_vision,3,The evidence discusses a trial involving a mother in Michigan for her son's school shooting.,both,True,Evidence [2] explicitly discusses Jennifer Crumbley's Michigan trial concerning her son's school shooting.
+3ee8ef988f72fa5d,M_vision,4,The evidence discusses a trial concerning the manslaughter of a newborn in the UK.,both,True,Evidence [3] and [4] discuss the UK trial over newborn Victoria's manslaughter.
+3ee8ef988f72fa5d,M_vision,5,None of these cases specifically addresses the query about the mother.,text_only,True,"Evidence includes a mother’s Michigan trial, but none specifically matches a mother in Colorado after her children's deaths."
+f924c3bb5f74d6ee,B1,1,The coverage reports on a mid-air blowout incident involving a Boeing aircraft.,text_only,True,Evidence repeatedly describes a Boeing mid-air blowout.
+f924c3bb5f74d6ee,B1,2,The aircraft was operating an Alaska Airlines flight.,text_only,True,The blowout occurred during an Alaska Airlines flight.
+f924c3bb5f74d6ee,B1,3,The incident required an emergency landing.,text_only,True,Evidence explicitly says the blowout forced an emergency landing.
+f924c3bb5f74d6ee,B1,4,The blowout resulted from a failure in quality control.,text_only,True,Evidence attributes the incident to a failure in quality control.
+f924c3bb5f74d6ee,B1,5,A door detached during the incident.,text_only,True,Evidence says an unused door blew off during the incident.
+f924c3bb5f74d6ee,B1,6,Items flew into the cabin during the incident.,text_only,True,A checklist and first officer's headset flew into the cabin.
+f924c3bb5f74d6ee,B1,7,Boeing announced plans to increase quality inspections for its 737 Max production.,text_only,True,Boeing said it would conduct more inspections of 737 Max aircraft.
+f924c3bb5f74d6ee,B1,8,Boeing plans to involve an outside party to assess its practices.,text_only,True,Boeing said an outside party would assess production practices.
+f924c3bb5f74d6ee,B1,9,The FAA grounded 171 Boeing planes for inspections following the incident.,text_only,True,The FAA ordered grounding or inspections affecting 171 planes.
+f924c3bb5f74d6ee,B1,10,The incident led to ongoing scrutiny of Boeing's safety measures.,text_only,True,Evidence says scrutiny of Boeing was renewed after the blowout.
+f924c3bb5f74d6ee,M_nocap,1,The coverage reports on a mid-air blowout incident involving a Boeing aircraft.,text_only,True,Evidence repeatedly describes a Boeing mid-air blowout.
+f924c3bb5f74d6ee,M_nocap,2,The aircraft was operating an Alaska Airlines flight.,text_only,True,The aircraft operated as Alaska Airlines flight 1282.
+f924c3bb5f74d6ee,M_nocap,3,The incident forced an emergency landing.,text_only,True,Evidence explicitly says the incident forced an emergency landing.
+f924c3bb5f74d6ee,M_nocap,4,The incident resulted in no serious injuries.,text_only,True,Evidence states the blowout resulted in no serious injuries.
+f924c3bb5f74d6ee,M_nocap,5,Boeing is cooperating with an investigation into the incident.,text_only,True,Boeing said it would cooperate fully and transparently with the investigation.
+f924c3bb5f74d6ee,M_nocap,6,"Boeing acknowledged a ""quality escape"" related to the incident.",text_only,True,Dave Calhoun described the problem as a quality escape.
+f924c3bb5f74d6ee,M_nocap,7,Boeing plans to increase quality inspections for its 737 Max production.,text_only,True,Boeing announced more quality inspections for 737 Max aircraft.
+f924c3bb5f74d6ee,M_nocap,8,The NTSB revealed that the aircraft had received warnings before the blowout.,unsupported,False,"The evidence says the NTSB revealed warnings, not specifically that the aircraft received them."
+f924c3bb5f74d6ee,M_nocap,9,An additional maintenance check was requested before the blowout.,text_only,True,An additional maintenance look was requested before the incident.
+f924c3bb5f74d6ee,M_nocap,10,The requested additional maintenance check was not completed.,text_only,True,The requested additional maintenance look was not completed.
+f924c3bb5f74d6ee,M_nocap,11,The incident caused significant chaos on board.,text_only,True,The situation aboard flight 1282 was described as very chaotic and terrifying.
+f924c3bb5f74d6ee,M_nocap,12,Parts of the cockpit flew into the cabin during the incident.,text_only,True,A checklist and first officer's headset flew into the cabin.
+f924c3bb5f74d6ee,M_nocap,13,A section of the fuselage detached during flight.,text_only,True,Evidence says part of the fuselage detached during flight.
+f924c3bb5f74d6ee,M,1,The coverage reports on a mid-air blowout incident involving a Boeing aircraft.,text_only,True,Evidence repeatedly describes a Boeing mid-air blowout.
+f924c3bb5f74d6ee,M,2,The aircraft was operating an Alaska Airlines flight.,text_only,True,The aircraft operated as an Alaska Airlines flight.
+f924c3bb5f74d6ee,M,3,The incident forced an emergency landing.,text_only,True,Evidence explicitly says the incident forced an emergency landing.
+f924c3bb5f74d6ee,M,4,The incident resulted in no serious injuries.,text_only,True,Evidence states the blowout resulted in no serious injuries.
+f924c3bb5f74d6ee,M,5,Boeing is cooperating with an investigation into the incident.,text_only,True,Boeing said it would cooperate fully and transparently with the investigation.
+f924c3bb5f74d6ee,M,6,The incident was attributed to a failure in quality control.,text_only,True,Evidence explicitly links the incident to a failure in quality control.
+f924c3bb5f74d6ee,M,7,Boeing plans to increase quality inspections for its 737 Max production.,text_only,True,Boeing announced more quality inspections for 737 Max aircraft.
+f924c3bb5f74d6ee,M,8,The Federal Aviation Administration is involved in the incident.,text_only,True,The FAA ordered grounding and inspected jets after the incident.
+f924c3bb5f74d6ee,M,9,The Federal Aviation Administration is inspecting the aircraft.,text_only,True,The FAA is explicitly described as inspecting the jets.
+f924c3bb5f74d6ee,M,10,The Federal Aviation Administration grounded 171 Boeing 737 Max 9 planes until safety is assured.,text_only,True,The FAA said 171 Boeing 737 Max 9 planes would remain grounded until safety assurance.
+f924c3bb5f74d6ee,M,11,Warnings about maintenance were issued before the incident.,text_only,True,An additional maintenance look was requested before the incident.
+f924c3bb5f74d6ee,M,12,The maintenance warnings were not acted on before the incident.,text_only,True,The requested maintenance look was not completed before the incident.
+f924c3bb5f74d6ee,M,13,A detached part of the fuselage has been located.,text_only,True,The detached fuselage part was found in a teacher's backyard.
+f924c3bb5f74d6ee,M_vision,1,The coverage reports on a mid-air blowout involving a Boeing aircraft.,text_only,True,Text explicitly reports a mid-air blowout involving a Boeing 737 Max aircraft.
+f924c3bb5f74d6ee,M_vision,2,The aircraft was operating an Alaska Airlines flight.,text_only,True,Text identifies the aircraft as Alaska Airlines flight 1282.
+f924c3bb5f74d6ee,M_vision,3,The incident occurred shortly after takeoff.,both,True,Text says the blowout occurred shortly after take-off; image map places it six minutes into flight.
+f924c3bb5f74d6ee,M_vision,4,The incident led to an emergency landing.,text_only,True,Text explicitly says the blowout forced an emergency landing.
+f924c3bb5f74d6ee,M_vision,5,No serious injuries were reported.,text_only,True,Text explicitly states the incident resulted in no serious injuries.
+f924c3bb5f74d6ee,M_vision,6,Boeing is facing scrutiny over its quality control processes.,text_only,True,Text describes renewed scrutiny and questions about Boeing's inspection and quality-control processes.
+f924c3bb5f74d6ee,M_vision,7,The incident was attributed to a failure in quality control procedures.,text_only,True,Text calls the incident a quality escape and explains it as a quality-control failure.
+f924c3bb5f74d6ee,M_vision,8,The Federal Aviation Administration is conducting inspections.,text_only,True,Text says the FAA inspected the jets and would examine the jet-maker's processes.
+f924c3bb5f74d6ee,M_vision,9,The Federal Aviation Administration has grounded several Boeing 737 Max 9 planes until safety is assured.,text_only,True,Text states 171 Boeing 737 Max 9 planes remained grounded until the FAA was satisfied they were safe.
+f924c3bb5f74d6ee,M_vision,10,Warnings about maintenance were issued before the incident.,text_only,True,Text says an additional maintenance look was requested before the incident.
+f924c3bb5f74d6ee,M_vision,11,The maintenance warnings were not addressed before the incident.,text_only,True,Text explicitly says the requested additional maintenance look was not completed before the incident.
+33feedbb07048c53,B1,1,The evidence does not directly address why scammers are targeting desperate pet owners.,unsupported,False,The evidence discusses rehoming and distress but does not address scammers’ targeting motives.
+33feedbb07048c53,B1,2,The evidence highlights emotional distress among pet owners.,text_only,True,"Shelter staff describe calls as distressing, and an owner was shown in tears."
+33feedbb07048c53,B1,3,Some pet owners are looking to rehome their dogs because of new regulations.,text_only,True,Dozens of XL bully owners contacted Northern Irish shelters seeking rehoming.
+33feedbb07048c53,B1,4,The situation may make these pet owners vulnerable.,unsupported,False,"Owners are described as desperate for shelters’ help, but vulnerability is not explicitly stated."
+33feedbb07048c53,B1,5,The evidence mentions irresponsible breeding.,text_only,True,The evidence explicitly mentions unscrupulous breeders.
+33feedbb07048c53,B1,6,The evidence mentions challenges faced by animal shelters.,text_only,True,Shelters report receiving numerous calls and turning away desperate owners.
+33feedbb07048c53,B1,7,The evidence presents a broader context of concern for pet welfare.,text_only,True,"The evidence covers rehoming pressures, dog ownership, breeding, and animal-care incidents."
+33feedbb07048c53,B1,8,This broader context could be exploited by scammers.,unsupported,False,No evidence connects the broader welfare context to scam exploitation.
+33feedbb07048c53,B1,9,The coverage reflects emotional challenges faced by pet owners.,text_only,True,The evidence explicitly describes distress and emotional difficulty surrounding pet incidents.
+33feedbb07048c53,B1,10,The coverage reflects practical challenges faced by pet owners.,text_only,True,"Owners face rehoming difficulties, shelter refusals, and financial loss from a dog destroying cash."
+33feedbb07048c53,B1,11,These challenges could make pet owners susceptible to scams.,unsupported,False,The evidence does not state that these practical or emotional challenges cause scam susceptibility.
+33feedbb07048c53,M_nocap,1,"There is growing concern among pet owners, particularly owners of XL bully dogs.",text_only,True,"Evidence reports rising attack concerns, XL bully influx, and owners seeking rehoming."
+33feedbb07048c53,M_nocap,2,Some owners of XL bully dogs are seeking to rehome their pets because of new regulations and bans in England and Wales.,text_only,True,"Owners in England and Wales seek rehoming amid UK breeding, selling, abandonment restrictions."
+33feedbb07048c53,M_nocap,3,Animal shelters in Northern Ireland have reported receiving distressing calls from owners of XL bully dogs.,text_only,True,A shelter representative reports receiving at least 20 distressing calls from Great Britain.
+33feedbb07048c53,M_nocap,4,The calls highlight the owners' desperation for assistance.,text_only,True,The representative says callers were desperate for help.
+33feedbb07048c53,M_nocap,5,The evidence mentions irresponsible breeding practices.,text_only,True,The evidence explicitly refers to unscrupulous breeders.
+33feedbb07048c53,M_nocap,6,The evidence mentions a need for better regulation of dog ownership.,text_only,True,The evidence calls for addressing irresponsible dog ownership and describes proposed legislation.
+33feedbb07048c53,M_nocap,7,Irresponsible breeding practices and the need for better regulation may contribute to challenges faced by pet owners.,unsupported,False,The evidence does not establish that breeding or regulation caused owners’ challenges.
+33feedbb07048c53,M_nocap,8,The situation reflects a broader issue of pet ownership.,text_only,True,"The evidence discusses dog ownership, breeding, shelters, and changing laws, indicating broader context."
+33feedbb07048c53,M_nocap,9,Changing laws and societal attitudes toward certain breeds can cause emotional turmoil.,text_only,True,The evidence describes an emotive issue and distressing calls amid changing breed regulations.
+33feedbb07048c53,M,1,"There is growing concern regarding the welfare of dogs, particularly XL bully dogs.",text_only,True,"Evidence describes distress, welfare concerns, and XL bully-related regulations and rehoming."
+33feedbb07048c53,M,2,Many owners are seeking to rehome their XL bully dogs because of new bans in England and Wales.,unsupported,False,"Dozens seek rehoming, but the evidence does not say many or establish bans as their reason."
+33feedbb07048c53,M,3,Animal shelters in Northern Ireland report receiving distressing calls from owners of XL bully dogs.,text_only,True,A Northern Irish shelter reports at least 20 distressing calls from Great Britain.
+33feedbb07048c53,M,4,The calls highlight the owners' desperation for assistance.,text_only,True,The shelter representative describes callers as desperate for help.
+33feedbb07048c53,M,5,The evidence mentions irresponsible breeding practices.,text_only,True,The evidence mentions unscrupulous breeders.
+33feedbb07048c53,M,6,The evidence mentions a need for better regulation of dog ownership.,unsupported,False,"It mentions irresponsible dog ownership and legislation, but not explicitly a need for better regulation."
+33feedbb07048c53,M,7,Some pet owners may be vulnerable to scams or exploitation during this tumultuous time.,unsupported,False,No evidence links pet-owner vulnerability to scams or exploitation.
+33feedbb07048c53,M,8,The situation reflects broader issues in pet ownership.,text_only,True,"The evidence addresses rehoming, breeding, ownership, welfare, and changing societal attitudes toward dogs."
+33feedbb07048c53,M,9,The situation reflects the responsibilities associated with pet ownership.,text_only,True,"Evidence discusses rehoming pressures, regulation, and responsible care of animals."
+33feedbb07048c53,M_vision,1,The evidence does not directly address why scammers are targeting desperate pet owners.,unsupported,False,"The evidence discusses dog regulations, rehoming, shelters, and welfare, but not scammers targeting pet owners."
+33feedbb07048c53,M_vision,2,The evidence highlights emotional distress among pet owners.,text_only,True,"A shelter worker describes distressing calls, and owners faced emotional situations involving their dogs."
+33feedbb07048c53,M_vision,3,Some pet owners are looking to rehome their dogs because of new regulations.,text_only,True,Shelters report owners in England and Wales seeking to rehome XL bully dogs amid new restrictions.
+33feedbb07048c53,M_vision,4,The regulations may create a vulnerable situation for these pet owners.,unsupported,False,"Rehoming pressures and restrictions are described, but vulnerability is an inferred consequence rather than directly stated."
+33feedbb07048c53,M_vision,5,The evidence mentions irresponsible breeding.,text_only,True,The evidence mentions unscrupulous breeders and calls for addressing irresponsible dog ownership.
+33feedbb07048c53,M_vision,6,The evidence mentions challenges faced by animal shelters.,text_only,True,Animal shelters report receiving numerous calls and having to turn desperate people away.
+33feedbb07048c53,M_vision,7,The evidence presents a broader context of concern for pet welfare.,text_only,True,"The coverage discusses bans, dog attacks, rehoming, shelter strain, and animal care concerns."
+33feedbb07048c53,M_vision,8,This broader context could be exploited by scammers.,unsupported,False,No evidence states or shows that scammers exploit concerns about pet welfare.
+33feedbb07048c53,M_vision,9,The coverage reflects emotional challenges faced by pet owners.,text_only,True,The evidence explicitly describes distressing calls and emotional reactions surrounding dogs and regulations.
+33feedbb07048c53,M_vision,10,The coverage reflects practical challenges faced by pet owners.,text_only,True,"Owners face rehoming difficulties, while shelters report calls, limited help, and turning people away."
+33feedbb07048c53,M_vision,11,These challenges could make pet owners susceptible to scams.,unsupported,False,Susceptibility to scams is not directly addressed; it would require an unsupported inference from described difficulties.
+1a4e315aeda0cfa6,B1,1,The summary states: INSUFFICIENT_EVIDENCE.,unsupported,False,The supplied text does not establish whether the summary is sufficient or insufficient.
+1a4e315aeda0cfa6,M_nocap,1,The summary states: INSUFFICIENT_EVIDENCE.,unsupported,False,The supplied text does not establish whether the summary is sufficient or insufficient.
+1a4e315aeda0cfa6,M,1,The summary states: INSUFFICIENT_EVIDENCE.,unsupported,False,The supplied text and image captions do not establish whether the summary is sufficient or insufficient.
+1a4e315aeda0cfa6,M_vision,1,The summary states: INSUFFICIENT_EVIDENCE.,unsupported,False,"The summary content is not provided, so its sufficiency cannot be assessed from the allowed evidence."

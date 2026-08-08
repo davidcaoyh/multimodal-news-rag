@@ -1,0 +1,11 @@
+{
+  "experiment_id": "E11",
+  "split": "development visual-support cases",
+  "cases": 5,
+  "correct_mean": 0.9833333333333332,
+  "wrong_image_mean": 0.9266666666666665,
+  "wrong_minus_correct": -0.05666666666666664,
+  "ci_low": -0.1233333333333333,
+  "ci_high": 0.0,
+  "unsupported_claim_rate_wrong_image": 0.0784313725490196
+}

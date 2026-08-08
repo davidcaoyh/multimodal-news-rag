@@ -1,0 +1,37 @@
+{
+  "frozen_before_final_outcomes": true,
+  "sample_seed": 42,
+  "sample_size": 20,
+  "sampling": "four articles from each of five predeclared section families",
+  "query_source": "one GPT-4o-mini natural question transformed from headline only",
+  "retrieval_candidates": "research_role=pool only",
+  "forbidden_evidence": ["development", "final_test"],
+  "systems": ["B1", "M", "M_vision"],
+  "retrieval": {
+    "k": 5,
+    "alpha": 0.75,
+    "tau": 0.35,
+    "dense_text_model": "all-MiniLM-L6-v2",
+    "image_model": "CLIP ViT-B-32-quickgelu openai"
+  },
+  "generator": {
+    "model": "gpt-4o-mini",
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 300,
+    "image_detail": "low"
+  },
+  "judge": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "none",
+    "claim_decomposition_blind_to_evidence": true,
+    "text_and_vision_verification_physically_separated": true
+  },
+  "primary_metric": "macro claim faithfulness on jointly usable paired summaries",
+  "uncertainty": "10000 paired bootstrap resamples, 95% percentile interval",
+  "secondary_metrics": [
+    "hard and soft refusal coverage",
+    "visual contribution rate",
+    "per-category paired differences"
+  ]
+}

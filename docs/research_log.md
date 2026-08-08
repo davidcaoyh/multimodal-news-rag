@@ -42,14 +42,13 @@ the complete research process.
 | E04 | text/image duplicate and split-leakage audit | COMPLETE | group duplicate components | `results/experiments/E04_leakage_audit/` |
 | E05 | development/validation/final-test contract | COMPLETE | use grouped research roles | `data/research/split_manifest.parquet` |
 | E06a | local VLM feasibility screen | INVALID | aborted for thermal safety; use hosted inference | `results/experiments/E06_local_model_benchmark/` |
-| E06b | M_vision actual-image generation arm | RUNNING | API smoke valid; proceed within $8 ledger | `results/api_usage.jsonl` |
+| E06b | M_vision actual-image generation arm | COMPLETE | actual pixels operational; retain | `results/experiments/E09_development_generation/` |
 | E07 | group-safe dense/image fusion selection | COMPLETE | select alpha=0.75 on development | `results/experiments/E07_research_retrieval/` |
 | E08 | strong text alternatives and reranking | COMPLETE | retain lexical ceiling; do not overclaim visual retrieval | `results/experiments/E08_research_reranking/` |
-| E09 | query-evidence coverage and claim modality attribution | PLANNED | pending | TBD |
-| E10 | visual-first/weak-text benefit conditions | PLANNED | pending | TBD |
-| E11 | conflicting and misleading image stress tests | PLANNED | pending | TBD |
-| E12 | generation modality ablations | PLANNED | pending | TBD |
-| E13 | frozen final held-out comparison | PLANNED | pending | TBD |
+| E09 | diagnostic four-arm development generation | COMPLETE | preserve targeted design | `results/experiments/E09_development_generation/` |
+| E10 | image-aware claim support and modality attribution | COMPLETE | actual pixels promising on diagnostic sample | `results/experiments/E10_development_claim_evaluation/` |
+| E11 | wrong-image stress test | COMPLETE | report modest case-dependent harm | `results/experiments/E11_wrong_image_stress/` |
+| E12 | frozen final held-out comparison | FROZEN | execute without further tuning | `configs/final_research.json` |
 
 ## Inherited experiments
 
@@ -202,6 +201,51 @@ the complete research process.
 - **Insight:** These inherited article-derived questions carry unusually strong
   lexical cues. They can support retrieval engineering comparisons, but they are
   biased against demonstrating a visual retrieval advantage at Recall@5.
+
+### E09/E10 — diagnostic actual-image generation and claim attribution
+
+- **Status:** COMPLETE on development.
+- **Protocol:** Twelve predeclared diagnostic cases (all rank-5 visual rescues and
+  harms, strong up/down-ranks, and neutral controls), four arms: B1, M_nocap, M,
+  and M_vision. M and M_vision have byte-identical retrieval and textual evidence;
+  only M_vision receives the five corresponding low-detail pixels.
+- **Evaluation:** Blind decomposition without evidence, physically separate
+  text-only and image-enabled verification, atomic claim support, macro per-item
+  faithfulness, refusal cuts, and 10,000 paired bootstrap resamples.
+- **Outcome:** On nine jointly usable cases, B1=0.777, M=0.747, and M_vision=0.961.
+  M_vision-M was +0.205, 95% bootstrap CI [+0.057,+0.427]. M-B1 was -0.021 with
+  a CI crossing zero. Of supported claims in usable M_vision summaries, 8.6%
+  received both text and pixel support; none required pixels alone.
+- **Interpretation:** Pixels changed generation in a beneficial direction on this
+  deliberately image-sensitive diagnostic set, but did not supply uniquely
+  necessary facts. This is a mechanism/failure-analysis result, not a population
+  estimate, and requires confirmation on the frozen final sample.
+- **Coverage:** Each arm had one shared hard abstention. Soft refusals were B1=2,
+  M_nocap=2, M=1, M_vision=2 and are reported separately.
+
+### E11 — wrong-image stress test
+
+- **Status:** COMPLETE on development.
+- **Protocol:** For the five cases with pixel-supported claims, rotate another
+  case's images into M_vision while holding query, retrieval, text, captions,
+  prompt, and model fixed. Judge corrupted summaries against the original clean
+  text-and-image bundle.
+- **Outcome:** Mean clean faithfulness 0.983 versus wrong-image 0.927; paired
+  difference -0.057, bootstrap CI [-0.123,0.000]. Two of five cases degraded and
+  three were unchanged. Wrong-image unsupported-claim rate was 7.8%.
+- **Interpretation:** Image conflict causes modest, case-dependent harm rather
+  than catastrophic visual copying in this small stress set.
+
+### E12 — frozen held-out protocol
+
+- **Status:** FROZEN before final outcomes.
+- **Protocol:** Twenty seeded final-test articles, balanced four each across five
+  declared section families. Headline-only natural queries; pool-only evidence;
+  B1, M, and M_vision; alpha=0.75, k=5, tau=0.35; no further tuning.
+- **Primary metric:** Macro claim faithfulness on jointly usable summaries with
+  paired bootstrap intervals. Coverage, visual attribution, and category cuts are
+  secondary.
+- **Artifact:** `configs/final_research.json`.
 
 ## Experiment entry template
 
