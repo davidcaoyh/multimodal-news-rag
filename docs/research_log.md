@@ -41,7 +41,8 @@ the complete research process.
 | E03 | blind human validation of baseline judge | PLANNED | pending | TBD |
 | E04 | text/image duplicate and split-leakage audit | COMPLETE | group duplicate components | `results/experiments/E04_leakage_audit/` |
 | E05 | development/validation/final-test contract | COMPLETE | use grouped research roles | `data/research/split_manifest.parquet` |
-| E06 | M_vision actual-image generation arm | BLOCKED | implementation verified; API run awaits key | TBD |
+| E06a | local VLM feasibility screen | INVALID | aborted for thermal safety; use hosted inference | `results/experiments/E06_local_model_benchmark/` |
+| E06b | M_vision actual-image generation arm | RUNNING | hosted API key and $8 software budget available | TBD |
 | E07 | query-evidence coverage metric | PLANNED | pending | TBD |
 | E08 | claim modality support attribution | PLANNED | pending | TBD |
 | E09 | visual-first/weak-text benefit conditions | PLANNED | pending | TBD |
@@ -128,9 +129,29 @@ the complete research process.
 - **Limitations:** The 707-item pool is smaller than the inherited pool and may
   increase refusal. That is preferable to reporting leakage-contaminated gains.
 
-### E06 — M_vision actual-image generation arm
+### E06a — local VLM feasibility screen
 
-- **Status:** BLOCKED for execution; implementation complete and locally tested.
+- **Status:** INVALID / ABORTED for model comparison; valid operational result.
+- **Question:** Can 4B–12B local vision-language models support the experimental
+  pipeline on the available M2 Max laptop without paid APIs?
+- **Protocol:** Twelve seeded development images, forced-choice associated-caption
+  discrimination, structured JSON output. Planned models were Qwen3-VL 4B,
+  Qwen3-VL 8B, and Gemma 3 12B.
+- **Outcome:** Both Qwen models completed 12 calls but returned empty answer
+  content while consuming output tokens, so their apparent 0% accuracy is invalid
+  and must not be reported as quality. Gemma returned valid JSON and selected the
+  associated caption on its first 6/6 cases, but the laptop became unacceptably
+  hot and the experiment was stopped before completion.
+- **Decision:** REJECT sustained local VLM inference on this hardware. Preserve
+  partial outputs as a feasibility/safety result and move all generator/judge
+  inference to hosted APIs. No training or fine-tuning was performed.
+- **Limitation:** Gemma's six cases are an incomplete, small, selected prefix and
+  provide no defensible comparative accuracy estimate.
+
+### E06b — M_vision actual-image generation arm
+
+- **Status:** RUNNING; implementation complete, hosted key configured, execution
+  gated by a prepaid balance and software cost ledger.
 - **Research question:** Do actual retrieved image pixels add grounding value
   beyond the captions and text evidence already supplied to M?
 - **Controlled comparison:** M and M_vision use identical fused retrieval,
@@ -142,8 +163,8 @@ the complete research process.
 - **Verification:** Unit tests confirm byte-identical text prompts/evidence for M
   and M_vision, real JPEG data URLs, low-detail mode, image-path persistence, and
   structured generator input. All 10 current tests pass.
-- **Outcome:** No scientific outcome yet. Generation cannot be run because the
-  clone has no `.env` or `OPENAI_API_KEY`.
+- **Outcome:** No scientific outcome yet. A single cached smoke test is the next
+  call after budget enforcement is installed.
 - **Decision:** KEEP the arm; do not claim Level 3/4 multimodality until a valid
   paired API run and evaluation are complete.
 

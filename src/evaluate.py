@@ -3,7 +3,7 @@ Day 5: the two metrics that can actually answer the research question.
 
     python -m src.evaluate --recall              # FREE, no API. recall@k + alpha sweep
     python -m src.evaluate --judge --limit 3     # cheap smoke test of the judge path
-    python -m src.evaluate --judge               # faithfulness, ~$2.80  (needs key)
+    python -m src.evaluate --judge               # faithfulness (budget guarded; needs key)
     python -m src.evaluate --report              # aggregate -> results/metrics.csv
     python -m src.evaluate --sample-validation   # 50 blind claims -> hand-label CSV
     python -m src.evaluate --validate            # score the filled-in CSV
@@ -51,21 +51,14 @@ The prompts contain no condition label, and _assert_blind() enforces it.
   actually in the generator's prompt (D7 Rule 2), and a claim drawn from a caption
   would become unsupportable by construction.
 
---------------------------------------------- temperature=0 is NOT available here
+--------------------------------------------- temperature=0 is NOT used here
 
-D4 as written says the judge runs at temperature=0. That is impossible on
-claude-sonnet-5: the Claude 5 family REMOVED temperature/top_p/top_k, and a
-non-default value returns HTTP 400. Do not "fix" this by adding temperature=0 back
-— the run will fail. Determinism is recovered three other ways:
-
-  thinking={"type": "disabled"}   no sampled reasoning preamble to vary, and it
-                                  keeps output tokens (and cost) bounded
-  output_config.format            a json_schema the verdict must satisfy, so the
-                                  free-text surface where variance lives is a
-                                  <=15-word reason, never the yes/no itself
-  cache by prompt hash            a re-run reproduces the previous run exactly and
-                                  costs nothing, which is what actually matters for
-                                  a number that goes in a report
+The research extension has no Anthropic credential, so GPT-5.6 Luna replaces
+Claude as judge. It runs with reasoning_effort="none" and strict structured
+output. Determinism and bounded cost come from the schema, serial execution,
+prompt-hash cache, and the persistent $8 software budget. This remains a different
+model family from the GPT-4o-mini generator, but the same-provider limitation must
+be reported and checked against the 50 human labels.
 
 The generator is untouched and still runs gpt-4o-mini at temperature=0 (that call
 is an OpenAI chat-completion, where temperature=0 is still accepted and still
@@ -92,10 +85,10 @@ RECALL_OUT = ROOT / "results" / "recall.csv"
 VALIDATION_OUT = ROOT / "results" / "validation_sample.csv"
 
 # D4: different model family from the generator, so faithfulness is not self-graded.
-JUDGE_MODEL = "claude-sonnet-5"
+JUDGE_MODEL = "gpt-5.6-luna"
 JUDGE_MAX_TOKENS = 2000
 SEED = 42
-WORKERS = 6            # ~390 summaries x 2 passes; serial would be ~40 min
+WORKERS = 1            # serial by design: cost and failure containment
 
 ABSTAIN = "INSUFFICIENT_EVIDENCE"
 
@@ -119,19 +112,17 @@ _client = None
 def _get_client():
     global _client
     if _client is None:
-        import anthropic
         from dotenv import load_dotenv
+        from openai import OpenAI
 
         # load_dotenv() resolves against the CALLING FILE's directory, not cwd.
         load_dotenv(ROOT / ".env")
-        key = os.environ.get("ANTHROPIC_API_KEY")
+        key = os.environ.get("OPENAI_API_KEY")
         if not key:
             raise RuntimeError(
-                "ANTHROPIC_API_KEY not set. The judge is claude-sonnet-5 (D4) and needs "
-                f"its own key in {ROOT}/.env — a Claude Code subscription does not grant "
-                "script API access. Set a $5 spend cap while you are there."
+                f"OPENAI_API_KEY not set — add the restricted project key to {ROOT}/.env"
             )
-        _client = anthropic.Anthropic(api_key=key)
+        _client = OpenAI(api_key=key)
     return _client
 
 
@@ -143,31 +134,48 @@ def _cache_key(system: str, prompt: str, schema: dict) -> str:
 def _judge_call(system: str, prompt: str, schema: dict, use_cache: bool = True) -> dict:
     """One structured judge call, cached by prompt hash. Returns parsed JSON.
 
-    No `temperature` — see the module docstring. Passing it returns a 400 on every
-    Claude 5 model.
+    No temperature: GPT-5.6 Luna is used with reasoning disabled and a strict
+    JSON schema. The generator remains GPT-4o-mini, so this is a different model
+    family, though not a different provider; human validation remains required.
     """
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     path = CACHE_DIR / f"judge_{_cache_key(system, prompt, schema)}.json"
     if use_cache and path.exists():
         return json.loads(path.read_text())["response"]
 
-    resp = _get_client().messages.create(
+    from . import api_budget
+
+    api_budget.assert_can_spend(estimated_max_usd=0.10)
+    resp = _get_client().chat.completions.create(
         model=JUDGE_MODEL,
-        max_tokens=JUDGE_MAX_TOKENS,
-        thinking={"type": "disabled"},
-        output_config={"format": {"type": "json_schema", "schema": schema}},
-        system=system,
-        messages=[{"role": "user", "content": prompt}],
+        max_completion_tokens=JUDGE_MAX_TOKENS,
+        reasoning_effort="none",
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt},
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {"name": "judge_response", "strict": True, "schema": schema},
+        },
     )
-    if resp.stop_reason == "max_tokens":
+    usage = api_budget.record(
+        model=JUDGE_MODEL,
+        input_tokens=resp.usage.prompt_tokens,
+        output_tokens=resp.usage.completion_tokens,
+        category="judge",
+        cache_key=path.stem,
+    )
+    if resp.choices[0].finish_reason == "length":
         raise RuntimeError(f"judge hit max_tokens ({JUDGE_MAX_TOKENS}) — raise it and re-run")
-    text = next(b.text for b in resp.content if b.type == "text")
+    text = resp.choices[0].message.content or ""
     parsed = json.loads(text)
 
     path.write_text(json.dumps({
         "model": JUDGE_MODEL, "system": system, "prompt": prompt,
         "response": parsed,
-        "usage": {"in": resp.usage.input_tokens, "out": resp.usage.output_tokens},
+        "usage": {"in": resp.usage.prompt_tokens, "out": resp.usage.completion_tokens},
+        "estimated_cost_usd": usage["estimated_cost_usd"],
         "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }, indent=2))
     return parsed

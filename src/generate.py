@@ -49,6 +49,7 @@ from pathlib import Path
 import pandas as pd
 
 from .retrieve import retrieve
+from . import api_budget
 
 ROOT = Path(__file__).resolve().parents[1]
 CACHE_DIR = ROOT / "data" / "llm_cache"
@@ -160,6 +161,7 @@ def generate(prompt, model: str = MODEL, temperature: float = TEMPERATURE,
 
     # chat.completions, not the Responses API: separate key permission, and it is
     # the format Ollama/vLLM emulate for the future local-Llama swap.
+    api_budget.assert_can_spend(estimated_max_usd=0.10)
     resp = _get_client().chat.completions.create(
         model=model,
         temperature=temperature,
@@ -168,10 +170,18 @@ def generate(prompt, model: str = MODEL, temperature: float = TEMPERATURE,
         messages=[{"role": "user", "content": prompt}],
     )
     text = (resp.choices[0].message.content or "").strip()
+    usage = api_budget.record(
+        model=model,
+        input_tokens=resp.usage.prompt_tokens,
+        output_tokens=resp.usage.completion_tokens,
+        category="generation",
+        cache_key=path.stem,
+    )
     path.write_text(json.dumps({
         "model": model, "temperature": temperature, "max_tokens": max_tokens,
         "prompt": _cache_safe_content(prompt), "response": text,
         "usage": {"in": resp.usage.prompt_tokens, "out": resp.usage.completion_tokens},
+        "estimated_cost_usd": usage["estimated_cost_usd"],
         "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }, indent=2))
     return text
