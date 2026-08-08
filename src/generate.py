@@ -38,8 +38,10 @@ threshold on it and you never abstain. Same statistic in both arms so the gate
 cannot itself become a B1-vs-M difference; see TAU below.
 """
 import argparse
+import base64
 import hashlib
 import json
+import mimetypes
 import os
 import time
 from pathlib import Path
@@ -89,6 +91,15 @@ ABLATION = "M_nocap"
 _MODE = {"B1": "text", "M": "multimodal", ABLATION: "multimodal"}
 _WITH_IMAGES = {"B1": False, "M": True, ABLATION: False}
 
+# Research extension: identical retrieval and textual evidence to M, with the
+# retrieved image pixels additionally supplied to the vision-capable generator.
+# Keeping captions in both M and M_vision means M -> M_vision isolates pixels.
+VISION = "M_vision"
+_MODE[VISION] = "multimodal"
+_WITH_IMAGES[VISION] = True
+_WITH_PIXELS = {"B1": False, "M": False, ABLATION: False, VISION: True}
+IMAGE_DETAIL = "low"
+
 
 # ---------------------------------------------------------------- LLM call
 
@@ -111,12 +122,31 @@ def _get_client():
     return _client
 
 
-def _cache_key(prompt: str, model: str, temperature: float, max_tokens: int) -> str:
-    blob = json.dumps([model, temperature, max_tokens, prompt], sort_keys=True)
+def _cache_safe_content(content) -> object:
+    """Replace inline image bytes with hashes before keying/storing a request."""
+    if isinstance(content, str):
+        return content
+    safe = []
+    for block in content:
+        block = json.loads(json.dumps(block))
+        if block.get("type") == "image_url":
+            url = block.get("image_url", {}).get("url", "")
+            if url.startswith("data:"):
+                block["image_url"]["url"] = "sha256:" + hashlib.sha256(
+                    url.encode()
+                ).hexdigest()
+        safe.append(block)
+    return safe
+
+
+def _cache_key(prompt, model: str, temperature: float, max_tokens: int) -> str:
+    blob = json.dumps(
+        [model, temperature, max_tokens, _cache_safe_content(prompt)], sort_keys=True
+    )
     return hashlib.sha256(blob.encode()).hexdigest()[:24]
 
 
-def generate(prompt: str, model: str = MODEL, temperature: float = TEMPERATURE,
+def generate(prompt, model: str = MODEL, temperature: float = TEMPERATURE,
              max_tokens: int = MAX_TOKENS, use_cache: bool = True) -> str:
     """One chat-completion call, cached by prompt hash.
 
@@ -140,7 +170,7 @@ def generate(prompt: str, model: str = MODEL, temperature: float = TEMPERATURE,
     text = (resp.choices[0].message.content or "").strip()
     path.write_text(json.dumps({
         "model": model, "temperature": temperature, "max_tokens": max_tokens,
-        "prompt": prompt, "response": text,
+        "prompt": _cache_safe_content(prompt), "response": text,
         "usage": {"in": resp.usage.prompt_tokens, "out": resp.usage.completion_tokens},
         "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }, indent=2))
@@ -224,6 +254,42 @@ def build_prompt(query: str, hits, config: str) -> tuple[str, str]:
     return f"{INSTRUCTIONS}\nQUERY: {query}\n\nEVIDENCE:\n{evidence}\n", evidence
 
 
+def _image_data_url(path: str) -> str:
+    """Local image path -> inline data URL accepted by OpenAI chat completions."""
+    full = Path(path)
+    if not full.is_absolute():
+        full = ROOT / full
+    if not full.is_file():
+        raise FileNotFoundError(f"retrieved image missing: {full}")
+    mime = mimetypes.guess_type(full.name)[0] or "image/jpeg"
+    encoded = base64.b64encode(full.read_bytes()).decode("ascii")
+    return f"data:{mime};base64,{encoded}"
+
+
+def build_request_content(query: str, hits, config: str):
+    """Return API message content, persisted text evidence, and image paths.
+
+    Text arms return a string exactly as before. M_vision returns structured
+    chat-completions content with the same M prompt followed by labeled images.
+    The labels preserve article/image correspondence for the generator.
+    """
+    prompt, evidence = build_prompt(query, hits, config)
+    image_paths = [h.image_path for h in hits] if _WITH_PIXELS.get(config, False) else []
+    if not image_paths:
+        return prompt, evidence, image_paths
+
+    content = [{"type": "text", "text": prompt}]
+    for i, path in enumerate(image_paths, 1):
+        content.extend([
+            {"type": "text", "text": f"IMAGE {i} corresponds to evidence article [{i}]."},
+            {
+                "type": "image_url",
+                "image_url": {"url": _image_data_url(path), "detail": IMAGE_DETAIL},
+            },
+        ])
+    return content, evidence, image_paths
+
+
 # ---------------------------------------------------------------- one item
 
 _test_ids = None
@@ -239,8 +305,10 @@ def _get_test_ids() -> set:
 def summarize(query: str, config: str = "M", k: int = 5, alpha: float = 0.5,
               tau: float = TAU, test_id: str = "", use_cache: bool = True) -> dict:
     """Run one (query, config) end to end. Returns the row that D7 Rule 2 persists."""
-    if config not in (*CONFIGS, ABLATION):
-        raise ValueError(f"config must be one of {(*CONFIGS, ABLATION)}, got {config!r}")
+    if config not in (*CONFIGS, ABLATION, VISION):
+        raise ValueError(
+            f"config must be one of {(*CONFIGS, ABLATION, VISION)}, got {config!r}"
+        )
 
     hits = [] if config == "B0" else retrieve(
         query, mode=_MODE[config], k=k, alpha=alpha, include_test=False)
@@ -257,7 +325,7 @@ def summarize(query: str, config: str = "M", k: int = 5, alpha: float = 0.5,
     top_s_text = max((h.s_text for h in hits), default=0.0)
     abstained = config != "B0" and top_s_text < tau
 
-    prompt, evidence = build_prompt(query, hits, config)
+    prompt, evidence, image_paths = build_request_content(query, hits, config)
     summary = ABSTAIN if abstained else generate(prompt, use_cache=use_cache)
 
     return {
@@ -271,6 +339,7 @@ def summarize(query: str, config: str = "M", k: int = 5, alpha: float = 0.5,
         "top_s_text": round(top_s_text, 4),
         "top_s_img": round(max((h.s_img for h in hits), default=0.0), 4),
         "n_hits": len(hits),
+        "image_paths": "|".join(image_paths),
     }
 
 

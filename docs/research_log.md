@@ -41,7 +41,7 @@ the complete research process.
 | E03 | blind human validation of baseline judge | PLANNED | pending | TBD |
 | E04 | text/image duplicate and split-leakage audit | COMPLETE | group duplicate components | `results/experiments/E04_leakage_audit/` |
 | E05 | development/validation/final-test contract | COMPLETE | use grouped research roles | `data/research/split_manifest.parquet` |
-| E06 | M_vision actual-image generation arm | PLANNED | pending | TBD |
+| E06 | M_vision actual-image generation arm | BLOCKED | implementation verified; API run awaits key | TBD |
 | E07 | query-evidence coverage metric | PLANNED | pending | TBD |
 | E08 | claim modality support attribution | PLANNED | pending | TBD |
 | E09 | visual-first/weak-text benefit conditions | PLANNED | pending | TBD |
@@ -127,6 +127,25 @@ the complete research process.
   `results/experiments/E05_research_split/summary.json`.
 - **Limitations:** The 707-item pool is smaller than the inherited pool and may
   increase refusal. That is preferable to reporting leakage-contaminated gains.
+
+### E06 — M_vision actual-image generation arm
+
+- **Status:** BLOCKED for execution; implementation complete and locally tested.
+- **Research question:** Do actual retrieved image pixels add grounding value
+  beyond the captions and text evidence already supplied to M?
+- **Controlled comparison:** M and M_vision use identical fused retrieval,
+  captions, prompt instructions, generator, decoding parameters, and evidence
+  ordering. M_vision adds one low-detail image block per retrieved article.
+- **Implementation:** `src.generate.build_request_content()` converts retrieved
+  JPEGs to OpenAI chat-completions image blocks and preserves article/image
+  correspondence. Cache metadata stores image hashes rather than base64 payloads.
+- **Verification:** Unit tests confirm byte-identical text prompts/evidence for M
+  and M_vision, real JPEG data URLs, low-detail mode, image-path persistence, and
+  structured generator input. All 10 current tests pass.
+- **Outcome:** No scientific outcome yet. Generation cannot be run because the
+  clone has no `.env` or `OPENAI_API_KEY`.
+- **Decision:** KEEP the arm; do not claim Level 3/4 multimodality until a valid
+  paired API run and evaluation are complete.
 
 ## Experiment entry template
 
