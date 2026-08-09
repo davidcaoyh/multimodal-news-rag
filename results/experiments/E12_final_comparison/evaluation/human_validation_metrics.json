@@ -1,0 +1,13 @@
+{
+  "n": 50,
+  "agreement": 0.88,
+  "cohen_kappa": 0.6717724288840263,
+  "confusion_human_rows_judge_columns": {
+    "tn": 9,
+    "fp": 2,
+    "fn": 4,
+    "tp": 35
+  },
+  "modality_labels_n": 50,
+  "modality_agreement": 0.86
+}
