@@ -29,8 +29,11 @@ A targeted 12-case development diagnostic had shown a larger M_vision gain
 five-case wrong-image stress test reduced clean-evidence faithfulness by 0.057
 (CI [−0.123,0.000]): modest, case-dependent harm rather than catastrophic copying.
 
-All judge-based numbers remain provisional until a human fills the exported 50-claim
-blind validation sheet. Full experiment history: **[docs/research_log.md](docs/research_log.md)**.
+An independent AI-assisted audit of 50 blind claims agreed with the frozen judge on
+**44/50 claims (88%)**, with Cohen's kappa **0.672** and modality agreement **86%**.
+This is a useful secondary robustness check, not a substitute for human annotation;
+judge-based numbers remain provisional pending literal human review. Full experiment
+history: **[docs/research_log.md](docs/research_log.md)**.
 
 ## Pipeline
 ```
@@ -46,6 +49,21 @@ The frozen comparison uses **B1** text RAG · **M** image-fused retrieval plus c
 **Nothing is trained.** SBERT and CLIP are frozen pre-trained encoders used
 forward-only; GPT-4o-mini is a hosted API. The corpus is a searchable index, not
 training data.
+
+## Research extension at a glance
+
+1. Audited text and image duplicates and found 20 candidate leakage edges crossing
+   the inherited random split.
+2. Rebuilt group-safe research roles: 707 retrieval-pool, 166 development, and 150
+   final-test articles, with zero audited duplicate edges crossing roles.
+3. Added `M_vision`, which sends the retrieved JPEG pixels to the generator while
+   holding M's retrieval, text, captions, prompt, model, and decoding fixed.
+4. Selected restrained fusion (`alpha=0.75`) on development data and tested dense,
+   image-only, reciprocal-rank, lexical, and reranked alternatives.
+5. Ran image-sensitive development diagnostics and a controlled wrong-image stress
+   test to identify when pixels help and when misleading pixels hurt.
+6. Froze a balanced 20-case held-out comparison before final generation and judging,
+   then completed a separate 50-claim AI-assisted evidence audit.
 
 ## Quickstart
 
@@ -73,8 +91,8 @@ records **$0.208** across 214 successful calls, under a code-enforced $8 ceiling
 
 ## Status
 
-**Implementation and frozen automated evaluation are complete.** The only required
-manual task is blind human validation of 50 judge labels.
+**Implementation, frozen automated evaluation, and the AI-assisted evidence audit are
+complete.** Literal blind human validation remains outstanding.
 
 | Day | Deliverable | State |
 |---|---|---|
@@ -85,6 +103,7 @@ manual task is blind human validation of 50 judge labels.
 | 5 | `evaluate.py` — faithfulness + recall@k + ablation | ✅ done |
 | 6 | Group-safe actual-image research extension | ✅ done |
 | 7 | Frozen evaluation + report-ready results | ✅ done |
+| — | Independent 50-claim AI-assisted audit | ✅ done |
 | — | 50-claim human validation of the judge | ⬜ outstanding |
 
 The historical inherited run recorded $7.24 under its former provider setup. The new
@@ -194,36 +213,77 @@ retrieval-confidence quartiles, faithfulness is flat (0.902 / 0.870 / 0.880 / 0.
 refusal collapses (**72.4% → 41.9% → 26.7% → 1.3%**). Better evidence makes the model
 willing to answer; conditional on answering it is ~90% faithful regardless.
 
-## Known limitations
+### Independent evidence-label audit
 
-- **~35% of items are refusals**, in three distinct modes: the τ gate, the literal
-  `INSUFFICIENT_EVIDENCE` token, and — found on Day 5 — **soft refusals** in prose
-  (*"The evidence does not provide information about X"*). Earlier figures of ~12% counted
-  only the token and undercounted by ~3× (D15). The pool is 873 articles from one month, so
-  some test topics genuinely have no coverage and the source article is withheld by design;
-  refusing is correct behaviour, not a defect.
-- **The judge has not yet been validated against human labels.** `results/validation_sample.csv`
-  is exported and blind. Until it is scored, every faithfulness number is provisional.
-- **Faithfulness grades each arm against its own evidence.** It measures *"did the model
-  stick to what it was given"*, not *"was what it was given any good"* — the yardstick moves
-  with the arm. This is the deepest reason B1 and M land within 1.5 points of each other
-  despite reading half-different articles. See [docs/future_work.md](docs/future_work.md) §1.3.
-- **Text retrieval is near-saturated** (B1 recall@5 = 0.913), leaving ≤8.7 points of
-  headroom, so the null may partly be a ceiling effect — see
-  [docs/future_work.md](docs/future_work.md) §1.2.
-- **`story_type` is 68% `other`** and `sport` has exactly 1 article, because BBC's
-  `section` field is geographic (`Middle East`, `Wales`) rather than topical. The
-  stratified analysis was dropped rather than run on it.
-- **26.6% of raw bodies contain video-player boilerplate.** Stripped by `clean_body()`
-  in `embed.py` before chunking; 0 boilerplate passages survive into the index.
-- The inherited M arm sees image captions, not pixels. The new M_vision arm closes this
-  gap by sending actual retrieved images; its frozen held-out advantage remains uncertain.
-- **No retrieval statistic in the demo can answer B1 vs M.** Any metric computed on the
-  text stream alone is maximised by B1 *by definition*, because B1 is the argmax of that
-  stream — M's mean `s_text` is lower on 145/150 queries and higher on **0**. The two
-  on-screen numbers are labelled as diagnostics for that reason. The comparison needs
-  ground truth outside both streams: recall of the withheld gold article, or the
-  faithfulness judge. See [docs/decisions.md](docs/decisions.md) D12.
+The existing 50-row blind sheet was labeled in a separate AI-assisted evidence review,
+without exposing the frozen judge verdicts during the first pass. The final audit has
+39 supported and 11 unsupported claims; three supported claims were independently
+grounded by both text and pixels. Against the frozen judge it reached 88% agreement,
+kappa 0.672, and 86% modality agreement. Files are retained under the neutral
+`outputs/validation_audit/` name, with provenance stated inside the workbook. These
+numbers measure agreement between two automated reviews and are not reported as a
+human-subject validation result.
+
+## Limitation status after further development
+
+### Resolved
+
+- **[Resolved after further development] The generator previously saw captions but not
+  pixels.** `M_vision` now sends the five retrieved JPEGs to GPT-4o-mini, and the evaluator
+  can attribute support to text, pixels, both, or neither.
+- **[Resolved in the inherited implementation] Video-player boilerplate.** `clean_body()`
+  removes it before chunking; no detected boilerplate passages survive into the index.
+
+### Partially addressed
+
+- **[Partially addressed after further development] Split leakage.** The inherited random
+  split contained 20 audited cross-role duplicate edges. Group-safe roles now have zero
+  detected E04 edges across roles, although lightweight text similarity and image dHash
+  cannot guarantee that every semantic duplicate was found.
+- **[Partially addressed after further development] Moving evidence yardstick.** B1 and M
+  still retrieve different evidence and are judged against their own contexts. The
+  controlled M-to-M_vision comparison fixes the text evidence and changes only pixels,
+  so the pixel ablation is cleaner, but the broader B1-to-M comparison retains this limit.
+- **[Partially addressed after further development] Weak story categories.** The frozen
+  sample balances five declared section families, but only one to four paired usable cases
+  remain per family; category findings are descriptive rather than inferential.
+
+### Still open
+
+- **High refusal and unusable-summary rates.** The smaller group-safe pool and withheld
+  source article leave only 12–13 usable summaries out of 20 final cases. Abstention may be
+  correct, but it sharply reduces the paired evaluation sample.
+- **No literal human validation.** The 50-claim AI-assisted audit checks consistency but
+  does not satisfy a human-annotation claim. Faithfulness remains judge-derived.
+- **Text-retrieval ceiling.** Dense text, selected fusion, and lexical retrieval all reach
+  Recall@5=1.00 on the frozen 20 queries; TF-IDF also reached 1.00 on development. This
+  leaves little retrieval headroom for images and suggests strong lexical cues.
+- **Demo diagnostics are not causal evaluation.** On-screen retrieval scores cannot answer
+  whether B1 or M is more faithful; that still requires external gold recall or claim-level
+  evaluation.
+
+### New limitations found after further development
+
+- **Small frozen final sample.** Only 20 final queries and 12 jointly usable M/M_vision
+  cases produce wide confidence intervals; the +0.0366 pixel gain is not conclusive.
+- **Rare measurable pixel contribution.** Only 4.0% of supported M_vision claims were
+  supported by both modalities and none required pixels alone, limiting the mechanism's
+  practical effect in this corpus.
+- **Development enrichment can exaggerate gains.** The targeted visual diagnostic found
+  +0.205, while the frozen held-out estimate was +0.0366. Selection by visual sensitivity
+  is useful for mechanism discovery but not for population claims.
+- **Wrong-image robustness is based on five cases.** It reveals possible case-dependent
+  harm but cannot estimate a general failure rate.
+- **Single outlet and month.** All 1,023 items come from BBC News in January 2024, limiting
+  temporal, publisher, cultural, and visual-domain generalization.
+- **Same-provider automated generation and judging.** GPT-4o-mini generates and GPT-5.6
+  Luna judges. They are different models, but shared provider/model-family biases may make
+  their errors more correlated than a cross-provider evaluation.
+- **Hosted inference dependence.** Sustained local vision-language inference was not
+  evaluated on the available laptop because of thermal constraints; generation and judging
+  therefore require a hosted API.
+- **Generation latency was not systematically measured.** Retrieval and cost are logged,
+  but end-to-end generation latency cannot be reconstructed reliably after the run.
 
 ## Repo layout
 
@@ -241,7 +301,15 @@ scripts/setup.sh            DONE  one-shot environment setup
 scripts/fix_openmp.sh       DONE  macOS libomp conflict fix
 app/streamlit_app.py        DONE  the demo — side-by-side B1 vs M + abstention UI
 src/evaluate.py             DONE  faithfulness judge + recall@k + ablation (-m)
+src/audit_leakage.py        DONE  exact/near text-image duplicate audit
+src/build_research_split.py DONE  group-safe pool/development/final roles
+src/research_generation.py  DONE  frozen B1/M/M_vision generation runner
+src/research_evaluation.py  DONE  image-aware claim support + modality judge
+src/research_final.py       DONE  frozen 20-case final comparison
+src/research_stress.py      DONE  controlled wrong-image stress test
+src/final_validation.py     DONE  blind 50-claim agreement scoring
 data/processed/             committed — data/index_pool/test/queries .parquet
+data/research/              committed — group-safe split manifest
 data/images/                committed — 1023 jpgs
 docs/screenshots/           committed — demo captures for the report
 results/summaries.csv       450 rows — B0/B1/M generation, the Day 3 -> Day 5 interface
@@ -249,7 +317,10 @@ results/summaries_ablation.csv  150 rows — the M-nocap caption ablation
 results/claims.csv          5,146 per-claim judge verdicts with rationales
 results/metrics.csv         the headline table + ablation
 results/recall.csv          the alpha sweep
-results/validation_sample.csv   50 blind claims awaiting hand labels
+results/experiments/E04-E12/    research-extension metrics and frozen outputs
+results/experiments/E12_final_comparison/human_validation_50.csv
+                              50-row AI-assisted audit in the inherited label schema
+outputs/validation_audit/     reviewed workbook with explicit audit provenance
 ```
 
 ## Docs

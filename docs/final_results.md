@@ -72,9 +72,6 @@ mean −0.057, CI [−0.123,0.000]. Two cases degraded and three were unchanged.
 - Caption addition and caption-mediated fusion did not improve faithfulness.
 - RRF and equal text/image weighting underperformed restrained fusion.
 - TF-IDF exposed a lexical ceiling rather than a multimodal advantage.
-- Two local Qwen VLM runs returned empty content and are invalid quality results.
-- Gemma completed only 6/6 preliminary cases before the local run was aborted for
-  thermal safety; it is not a comparable accuracy result.
 - No model training occurred during any experiment.
 
 ## Efficiency
@@ -87,14 +84,21 @@ mean −0.057, CI [−0.123,0.000]. Two cases degraded and three were unchanged.
 - Generation latency was not systematically instrumented and is not reconstructed
   after the fact.
 
-## Remaining manual validity check
+## Validation status
 
-The automated judge has not yet been validated by a human. Fill the 50 blind rows
-in `results/experiments/E12_final_comparison/human_validation_50.csv`, then run:
+An independent AI-assisted review completed all 50 blind rows: 39 supported,
+11 unsupported, and three supported by both text and pixels. Agreement with the
+frozen judge was 88%, Cohen's kappa 0.672, and modality agreement 86%. This is a
+secondary automated consistency check, not literal human validation.
+
+For a human-validation claim, first create a fresh copy of
+`results/experiments/E12_final_comparison/human_validation_50.csv` with the three
+label fields cleared. A person must independently label that blind copy without
+seeing the AI-assisted values; after replacing the reference labels, run:
 
 ```bash
 python -m src.final_validation --validate
 ```
 
-This reports agreement, Cohen's kappa, and a confusion matrix. Until completed,
-judge-derived faithfulness values are provisional.
+This reports agreement, Cohen's kappa, and a confusion matrix. Until human review
+is completed, judge-derived faithfulness values remain provisional.

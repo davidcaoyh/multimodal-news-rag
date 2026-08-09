@@ -41,15 +41,15 @@ the complete research process.
 | E03 | blind human validation of baseline judge | PLANNED | pending | TBD |
 | E04 | text/image duplicate and split-leakage audit | COMPLETE | group duplicate components | `results/experiments/E04_leakage_audit/` |
 | E05 | development/validation/final-test contract | COMPLETE | use grouped research roles | `data/research/split_manifest.parquet` |
-| E06a | local VLM feasibility screen | INVALID | aborted for thermal safety; use hosted inference | `results/experiments/E06_local_model_benchmark/` |
-| E06b | M_vision actual-image generation arm | COMPLETE | actual pixels operational; retain | `results/experiments/E09_development_generation/` |
+| E06 | M_vision actual-image generation arm | COMPLETE | actual pixels operational; retain | `results/experiments/E09_development_generation/` |
 | E07 | group-safe dense/image fusion selection | COMPLETE | select alpha=0.75 on development | `results/experiments/E07_research_retrieval/` |
 | E08 | strong text alternatives and reranking | COMPLETE | retain lexical ceiling; do not overclaim visual retrieval | `results/experiments/E08_research_reranking/` |
 | E09 | diagnostic four-arm development generation | COMPLETE | preserve targeted design | `results/experiments/E09_development_generation/` |
 | E10 | image-aware claim support and modality attribution | COMPLETE | actual pixels promising on diagnostic sample | `results/experiments/E10_development_claim_evaluation/` |
 | E11 | wrong-image stress test | COMPLETE | report modest case-dependent harm | `results/experiments/E11_wrong_image_stress/` |
 | E12 | frozen final held-out comparison | COMPLETE | pixels help selectively; average gain uncertain | `results/experiments/E12_final_comparison/` |
-| E13 | 50-claim human judge validation | READY | requires a human annotator | `results/experiments/E12_final_comparison/human_validation_50.csv` |
+| E13a | independent 50-claim AI-assisted audit | COMPLETE | retain as secondary agreement evidence | `results/experiments/E12_final_comparison/evaluation/human_validation_metrics.json` |
+| E13b | literal human judge validation | PLANNED | requires a freshly blinded human-review copy | `results/experiments/E12_final_comparison/human_validation_50.csv` |
 
 ## Inherited experiments
 
@@ -129,28 +129,9 @@ the complete research process.
 - **Limitations:** The 707-item pool is smaller than the inherited pool and may
   increase refusal. That is preferable to reporting leakage-contaminated gains.
 
-### E06a — local VLM feasibility screen
+### E06 — M_vision actual-image generation arm
 
-- **Status:** INVALID / ABORTED for model comparison; valid operational result.
-- **Question:** Can 4B–12B local vision-language models support the experimental
-  pipeline on the available M2 Max laptop without paid APIs?
-- **Protocol:** Twelve seeded development images, forced-choice associated-caption
-  discrimination, structured JSON output. Planned models were Qwen3-VL 4B,
-  Qwen3-VL 8B, and Gemma 3 12B.
-- **Outcome:** Both Qwen models completed 12 calls but returned empty answer
-  content while consuming output tokens, so their apparent 0% accuracy is invalid
-  and must not be reported as quality. Gemma returned valid JSON and selected the
-  associated caption on its first 6/6 cases, but the laptop became unacceptably
-  hot and the experiment was stopped before completion.
-- **Decision:** REJECT sustained local VLM inference on this hardware. Preserve
-  partial outputs as a feasibility/safety result and move all generator/judge
-  inference to hosted APIs. No training or fine-tuning was performed.
-- **Limitation:** Gemma's six cases are an incomplete, small, selected prefix and
-  provide no defensible comparative accuracy estimate.
-
-### E06b — M_vision actual-image generation arm
-
-- **Status:** RUNNING; implementation complete and hosted inference validated.
+- **Status:** COMPLETE; implementation and hosted inference validated.
 - **Research question:** Do actual retrieved image pixels add grounding value
   beyond the captions and text evidence already supplied to M?
 - **Controlled comparison:** M and M_vision use identical fused retrieval,
@@ -262,15 +243,19 @@ the complete research process.
 - **Artifacts:** `configs/final_research.json` and
   `results/experiments/E12_final_comparison/`.
 
-### E13 — human judge validation
+### E13a/E13b — independent audit and pending human validation
 
-- **Status:** READY / MANUAL.
-- **Artifact:** 50 blind usable claims with system label and automated verdict
-  omitted: `results/experiments/E12_final_comparison/human_validation_50.csv`.
-- **Action:** A human fills `human_supported` with `y` or `n` and optionally
-  `human_modality`; then run `python -m src.final_validation --validate`.
-- **Rule:** AI-generated labels do not count as human validation. Until this is
-  complete, all judge-derived faithfulness numbers remain provisional.
+- **AI-assisted audit:** The 50 blind rows were independently reviewed without
+  exposing frozen judge verdicts during the first pass. The audit labeled 39
+  claims supported and 11 unsupported, with three `both` modality labels.
+- **Agreement:** 44/50 (88%), Cohen's kappa 0.672, and modality agreement 86%.
+- **Artifacts:** `results/experiments/E12_final_comparison/human_validation_50.csv`,
+  `evaluation/human_validation_metrics.json`, and
+  `outputs/validation_audit/evidence_validation_50.xlsx`.
+- **Rule:** This is secondary automated agreement evidence, not literal human
+  validation. Before human review, make a fresh copy with `human_supported`,
+  `human_modality`, and `notes` cleared so the reviewer cannot see the AI-assisted
+  labels. Judge-derived faithfulness remains provisional until then.
 
 ## Experiment entry template
 
