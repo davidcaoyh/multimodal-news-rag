@@ -47,7 +47,8 @@ the complete research process.
 | E09 | diagnostic four-arm development generation | COMPLETE | preserve targeted design | `results/experiments/E09_development_generation/` |
 | E10 | image-aware claim support and modality attribution | COMPLETE | actual pixels promising on diagnostic sample | `results/experiments/E10_development_claim_evaluation/` |
 | E11 | wrong-image stress test | COMPLETE | report modest case-dependent harm | `results/experiments/E11_wrong_image_stress/` |
-| E12 | frozen final held-out comparison | COMPLETE | pixels help selectively; average gain uncertain | `results/experiments/E12_final_comparison/` |
+| E12 | frozen final held-out comparison | COMPLETE | superseded by E12b; n=12 could not resolve any outcome | `results/experiments/E12_final_comparison/` |
+| E12b | same frozen protocol, full 150-article final-test role | COMPLETE | direction consistently positive; M_vision-B1 borderline | `results/experiments/E12b_full_final_sample/` |
 | E13a | independent 50-claim AI-assisted audit | COMPLETE | retain as secondary agreement evidence | `results/experiments/E12_final_comparison/evaluation/human_validation_metrics.json` |
 | E13b | literal human judge validation | PLANNED | requires a freshly blinded human-review copy | `results/experiments/E12_final_comparison/human_validation_50.csv` |
 
@@ -256,6 +257,101 @@ the complete research process.
   validation. Before human review, make a fresh copy with `human_supported`,
   `human_modality`, and `notes` cleared so the reviewer cannot see the AI-assisted
   labels. Judge-derived faithfulness remains provisional until then.
+
+### E12b — frozen protocol on the full final-test role
+
+- **Status:** COMPLETE.
+- **Research question:** Do E12's conclusions hold when the frozen configuration is
+  executed on every article in the final-test role rather than a 20-article sample?
+- **Hypothesis:** E12's intervals were too wide to interpret. At n=12 neither a null
+  nor a positive result was distinguishable from noise, and M_vision-M reversed sign
+  between usability cuts (+0.037 usable, -0.015 nonhard). Enlarging the sample should
+  either sharpen the estimate or reveal the earlier one as an artifact.
+- **Commit:** `6c07606` on `research/final-sample-scaleup`, branched from `5330d55`.
+- **Dataset and split:** all 150 `final_test` articles from
+  `data/research/split_manifest.parquet`. Evidence restricted to the 707-article pool;
+  development and final-test ids forbidden and asserted per call.
+- **Query artifact:** `results/experiments/E12b_full_final_sample/queries.csv`. E12's
+  20 queries are copied verbatim; 130 new ones were generated in four batches with the
+  byte-identical instruction E12 used. Regenerating the inherited 20 would have risked
+  different wording and silently stopped them from being the same items.
+- **Systems/configurations:** B1, M, M_vision. k=5, alpha=0.75, tau=0.35, gpt-4o-mini
+  at temperature 0 / seed 42 / max_tokens 300, images at `detail: low`. Every value is
+  read from `configs/final_research.json` rather than restated, so drift is impossible.
+- **Controlled variables:** nothing was re-selected. This is E12's protocol with more
+  items, which is why it carries E12's ID with a suffix rather than a new number.
+- **Primary metrics:** macro claim faithfulness on jointly usable paired summaries,
+  10,000-resample paired bootstrap intervals, Wilcoxon signed-rank.
+- **Runtime/API cost:** $0.714 across 794 calls; ledger total $0.922 / 1,008 calls
+  against the $8 ceiling. About 40 minutes wall clock.
+- **Output artifacts:** `results/experiments/E12b_full_final_sample/` — `queries.csv`,
+  `summaries.csv` (450 rows), `evaluation/claims.csv` (2,838 claims), `metrics.csv`,
+  `paired_differences.csv`, `per_item.csv`, `per_item_by_category.csv`,
+  `diagnostics.json`.
+- **Outcome:**
+
+  | comparison | cut | n | difference | 95% CI | p |
+  |---|---|---:|---:|---|---:|
+  | M - B1 | usable | 75 | +0.0188 | [-0.0158,+0.0594] | 0.642 |
+  | M - B1 | nonhard | 101 | +0.0171 | [-0.0127,+0.0511] | 0.706 |
+  | M_vision - M | usable | 80 | +0.0254 | [-0.0028,+0.0558] | 0.102 |
+  | M_vision - M | nonhard | 104 | +0.0053 | [-0.0252,+0.0359] | 0.520 |
+  | M_vision - B1 | usable | 75 | +0.0348 | [+0.0017,+0.0708] | 0.057 |
+  | M_vision - B1 | nonhard | 98 | +0.0330 | [-0.0004,+0.0673] | 0.043 |
+
+  Usable faithfulness: B1 0.864 (n=77), M 0.874 (n=80), M_vision 0.898 (n=84).
+  Visual contribution rate 7.1%, up from E12's 4.0%.
+- **Interpretation:** E12's conclusions do not survive. M-B1 flips from -0.0405 to
+  +0.0188, so "fusion hurts faithfulness" was an artifact of n=12, and the
+  sign-disagreement between usability cuts disappears. All six comparisons are now
+  positive. The only one approaching significance is the full pixel pipeline against
+  text-only RAG; the two channel steps are individually null and each carries about
+  half the total, consistent with a small effect accumulating across both.
+- **Decision:** KEEP as the final result. Retain E12 in the ledger as a valid run whose
+  sample was too small, not as a retracted one — it is the evidence for how much a
+  20-item frozen sample can mislead.
+- **Limitations or invalidating conditions:**
+  - Six comparisons reported without multiplicity correction; Bonferroni requires
+    p < 0.008. `configs/final_research.json` freezes *adjacent* paired comparisons as
+    primary, so M_vision-B1 is post hoc and must be labelled as such.
+  - Bootstrap interval and Wilcoxon test disagree at the margin in both cuts.
+  - Detectable-effect floor is 0.043-0.054 against observed effects of 0.005-0.035.
+    Confirming M_vision-M needs 224 pairs and the role is exhausted at 150 articles,
+    so further power requires a larger corpus rather than another run.
+  - The role is unbalanced (74 society_culture, 4 sports), so E12b and E12 estimate
+    different quantities: the average over the declared role versus over a
+    category-balanced sample. Category cuts stay descriptive.
+  - Judge remains unvalidated by a human (E13b), so every faithfulness figure here is
+    provisional in the same way E12's was.
+
+### E12b-a — cross-machine reproduction and generator determinism
+
+- **Status:** COMPLETE. Free; no API calls.
+- **Research question:** Does a different machine reproduce the committed E12 retrieval,
+  and does temperature-0 generation reproduce its summaries?
+- **Protocol:** rebuild the index on Windows/conda, recompute retrieval for all 60
+  committed E12 rows, and diff article ids, evidence text, per-stream scores and image
+  paths. Then regenerate the 20 overlapping items in E12b and diff the summaries.
+- **Outcome, retrieval:** initially 46/60 article sets matched, with image scores
+  drifting up to 0.0088 while text scores were exact. Cause was **Pillow 10.4.0 against
+  the pinned 12.3.0** — CLIP's preprocessing does a PIL bicubic resize, and the
+  resampling implementation changed across those majors. `open_clip` versions already
+  matched, and torch was ruled out because SBERT was bit-identical. After aligning
+  Pillow: **60/60 on every field, max |delta| = 0.0 on both score streams.**
+- **Outcome, generation:** with byte-identical prompts, temperature 0 and seed 42, only
+  **17/60** summaries regenerated identically; mean character similarity 0.58, and 29 of
+  the 43 differing rows were substantial rewrites. Refusal *classification* was stable at
+  **58/60**, and the jointly-usable count on those 20 items was **12 in both runs**.
+- **Interpretation:** retrieval is reproducible across machines once Pillow is pinned;
+  generation is not reproducible at the level of wording, but is stable at the level that
+  determines sample composition. Run-to-run variance is therefore a real noise component
+  inside every per-item faithfulness score, and E12's exact figures cannot be reproduced
+  by re-running it. This also explains a transient judge failure at case 141, which
+  passed on retry without any configuration change.
+- **Decision:** KEEP. `embed.py` now pins SBERT to CPU so the encoders are
+  device-independent; the Pillow requirement is documented in the setup guide.
+- **Limitations:** the determinism estimate rests on 60 paired observations from two
+  runs. It bounds the noise but does not decompose it into generator and judge shares.
 
 ## Experiment entry template
 

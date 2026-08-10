@@ -13,10 +13,16 @@ The `research/end-to-end-multimodal` branch extends that work with duplicate-saf
 roles, actual image pixels in the generator, stronger retrieval baselines, a wrong-image
 stress test, a frozen held-out comparison, and an independent evidence-label audit.
 
-The final answer is conditional. **Actual pixels help some visually informative cases,
-but the frozen held-out experiment does not establish a reliable average improvement.**
-Text remains the dominant evidence source, and strong lexical retrieval leaves little
-headroom for image retrieval on this corpus.
+The final answer is conditional. **Across the full 150-article final-test role every
+paired comparison favours the multimodal systems, and the complete pixel pipeline beats
+text-only RAG by ~3.3 points (p=0.043, uncorrected) — but no comparison survives
+correction for the six tests reported, so this is a direction, not an established
+effect.** Text remains the dominant evidence source, and strong lexical retrieval leaves
+little headroom for image retrieval on this corpus.
+
+An earlier 20-article run of the same frozen protocol reported the *opposite* sign on
+M − B1. Enlarging the sample to the full role is what separated that artifact from the
+signal; see [What the small sample cost](#what-the-small-sample-cost).
 
 **Nothing is trained or fine-tuned.** SBERT and CLIP are frozen encoders, FAISS stores a
 searchable corpus index, and generation/judging use hosted inference.
@@ -57,23 +63,63 @@ caption ablations were also null.
 
 ### Frozen end-to-end pixel comparison
 
-| Final held-out system | Usable faithfulness | Usable coverage |
-|---|---:|---:|
-| B1: text RAG | **0.861** | 13/20 |
-| M: fused retrieval + captions | 0.834 | 12/20 |
-| M_vision: M + actual pixels | 0.858 | **13/20** |
+The frozen protocol was executed twice: on a 20-article category-balanced sample
+(E12) and, once E12's intervals proved uninformative, on every article in the
+150-item final-test role (E12b). Nothing was re-selected between the two runs — k,
+α, τ, the prompt, the generator, the decoding parameters and the judge are all read
+from `configs/final_research.json`.
 
-On 12 jointly usable final cases, M_vision − M = **+0.0366**, paired bootstrap
-95% CI **[−0.0155,+0.0888]**. The point estimate is positive, but the interval crosses
-zero. Only 4.0% of supported M_vision claims received independent support from both
-text and pixels; no supported claim required pixels alone.
+| Final held-out system | Usable faithfulness | Usable items |
+|---|---:|---:|
+| B1: text RAG | 0.864 | 77 |
+| M: fused retrieval + captions | 0.874 | 80 |
+| M_vision: M + actual pixels | **0.898** | 84 |
+
+Paired differences over the full role:
+
+| Comparison | Cut | n | Difference | 95% CI | p |
+|---|---|---:|---:|---|---:|
+| M − B1 | usable | 75 | +0.0188 | [−0.016,+0.059] | 0.642 |
+| M_vision − M | usable | 80 | +0.0254 | [−0.003,+0.056] | 0.102 |
+| M_vision − B1 | usable | 75 | **+0.0348** | [+0.002,+0.071] | 0.057 |
+| M_vision − B1 | nonhard | 98 | **+0.0330** | [−0.000,+0.067] | **0.043** |
+
+All six comparisons are positive and the two usability cuts agree in sign. The only
+one approaching significance is the full pixel pipeline against text-only RAG:
++3.3 to 3.5 points, win/loss 41/22 and 31/17. Each individual step is null
+(B1→M p≈0.7, M→M_vision p=0.10–0.52) and contributes roughly half the total.
+
+**This is not an established effect.** Six comparisons are reported without
+multiplicity correction, and Bonferroni would require p < 0.008. The bootstrap
+interval and the Wilcoxon test disagree at the margin in both cuts, which is what a
+borderline result looks like. Confirming M_vision − M at 80% power needs 224 pairs,
+and the final-test role is exhausted at 150 articles — more pairs require a larger
+corpus, not a re-run.
+
+7.1% of supported M_vision claims received independent support from both text and
+pixels; no supported claim required pixels alone.
+
+### What the small sample cost
+
+E12's 20-article run supported the opposite conclusion:
+
+| Comparison | E12 (n=12) | E12b (n=75) |
+|---|---:|---:|
+| M − B1 | −0.0405 | **+0.0188** |
+| M_vision − M | +0.0366 | +0.0254 |
+
+M − B1 flips sign, so E12's apparent "fusion hurts faithfulness" was an artifact of
+n=12. E12 also had M_vision − M pointing opposite ways in its two usability cuts
+(+0.037 usable, −0.015 nonhard) — a signature of noise that disappears at the full
+sample. Enlarging the sample improved the detectable-effect floor 1.3–2.2×
+(MDE 0.063–0.094 → 0.043–0.054) for $0.92 of hosted inference.
 
 ### Development versus final evidence
 
 | Evaluation | M_vision − M | Interpretation |
 |---|---:|---|
 | Targeted 12-case development diagnostic | +0.205, CI [+0.057,+0.427] | Shows possible benefit conditions; selected for visual sensitivity |
-| Frozen 20-case held-out comparison | +0.0366, CI [−0.0155,+0.0888] | Final estimate; average improvement not established |
+| Frozen 150-article held-out comparison, E12b | +0.0254, CI [−0.003,+0.056] | Final estimate; average improvement not established |
 
 This gap is a central insight: an enriched diagnostic can reveal a mechanism while
 substantially overstating its average population effect.
@@ -82,7 +128,9 @@ substantially overstating its average population effect.
 
 1. Retrieval is the largest contributor to factual grounding.
 2. Caption-mediated multimodality does not beat text RAG in this setting.
-3. Actual pixels can help individual cases but do not produce a conclusive average gain.
+3. Actual pixels shift faithfulness in a consistently positive direction, and the full
+   pixel pipeline beats text-only RAG by ~3.3 points at the edge of significance, but
+   no single comparison survives multiplicity correction.
 4. Image weight must be restrained; equal fusion and pure image retrieval underperform.
 5. Strong lexical cues create a retrieval ceiling that masks potential visual benefit.
 6. Incorrect images can reduce faithfulness, although the observed harm is case-dependent.
@@ -169,7 +217,8 @@ paired macro claim faithfulness with 10,000 bootstrap resamples.
 | Lexical/reranking, E08 | Branch | Are stronger text baselines competitive? | TF-IDF Recall@5 1.00, MRR 0.960 | **KEEP AS CEILING** | Questions contain strong lexical cues |
 | Visual diagnostic, E09/E10 | Branch | Under image-sensitive conditions, do pixels help? | M_vision − M +0.205 on nine paired cases | **DIAGNOSTIC ONLY** | Pixels can help when evidence is visibly informative |
 | Wrong-image stress, E11 | Branch | Can incorrect pixels misground the model? | 0.983 clean vs 0.927 wrong-image faithfulness | **KEEP** | Visual harm is real but case-dependent |
-| Frozen comparison, E12 | Branch / Final | Does the diagnostic gain generalize? | +0.0366; CI crosses zero | **FINAL / INCONCLUSIVE GAIN** | Selective benefit, no reliable average win |
+| Frozen comparison, E12 | Branch / Final | Does the diagnostic gain generalize? | +0.0366 on 12 pairs; CI crosses zero; cuts disagree in sign | **SUPERSEDED BY E12b** | n=12 could not resolve any outcome |
+| Full-sample rerun, E12b | Branch / Final | Same frozen protocol on all 150 final-test articles | M−B1 flips to +0.0188; M_vision−B1 +0.0330, p=0.043 | **FINAL / BORDERLINE** | Direction consistently positive; not multiplicity-corrected |
 | Evidence audit, E13a | Branch | Does a second blind review agree with the judge? | 88% agreement; κ=0.672; modality agreement 86% | **KEEP AS SECONDARY** | Reasonable automated consistency, not human validation |
 | Literal human validation, E13b | Missing | Has a human independently validated the judge? | Not completed | **OUTSTANDING** | Required before claiming human-validated faithfulness |
 
@@ -326,12 +375,23 @@ exceeds its configured $8 ceiling.
 
 ### New limitations found after further development
 
-- **Small frozen final sample.** Twenty queries and 12 paired M/M_vision cases produce
-  wide intervals around the pixel effect.
-- **Rare measurable pixel contribution.** Only 4.0% of supported M_vision claims receive
+- **Still underpowered, even at 150 articles.** E12b raised the paired sample from 12 to
+  75–104 and the detectable-effect floor is now 0.043–0.054, but the observed effects are
+  0.005–0.035. Confirming M_vision − M needs 224 pairs and the final-test role is
+  exhausted, so further power requires a larger corpus.
+- **Six uncorrected comparisons.** The p=0.043 headline would not survive Bonferroni
+  (threshold 0.008). `configs/final_research.json` freezes *adjacent* paired comparisons
+  as primary; M_vision − B1 was added afterwards and must be read as post hoc.
+- **Rare measurable pixel contribution.** Only 7.1% of supported M_vision claims receive
   `both` support and none require pixels alone.
 - **Development enrichment can exaggerate gains.** The targeted +0.205 result fell to
-  +0.0366 on the frozen sample.
+  +0.0254 on the full frozen sample.
+- **Generation is not reproducible run to run.** With byte-identical prompts, temperature 0
+  and a fixed seed, 43 of 60 regenerated summaries differed in wording (mean character
+  similarity 0.58). Refusal *classification* stayed stable (58/60) and the paired sample
+  composition was unchanged, so the comparison holds — but run-to-run variance is a real
+  noise source inside every per-item score, and E12's exact numbers cannot be reproduced
+  by re-running it.
 - **Wrong-image evidence is limited.** The stress result comes from five cases.
 - **Single outlet and month.** BBC News from January 2024 limits external validity.
 - **Same-provider generation and judging.** GPT-4o-mini and GPT-5.6 Luna are different
@@ -348,9 +408,12 @@ exceeds its configured $8 ceiling.
 | Embedding build | Approximately 40 seconds with two CPU threads |
 | Median final retrieval | 35 ms/query after loading |
 | Index and embedding artifacts | Approximately 38 MB |
-| Research-extension API ledger | $0.208 across 214 successful calls |
+| Research-extension API ledger | $0.922 across 1,008 successful calls |
+| ├ through E13a (20-article final sample) | $0.208 across 214 calls |
+| └ E12b full 150-article rerun | $0.714 across 794 calls |
 | Software budget ceiling | $8 against a $10 prepaid balance |
 | Identical cached reruns | $0 additional API cost |
+| Measured provider limits (2026-08-09) | 10,000 RPM / 200,000 TPM; TPM is the binding one |
 
 The inherited provider setup recorded $7.24 before the extension. The extension ledger
 is separate and conservative: input tokens are priced at the uncached rate.

@@ -54,6 +54,43 @@ Idempotent — re-run it any time.
 
 ---
 
+## Pillow's version is load-bearing for CLIP — don't drift off the pin
+
+`requirements.lock.txt` pins **`pillow==12.3.0`**. Installing anything else changes
+image retrieval, silently.
+
+CLIP's preprocessing does a PIL bicubic resize to 224px before the forward pass, and
+the resampling implementation changed between Pillow majors. Measured on this corpus
+with Pillow 10.4.0 against the pinned 12.3.0, every other package matching:
+
+| | with Pillow 10.4.0 | with Pillow 12.3.0 |
+|---|---:|---:|
+| E12 article sets reproduced | 46/60 | **60/60** |
+| max \|Δ image score\| | 0.0088 | **0.0** |
+| max \|Δ text score\| | 0.0 | 0.0 |
+
+Nothing raises. Both matrices are unit-norm, self-retrieval passes, and the images
+still look relevant — only the fused top-5 ranking shifts on near-ties, which is
+enough to change which articles the multimodal arm summarises. This is the same class
+of trap as the `ViT-B-32-quickgelu` model name: it runs, it passes every acceptance
+check, and it quietly makes your numbers incomparable with everyone else's.
+
+Text is unaffected — SBERT reproduced bit-identically — so a B1-only run is safe. The
+damage is confined to the image stream and therefore to M and M_vision.
+
+Related: `embed.py` pins SBERT to `device="cpu"`. sentence-transformers otherwise
+auto-selects CUDA when a GPU is present, which produces different embeddings on a GPU
+machine than on a CPU one for the same reason. Do not remove the pin to speed up a
+rebuild; the build is ~90 s and the comparability is the whole point.
+
+**Check your version before trusting a rebuild:**
+
+```bash
+python -c "import PIL; print(PIL.__version__)"   # must be 12.3.0
+```
+
+---
+
 ## The macOS OpenMP trap
 
 **If you are on a Mac, read this — it will bite you otherwise.**
