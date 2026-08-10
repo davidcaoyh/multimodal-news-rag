@@ -364,18 +364,26 @@ exceeds its configured $8 ceiling.
 - **[Partially addressed after further development] Moving evidence yardstick.** M versus
   M_vision fixes text evidence and changes only pixels. B1 versus M still retrieves
   different evidence and is judged against each arm's own context.
-- **[Partially addressed after further development] Weak story categories.** The final
-  sample balances five section families, but only one to four paired usable cases remain
-  per family, so category results are descriptive.
+- **[Partially addressed after further development] Weak story categories.** E12b covers
+  the whole final-test role, so per-family counts rose from one-to-four paired cases to
+  the role's natural distribution — but that distribution is itself lopsided
+  (74 society_culture, 30 international, 24 politics_conflict, 18 business/tech/science,
+  4 sports, the corpus-wide total). Category results stay descriptive, now because the
+  role is unbalanced rather than because the sample was small.
 
 ### Still open
 
-- **High refusal and unusable-summary rates.** Only 12–13 of 20 final summaries per arm
-  are usable, sharply reducing paired sample size.
+- **High refusal and unusable-summary rates.** At the full role, 77/80/84 of 150 summaries
+  per arm are usable (B1/M/M_vision), leaving 75 jointly usable B1–M pairs and 80 M–M_vision
+  pairs. E12b removed the *absolute* sample-size problem but not the refusal rate itself:
+  roughly 45% of items still produce a hard or soft refusal, and the τ gate fired zero
+  times, so every refusal came from the model rather than the confidence threshold.
 - **No literal human validation.** The AI-assisted audit checks consistency but does not
   satisfy a human-annotation claim.
 - **Text-retrieval ceiling.** Dense text, fusion, and lexical retrieval all reach
-  Recall@5=1.00 on the frozen sample; TF-IDF also reaches 1.00 on development.
+  Recall@5=1.00 on E12's 20-query sample; TF-IDF also reaches 1.00 on development.
+  Retrieval metrics were **not** recomputed for E12b's 150 queries, so whether the ceiling
+  holds at the full role is untested — the E12b rerun covers generation and judging only.
 - **Demo diagnostics are not causal evidence.** On-screen retrieval scores cannot decide
   which system generates more faithful claims.
 
