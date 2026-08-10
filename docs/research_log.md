@@ -290,14 +290,17 @@ the complete research process.
   `diagnostics.json`.
 - **Outcome:**
 
-  | comparison | cut | n | difference | 95% CI | p |
-  |---|---|---:|---:|---|---:|
-  | M - B1 | usable | 75 | +0.0188 | [-0.0158,+0.0594] | 0.642 |
-  | M - B1 | nonhard | 101 | +0.0171 | [-0.0127,+0.0511] | 0.706 |
-  | M_vision - M | usable | 80 | +0.0254 | [-0.0028,+0.0558] | 0.102 |
-  | M_vision - M | nonhard | 104 | +0.0053 | [-0.0252,+0.0359] | 0.520 |
-  | M_vision - B1 | usable | 75 | +0.0348 | [+0.0017,+0.0708] | 0.057 |
-  | M_vision - B1 | nonhard | 98 | +0.0330 | [-0.0004,+0.0673] | 0.043 |
+  | comparison | status | cut | n | difference | 95% CI | p |
+  |---|---|---|---:|---:|---|---:|
+  | M - B1 | prespecified | usable | 75 | +0.0188 | [-0.0158,+0.0594] | 0.642 |
+  | M - B1 | prespecified | nonhard | 101 | +0.0171 | [-0.0127,+0.0511] | 0.706 |
+  | M_vision - M | prespecified | usable | 80 | +0.0254 | [-0.0028,+0.0558] | 0.102 |
+  | M_vision - M | prespecified | nonhard | 104 | +0.0053 | [-0.0252,+0.0359] | 0.520 |
+  | M_vision - B1 | **post hoc** | usable | 75 | +0.0348 | [+0.0017,+0.0708] | 0.057 |
+  | M_vision - B1 | **post hoc** | nonhard | 98 | +0.0330 | [-0.0004,+0.0673] | 0.043 |
+
+  Both prespecified comparisons are null. The frozen config commits to the two rungs
+  of the ladder, B1->M and M->M_vision, and neither reaches significance.
 
   Usable faithfulness: B1 0.864 (n=77), M 0.874 (n=80), M_vision 0.898 (n=84).
   Visual contribution rate 7.1%, up from E12's 4.0%.

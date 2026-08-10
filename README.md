@@ -15,10 +15,11 @@ stress test, a frozen held-out comparison, and an independent evidence-label aud
 
 The final answer is conditional. **Across the full 150-article final-test role every
 paired comparison favours the multimodal systems, and the complete pixel pipeline beats
-text-only RAG by ~3.3 points (p=0.043, uncorrected) — but no comparison survives
-correction for the six tests reported, so this is a direction, not an established
-effect.** Text remains the dominant evidence source, and strong lexical retrieval leaves
-little headroom for image retrieval on this corpus.
+text-only RAG by ~3.3 points (p=0.043, uncorrected and post hoc) — but no comparison
+survives correction for the six tests reported, and both prespecified comparisons are
+null, so this is a direction, not an established effect.** Text remains the dominant
+evidence source, and strong lexical retrieval leaves little headroom for image retrieval
+on this corpus.
 
 An earlier 20-article run of the same frozen protocol reported the *opposite* sign on
 M − B1. Enlarging the sample to the full role is what separated that artifact from the
@@ -79,10 +80,15 @@ Paired differences over the full role:
 
 | Comparison | Cut | n | Difference | 95% CI | p |
 |---|---|---:|---:|---|---:|
-| M − B1 | usable | 75 | +0.0188 | [−0.016,+0.059] | 0.642 |
-| M_vision − M | usable | 80 | +0.0254 | [−0.003,+0.056] | 0.102 |
-| M_vision − B1 | usable | 75 | **+0.0348** | [+0.002,+0.071] | 0.057 |
-| M_vision − B1 | nonhard | 98 | **+0.0330** | [−0.000,+0.067] | **0.043** |
+| M − B1 *(prespecified)* | usable | 75 | +0.0188 | [−0.016,+0.059] | 0.642 |
+| M_vision − M *(prespecified)* | usable | 80 | +0.0254 | [−0.003,+0.056] | 0.102 |
+| M_vision − B1 **(post hoc)** | usable | 75 | **+0.0348** | [+0.002,+0.071] | 0.057 |
+| M_vision − B1 **(post hoc)** | nonhard | 98 | **+0.0330** | [−0.000,+0.067] | **0.043** |
+
+`configs/final_research.json` freezes *adjacent* paired comparisons as primary.
+M_vision − B1 skips a rung and was added after the data was seen, so it is post hoc
+and cannot carry the conclusion on its own — it is reported because it is the
+comparison the accumulated effect shows up in, not because it was predicted.
 
 All six comparisons are positive and the two usability cuts agree in sign. The only
 one approaching significance is the full pixel pipeline against text-only RAG:
@@ -128,9 +134,9 @@ substantially overstating its average population effect.
 
 1. Retrieval is the largest contributor to factual grounding.
 2. Caption-mediated multimodality does not beat text RAG in this setting.
-3. Actual pixels shift faithfulness in a consistently positive direction, and the full
-   pixel pipeline beats text-only RAG by ~3.3 points at the edge of significance, but
-   no single comparison survives multiplicity correction.
+3. Actual pixels shift faithfulness in a consistently positive direction, but **both
+   prespecified comparisons are null**. The full pipeline beats text-only RAG by ~3.3
+   points at the edge of significance, and that comparison is post hoc and uncorrected.
 4. Image weight must be restrained; equal fusion and pure image retrieval underperform.
 5. Strong lexical cues create a retrieval ceiling that masks potential visual benefit.
 6. Incorrect images can reduce faithfulness, although the observed harm is case-dependent.
@@ -218,7 +224,7 @@ paired macro claim faithfulness with 10,000 bootstrap resamples.
 | Visual diagnostic, E09/E10 | Branch | Under image-sensitive conditions, do pixels help? | M_vision − M +0.205 on nine paired cases | **DIAGNOSTIC ONLY** | Pixels can help when evidence is visibly informative |
 | Wrong-image stress, E11 | Branch | Can incorrect pixels misground the model? | 0.983 clean vs 0.927 wrong-image faithfulness | **KEEP** | Visual harm is real but case-dependent |
 | Frozen comparison, E12 | Branch / Final | Does the diagnostic gain generalize? | +0.0366 on 12 pairs; CI crosses zero; cuts disagree in sign | **SUPERSEDED BY E12b** | n=12 could not resolve any outcome |
-| Full-sample rerun, E12b | Branch / Final | Same frozen protocol on all 150 final-test articles | M−B1 flips to +0.0188; M_vision−B1 +0.0330, p=0.043 | **FINAL / BORDERLINE** | Direction consistently positive; not multiplicity-corrected |
+| Full-sample rerun, E12b | Branch / Final | Same frozen protocol on all 150 final-test articles | Prespecified comparisons null; post hoc M_vision−B1 +0.0330, p=0.043 | **FINAL / BORDERLINE** | Direction consistently positive; not multiplicity-corrected |
 | Evidence audit, E13a | Branch | Does a second blind review agree with the judge? | 88% agreement; κ=0.672; modality agreement 86% | **KEEP AS SECONDARY** | Reasonable automated consistency, not human validation |
 | Literal human validation, E13b | Missing | Has a human independently validated the judge? | Not completed | **OUTSTANDING** | Required before claiming human-validated faithfulness |
 

@@ -12,9 +12,10 @@ The answer is conditional rather than a universal win. Actual pixels produced a
 large improvement on a deliberately image-sensitive development sample, and on the
 full 150-article final-test role every paired comparison favours the multimodal
 systems. The complete pixel pipeline beats text-only RAG by 3.3-3.5 points at the
-edge of significance (p=0.043 nonhard, 0.057 usable), but no comparison survives
-correction for the six tests reported. Pixels help some individual cases and can
-hurt under image conflict.
+edge of significance (p=0.043 nonhard, 0.057 usable) — but that comparison is post
+hoc, both prespecified comparisons are null, and no comparison survives correction
+for the six tests reported. Pixels help some individual cases and can hurt under
+image conflict.
 
 The frozen protocol was run twice. E12 used 20 category-balanced articles and
 yielded 12 paired cases, at which n every interval crossed zero and the sign of
@@ -60,14 +61,21 @@ tied rather than improved on text retrieval.
 
 Paired differences, 10,000-resample bootstrap intervals:
 
-| comparison | cut | n | difference | 95% CI | Wilcoxon p | win/loss |
-|---|---|---:|---:|---|---:|---:|
-| M − B1 | usable | 75 | +0.0188 | [−0.0158,+0.0594] | 0.642 | 28/24 |
-| M − B1 | nonhard | 101 | +0.0171 | [−0.0127,+0.0511] | 0.706 | 35/31 |
-| M_vision − M | usable | 80 | +0.0254 | [−0.0028,+0.0558] | 0.102 | 28/19 |
-| M_vision − M | nonhard | 104 | +0.0053 | [−0.0252,+0.0359] | 0.520 | 34/27 |
-| M_vision − B1 | usable | 75 | +0.0348 | [+0.0017,+0.0708] | 0.057 | 31/17 |
-| M_vision − B1 | nonhard | 98 | +0.0330 | [−0.0004,+0.0673] | 0.043 | 41/22 |
+| comparison | status | cut | n | difference | 95% CI | Wilcoxon p | win/loss |
+|---|---|---|---:|---:|---|---:|---:|
+| M − B1 | prespecified | usable | 75 | +0.0188 | [−0.0158,+0.0594] | 0.642 | 28/24 |
+| M − B1 | prespecified | nonhard | 101 | +0.0171 | [−0.0127,+0.0511] | 0.706 | 35/31 |
+| M_vision − M | prespecified | usable | 80 | +0.0254 | [−0.0028,+0.0558] | 0.102 | 28/19 |
+| M_vision − M | prespecified | nonhard | 104 | +0.0053 | [−0.0252,+0.0359] | 0.520 | 34/27 |
+| M_vision − B1 | **post hoc** | usable | 75 | +0.0348 | [+0.0017,+0.0708] | 0.057 | 31/17 |
+| M_vision − B1 | **post hoc** | nonhard | 98 | +0.0330 | [−0.0004,+0.0673] | 0.043 | 41/22 |
+
+**Both prespecified comparisons are null.** The frozen config declares adjacent paired
+comparisons as primary, which means the two rungs of the ladder — B1 to M, and M to
+M_vision — are what this experiment committed to testing, and neither reaches
+significance. M_vision − B1 skips a rung, was added after the data was seen, and is
+reported because it is where the accumulated effect becomes visible, not because it
+was predicted.
 
 - Every comparison is positive and the two usability cuts agree in sign.
 - The individual channel steps are each null and each carries roughly half the
