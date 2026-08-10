@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import random
 import time
 from pathlib import Path
@@ -22,7 +23,14 @@ DEFAULT_OUT = ROOT / "results" / "experiments" / "E10_development_claim_evaluati
 MODEL = "gpt-5.6-luna"
 MAX_TOKENS = 6000
 CONFIGS = ("B1", "M_nocap", "M", "M_vision")
-MIN_API_INTERVAL = 31.0
+# 31 s enforces the 2 requests/min the project was limited to when E09-E12 ran.
+# Measured 2026-08-09 on the current key: the limit is now 10,000 RPM / 200,000
+# TPM, so the gap is obsolete and costs ~6.5 h of pure sleeping on a 150-item run.
+# Kept as the DEFAULT anyway: lowering it silently would change the pacing of any
+# re-run of an E-numbered experiment, and the ledger records timings. Override
+# explicitly via RESEARCH_MIN_API_INTERVAL when the measured limit allows it.
+# TPM is the real ceiling now (~4,400 tokens/call), so ~1.5 s stays well inside it.
+MIN_API_INTERVAL = float(os.environ.get("RESEARCH_MIN_API_INTERVAL", 31.0))
 _last_api_call = 0.0
 
 DECOMPOSE_SCHEMA = {
@@ -275,7 +283,12 @@ def _report(claims: pd.DataFrame, summaries: pd.DataFrame, out: Path):
                     & claims.test_id.isin(usable_vision_ids)]
     visual_rate = float(vision.support.isin(["image_only", "both"]).mean()) if len(vision) else 0.0
     diagnostics = {
-        "experiment_id": "E12_final" if "category" in summaries else "E10",
+        # Derived from the output directory, not guessed from a column. The old
+        # rule ("has a `category` column" -> E12_final) mislabels every later run
+        # on final-test data, and the ledger requires one ID per run. Final-test
+        # runs nest their judge output in <EXP>/evaluation/, so step up one level
+        # when the leaf is that wrapper rather than the experiment itself.
+        "experiment_id": (out.parent if out.name == "evaluation" else out).name.split("_")[0],
         "split": "frozen final test" if "category" in summaries else "development diagnostic sample",
         "items": int(summaries.test_id.nunique()),
         "summaries": len(summaries),

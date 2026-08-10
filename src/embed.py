@@ -190,6 +190,15 @@ def embed_text(texts: list[str], batch_size: int = 256) -> np.ndarray:
     emb = _get_sbert().encode(
         texts,
         batch_size=batch_size,
+        # Pinned. sentence-transformers auto-selects CUDA when it is available, so
+        # the SAME code produces different embeddings on a GPU box than on the Mac
+        # the committed artifacts were built on — different kernels, different
+        # reduction order. Nothing raises and every sanity check still passes; the
+        # top-k ranking just quietly shifts on near-ties, which is the one thing
+        # that must NOT vary across clones, since B1-vs-M is compared between them.
+        # CLIP already runs on CPU (embed_images stacks CPU tensors), so this makes
+        # both encoders device-independent. Cost is seconds: 11k passages in ~19 s.
+        device="cpu",
         convert_to_numpy=True,
         normalize_embeddings=True,
         # Off for the single-string query encodes the demo makes on every rerun;
