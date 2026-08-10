@@ -1,0 +1,65 @@
+{
+  "experiment_id": "E12b",
+  "split": "frozen final test",
+  "items": 150,
+  "summaries": 450,
+  "claims": 2838,
+  "visual_contribution_rate": 0.07092198581560284,
+  "refusal_counts": [
+    {
+      "config": "B1",
+      "kind": "hard",
+      "n": 46
+    },
+    {
+      "config": "B1",
+      "kind": "soft",
+      "n": 27
+    },
+    {
+      "config": "B1",
+      "kind": "usable",
+      "n": 77
+    },
+    {
+      "config": "M",
+      "kind": "hard",
+      "n": 39
+    },
+    {
+      "config": "M",
+      "kind": "soft",
+      "n": 31
+    },
+    {
+      "config": "M",
+      "kind": "usable",
+      "n": 80
+    },
+    {
+      "config": "M_vision",
+      "kind": "hard",
+      "n": 43
+    },
+    {
+      "config": "M_vision",
+      "kind": "soft",
+      "n": 23
+    },
+    {
+      "config": "M_vision",
+      "kind": "usable",
+      "n": 84
+    }
+  ],
+  "budget": {
+    "calls": 1008,
+    "estimated_spend_usd": 0.921607,
+    "budget_usd": 8.0,
+    "remaining_software_budget_usd": 7.078393,
+    "by_model_usd": {
+      "gpt-4o-mini": 0.550937,
+      "gpt-5.6-luna": 0.37067
+    }
+  }
+}
