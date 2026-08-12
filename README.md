@@ -226,7 +226,7 @@ paired macro claim faithfulness with 10,000 bootstrap resamples.
 | Frozen comparison, E12 | Branch / Final | Does the diagnostic gain generalize? | +0.0366 on 12 pairs; CI crosses zero; cuts disagree in sign | **SUPERSEDED BY E12b** | n=12 could not resolve any outcome |
 | Full-sample rerun, E12b | Branch / Final | Same frozen protocol on all 150 final-test articles | Prespecified comparisons null; post hoc M_vision−B1 +0.0330, p=0.043 | **FINAL / BORDERLINE** | Direction consistently positive; not multiplicity-corrected |
 | Evidence audit, E13a | Branch | Does a second blind review agree with the judge? | 88% agreement; κ=0.672; modality agreement 86% | **KEEP AS SECONDARY** | Reasonable automated consistency, not human validation |
-| Literal human validation, E13b | Missing | Has a human independently validated the judge? | Not completed | **OUTSTANDING** | Required before claiming human-validated faithfulness |
+| Literal human validation, E13b | Branch | Does a human, labelling blind, agree with the judge? | 40/50 agreement but κ=0.057; error flat across arms | **COMPLETE / JUDGE NOT VALIDATED** | Absolute values provisional; paired comparison unaffected |
 
 Full protocols, null results, decisions, and artifacts are recorded in
 [`docs/research_log.md`](docs/research_log.md).
@@ -378,8 +378,21 @@ exceeds its configured $8 ceiling.
   pairs. E12b removed the *absolute* sample-size problem but not the refusal rate itself:
   roughly 45% of items still produce a hard or soft refusal, and the τ gate fired zero
   times, so every refusal came from the model rather than the confidence threshold.
-- **No literal human validation.** The AI-assisted audit checks consistency but does not
-  satisfy a human-annotation claim.
+- **The judge is not validated by the human check (E13b).** 50 claims sampled from E12b
+  were hand-labelled blind. Raw agreement was 40/50, but Cohen's κ was **0.057** — both
+  raters answer "supported" ~90% of the time, so chance agreement is already high and κ
+  removes nearly all of it. On the verdicts that carry the hallucination rate the overlap
+  is almost nil: the human marked 5 claims unsupported, the judge 7, and only 1 is the
+  same claim. **Absolute faithfulness values therefore remain provisional.**
+- **But the judge's error is not arm-dependent, so the paired comparison stands.** If the
+  judge were more lenient toward the arm with pixels, the M_vision result would be its
+  preference rather than the system's capability. Measured across all 2,838 claims, the
+  rate of supported verdicts carrying a self-contradicting reason is flat — 3.3% B1, 4.3%
+  M, 3.8% M_vision. Errors of that kind cancel in a within-item paired difference.
+- **The validation sample was itself too small where it mattered.** Only 7 of 50 claims
+  were judge-negative, and κ is unstable at that count. A stratified re-run — 25 positive
+  and 25 negative — would measure the judge's precision on the verdicts that actually
+  drive the hallucination rate.
 - **Text-retrieval ceiling.** Dense text, fusion, and lexical retrieval all reach
   Recall@5=1.00 on E12's 20-query sample; TF-IDF also reaches 1.00 on development.
   Retrieval metrics were **not** recomputed for E12b's 150 queries, so whether the ceiling

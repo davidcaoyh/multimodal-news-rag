@@ -146,19 +146,67 @@ mean −0.057, CI [−0.123,0.000]. Two cases degraded and three were unchanged.
 
 ## Validation status
 
-An independent AI-assisted review completed all 50 blind rows: 39 supported,
-11 unsupported, and three supported by both text and pixels. Agreement with the
-frozen judge was 88%, Cohen's kappa 0.672, and modality agreement 86%. This is a
-secondary automated consistency check, not literal human validation.
+Two checks exist, and only the second satisfies the contract.
 
-For a human-validation claim, first create a fresh copy of
-`results/experiments/E12_final_comparison/human_validation_50.csv` with the three
-label fields cleared. A person must independently label that blind copy without
-seeing the AI-assisted values; after replacing the reference labels, run:
+**E13a, AI-assisted audit on E12 claims.** An independent review completed all 50
+blind rows: 39 supported, 11 unsupported, three supported by both text and pixels.
+Agreement with the frozen judge was 88%, Cohen's kappa 0.672, modality agreement
+86%. The contract states that an AI assistant's labels do not count as human
+validation, so this is retained as secondary consistency evidence only.
+
+**E13b, literal human validation on E12b claims.** 50 claims were sampled at random
+from E12b's 2,838 and hand-labelled blind — no judge verdict and no system label
+visible. Sampled from E12b rather than reusing E12's sheet: E12b is what the
+conclusion rests on, and those rows never carried AI labels, so blindness is
+structural rather than asserted.
+
+| metric | value |
+|---|---:|
+| n | 50 |
+| raw agreement | 0.80 (40/50) |
+| **Cohen's kappa** | **0.057** |
+| modality agreement | 0.80 |
+| confusion (human rows, judge cols) | tn 1, fp 4, fn 6, tp 39 |
+
+**The judge is not validated.** Raw agreement of 80% and a kappa near zero are not
+in conflict: both raters answer "supported" for roughly 90% of claims, so chance
+agreement is already high and kappa removes almost all of the observed agreement.
+The verdicts that matter most are the negative ones, because the hallucination rate
+rests entirely on them — and there the overlap is nearly absent. The human marked 5
+claims unsupported, the judge marked 7, and exactly 1 is the same claim.
+
+The disagreements are systematic rather than noisy, and they run in both directions:
+
+- Where the judge was **stricter** (6 cases) it was usually right. The human passed
+  three attribution errors — claims saying "the board" where the evidence named a
+  professor, "unions" where it was the company, "fires" where it was damaged roads.
+- Where the judge was **more lenient** (4 cases) it was usually wrong, and in 3 of
+  those its own written reason argued against support while the verdict said
+  supported. That is a structured-output consistency failure, not a comprehension
+  failure.
+
+**What this does not undermine.** The risk worth checking is arm-dependent judge
+error: if the judge were more lenient toward the arm receiving pixels, the
+M_vision result would reflect its preference rather than the system's capability.
+The 50-item sample hints at it — judge-minus-human supported rate is -0.077 for B1,
+-0.106 for M, and +0.056 for M_vision — but at n=13/19/18 per arm that cannot be
+established. Measured instead across all 2,838 claims, the rate of supported
+verdicts carrying a self-contradicting reason is flat across arms: 3.3% B1, 4.3% M,
+3.8% M_vision. Errors of that kind cancel in a within-item paired difference, so the
+paired comparison survives while the absolute level does not.
+
+**Limitation of the validation itself.** Only 7 of the 50 sampled claims were
+judge-negative, and kappa is unstable at that count — a single item flipping moves
+it substantially. A stratified re-run, 25 judge-positive and 25 judge-negative,
+would estimate the judge's precision on the negative verdicts directly. Random
+sampling was kept here because it gives an unbiased estimate of overall agreement,
+which the stratified design would not.
+
+Reproduce with:
 
 ```bash
-python -m src.final_validation --validate
+python -m src.final_validation --base E12b_full_final_sample              # export blind sheet
+python -m src.final_validation --base E12b_full_final_sample --validate   # score it
 ```
 
-This reports agreement, Cohen's kappa, and a confusion matrix. Until human review
-is completed, judge-derived faithfulness values remain provisional.
+Judge-derived faithfulness values remain provisional.

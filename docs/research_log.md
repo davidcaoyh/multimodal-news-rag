@@ -50,7 +50,7 @@ the complete research process.
 | E12 | frozen final held-out comparison | COMPLETE | superseded by E12b; n=12 could not resolve any outcome | `results/experiments/E12_final_comparison/` |
 | E12b | same frozen protocol, full 150-article final-test role | COMPLETE | direction consistently positive; M_vision-B1 borderline | `results/experiments/E12b_full_final_sample/` |
 | E13a | independent 50-claim AI-assisted audit | COMPLETE | retain as secondary agreement evidence | `results/experiments/E12_final_comparison/evaluation/human_validation_metrics.json` |
-| E13b | literal human judge validation | PLANNED | requires a freshly blinded human-review copy | `results/experiments/E12_final_comparison/human_validation_50.csv` |
+| E13b | literal human judge validation on E12b claims | COMPLETE | judge NOT validated; error is not arm-dependent | `results/experiments/E12b_full_final_sample/human_validation_50.csv` |
 
 ## Inherited experiments
 
@@ -254,9 +254,49 @@ the complete research process.
   `evaluation/human_validation_metrics.json`, and
   `outputs/validation_audit/evidence_validation_50.xlsx`.
 - **Rule:** This is secondary automated agreement evidence, not literal human
-  validation. Before human review, make a fresh copy with `human_supported`,
-  `human_modality`, and `notes` cleared so the reviewer cannot see the AI-assisted
-  labels. Judge-derived faithfulness remains provisional until then.
+  validation. Superseded as the validation of record by E13b below; retained
+  because it is the only three-way reference point should anyone want to ask how
+  well an AI reviewer stands in for a human one.
+
+### E13b — literal human validation
+
+- **Status:** COMPLETE. Free; no API calls.
+- **Research question:** Does a human, labelling blind, agree with the frozen judge?
+- **Commit:** on `research/e13b-human-validation`, branched from E12b.
+- **Protocol:** 50 claims sampled at random (seed 42) from the 2,286 claims belonging
+  to usable E12b summaries. The exported sheet carries only `sample_id`, `query`,
+  `claim`, `evidence`, and `image_paths` — no system label, no judge verdict. Images
+  are shown only for rows where pixels were valid judge evidence, since hiding them
+  would ask the human to judge against evidence the system never received.
+- **Why E12b and not E12's existing sheet:** E12b is what the conclusion rests on, and
+  validating the judge on superseded claims would measure its reliability on data no
+  result depends on. E12's sheet also already carries E13a's AI labels, so blindness
+  there would have to be asserted rather than structural.
+- **Outcome:** n=50, raw agreement 0.80 (40/50), **Cohen's kappa 0.057**, modality
+  agreement 0.80. Confusion with human as rows: tn 1, fp 4, fn 6, tp 39. The human
+  marked 5 claims unsupported and the judge 7, overlapping on exactly 1.
+- **Interpretation:** The judge is not validated. High raw agreement with near-zero
+  kappa is the expected signature of a skewed base rate — both raters answer
+  "supported" for about 90% of claims, so chance agreement is already high. The
+  disagreements are systematic, not random, and cut both ways: where the judge was
+  stricter (6 cases) it was usually correct, catching attribution errors the human
+  passed; where it was more lenient (4 cases) it was usually wrong, and 3 of those
+  carried a written reason that argued against its own verdict.
+- **The check that mattered:** arm-dependent error would invalidate the headline, since
+  a judge more lenient toward the pixel arm would manufacture the M_vision result. The
+  50-item sample hints at exactly that (judge-minus-human supported rate: B1 -0.077,
+  M -0.106, M_vision +0.056) but n=13/19/18 per arm cannot establish it. Across all
+  2,838 claims the rate of supported verdicts carrying a self-contradicting reason is
+  flat — 3.3% B1, 4.3% M, 3.8% M_vision. No evidence of arm-dependent bias.
+- **Decision:** KEEP. Report absolute faithfulness as provisional; report the paired
+  comparison as unaffected, since a judge error that is constant across arms cancels
+  in a within-item difference.
+- **Limitations:** Only 7 of 50 claims were judge-negative, and kappa is unstable at
+  that count. Random sampling was kept because it gives an unbiased estimate of overall
+  agreement, but it barely touches the negative verdicts that carry the hallucination
+  rate. A stratified re-run, 25 positive and 25 negative, is the obvious follow-up.
+  This also validates only the verification pass, not claim decomposition — if the
+  judge split a summary into the wrong claims, these labels cannot detect it.
 
 ### E12b — frozen protocol on the full final-test role
 
