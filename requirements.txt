@@ -13,3 +13,4 @@ pandas
 pyarrow
 tqdm
 python-dotenv
+matplotlib
