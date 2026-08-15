@@ -11,15 +11,22 @@ The inherited `main` branch established the core result: retrieval greatly impro
 factual grounding, but caption-mediated multimodality does not outperform text RAG.
 The `research/end-to-end-multimodal` branch extends that work with duplicate-safe data
 roles, actual image pixels in the generator, stronger retrieval baselines, a wrong-image
-stress test, a frozen held-out comparison, and an independent evidence-label audit.
+stress test, a frozen held-out comparison, a rebuilt no-retrieval baseline on that same
+comparison, and an independent evidence-label audit.
 
-The final answer is conditional. **Across the full 150-article final-test role every
-paired comparison favours the multimodal systems, and the complete pixel pipeline beats
-text-only RAG by ~3.3 points (p=0.043, uncorrected and post hoc) — but no comparison
-survives correction for the six tests reported, and both prespecified comparisons are
-null, so this is a direction, not an established effect.** Text remains the dominant
-evidence source, and strong lexical retrieval leaves little headroom for image retrieval
-on this corpus.
+The dominant effect is retrieval itself, not modality. Rebuilt on the same split,
+generator, and judge as the rest of the ladder (E14), the no-retrieval baseline reaches
+only 0.146 faithfulness against 0.864–0.898 for any retrieval-augmented system — paired
+B1 − B0 = **+0.586**, 95% CI [0.525, 0.643], by far the largest and least ambiguous
+effect in the study.
+
+The multimodality answer is conditional. **Across the full 150-article final-test role
+every paired comparison favours the multimodal systems, and the complete pixel pipeline
+beats text-only RAG by ~3.3 points (p=0.043, uncorrected and post hoc) — but no
+comparison survives correction for the six tests reported, and both prespecified
+comparisons are null, so this is a direction, not an established effect.** Text remains
+the dominant evidence source, and strong lexical retrieval leaves little headroom for
+image retrieval on this corpus.
 
 An earlier 20-article run of the same frozen protocol reported the *opposite* sign on
 M − B1. Enlarging the sample to the full role is what separated that artifact from the
@@ -61,6 +68,30 @@ Labels used below:
 Retrieval cut hallucination by approximately **3.7×**. M did not improve over B1:
 paired M − B1 = −0.015, 95% CI [−0.043,+0.013], p=0.252. Separate retrieval and
 caption ablations were also null.
+
+This B0 number is `main`'s, scored on a different split by a different judge pipeline
+than everything below it — it predates the group-safe roles (E05) and the judge
+substitution (D4's practical-friction note). It is kept here as a dated historical
+snapshot, not as a comparison point against the final-test numbers that follow. See
+[B0 rebuilt on the final-test split](#b0-rebuilt-on-the-final-test-split-e14) for the
+apples-to-apples version.
+
+### B0 rebuilt on the final-test split (E14)
+
+B0 regenerated on the identical 150 final-test queries E12b uses, with the same
+gpt-4o-mini generator and gpt-5.6-luna judge as B1/M/M_vision below, judged against
+`union(B1 evidence, M evidence)` for the same query (D14). A paired addition to E12b,
+not a number from a different pipeline — see `docs/decisions.md` D17.
+
+| System | Evidence | Faithfulness | Usable |
+|---|---|---:|---:|
+| B0 | No retrieval | 0.146 | 150/150 |
+| B1 | Text passages | 0.864 | 77/150 |
+
+B0 never abstains (no retrieval-confidence gate to abstain against), so its usable count
+is not comparable to B1's. Paired **B1 − B0 = +0.586**, 95% CI **[0.525, 0.643]**,
+n=77 — the largest effect in the study, and *lower* than the inherited 0.243, i.e. the
+fix went against the direction that would have flattered this result.
 
 ### Frozen end-to-end pixel comparison
 
@@ -132,7 +163,9 @@ substantially overstating its average population effect.
 
 ### Main conclusions
 
-1. Retrieval is the largest contributor to factual grounding.
+1. Retrieval is by far the largest contributor to factual grounding: B1 − B0 = +0.586
+   on the final-test role (E14), an order of magnitude larger than any multimodal
+   comparison below.
 2. Caption-mediated multimodality does not beat text RAG in this setting.
 3. Actual pixels shift faithfulness in a consistently positive direction, but **both
    prespecified comparisons are null**. The full pipeline beats text-only RAG by ~3.3
@@ -227,6 +260,8 @@ paired macro claim faithfulness with 10,000 bootstrap resamples.
 | Full-sample rerun, E12b | Branch / Final | Same frozen protocol on all 150 final-test articles | Prespecified comparisons null; post hoc M_vision−B1 +0.0330, p=0.043 | **FINAL / BORDERLINE** | Direction consistently positive; not multiplicity-corrected |
 | Evidence audit, E13a | Branch | Does a second blind review agree with the judge? | 88% agreement; κ=0.672; modality agreement 86% | **KEEP AS SECONDARY** | Reasonable automated consistency, not human validation |
 | Literal human validation, E13b | Missing | Has a human independently validated the judge? | Not completed | **OUTSTANDING** | Required before claiming human-validated faithfulness |
+| B0 rebuilt on final split, E14 | Branch / Final | Is the B0-vs-B1 comparison an apples-to-apples pipeline? | B1−B0 = +0.586, CI [0.525,0.643], n=77 | **FINAL** | Largest, least ambiguous effect in the study (D17) |
+| Cross-model judge, E15 | Planned | Do conclusions replicate under a different-provider judge? | Not started | **FUTURE WORK** | See `docs/future_work.md` §0.2 |
 
 Full protocols, null results, decisions, and artifacts are recorded in
 [`docs/research_log.md`](docs/research_log.md).
@@ -270,9 +305,11 @@ copy with the existing label fields cleared.
 | Duplicate audit and group-safe roles | ✅ Complete | E04–E05 |
 | Retrieval and reranking experiments | ✅ Complete | E07–E08 |
 | Pixel mechanism and stress tests | ✅ Complete | E09–E11 |
-| Frozen final evaluation | ✅ Complete | E12 |
+| Frozen final evaluation | ✅ Complete | E12, rerun on the full role as E12b |
+| B0 rebuilt on the final-test pipeline | ✅ Complete | E14, D17 |
 | AI-assisted evidence audit | ✅ Complete | E13a |
-| Literal blind human validation | ⬜ Missing | E13b |
+| Literal blind human validation | ⬜ Missing | E13b, planned — `docs/future_work.md` §0.1 |
+| Cross-model judge validation | ⬜ Missing | E15, planned — `docs/future_work.md` §0.2 |
 | Public deployment | ◐ Partial / optional | Local Streamlit app is complete |
 | Course report and slides | ⬜ Separate deliverables | Not part of the code pipeline |
 
@@ -288,7 +325,7 @@ data/
 docs/                        Architecture, decisions, logs and final write-up
 outputs/validation_audit/    Reviewed audit workbook with provenance
 results/
-  experiments/               E04–E12 metrics and frozen outputs
+  experiments/               E04–E14 metrics and frozen outputs
 src/                         Retrieval, generation and evaluation pipeline
 tests/                       Lightweight invariants and regression tests
 ```
@@ -308,7 +345,9 @@ Important entry points:
 | `src/research_generation.py` | Development B1/M/M_vision generation |
 | `src/research_evaluation.py` | Image-aware claim support evaluation |
 | `src/research_stress.py` | Wrong-image stress experiment |
-| `src/research_final.py` | Frozen 20-case generation runner |
+| `src/research_final.py` | Frozen 20-case generation runner (E12) |
+| `src/research_scaleup.py` | E12's frozen protocol rerun on the full 150-item final-test role (E12b) |
+| `src/research_b0.py` | B0 rebuilt on E12b's split/judge, paired (E14, D17) |
 | `src/final_analysis.py` | Free post-freeze retrieval/category analysis |
 | `src/final_validation.py` | 50-claim agreement and κ calculation |
 
@@ -342,10 +381,13 @@ python -m src.final_validation --validate
 ```
 
 The committed results are already complete. Hosted generation and judging commands can
-make API calls if their cached outputs are removed. One OpenAI project key with Chat
-Completions access is used for GPT-4o-mini generation and GPT-5.6 Luna judging; no
-Anthropic key is required. The persistent ledger stops project code before the extension
-exceeds its configured $8 ceiling.
+make API calls if their cached outputs are removed — this includes `src/research_final.py`
+(E12), `src/research_scaleup.py` (E12b, `python -m src.research_scaleup`), and
+`src/research_b0.py` (E14, `python -m src.research_b0`), the scripts behind the headline
+numbers above. One OpenAI project key with Chat Completions access is used for GPT-4o-mini
+generation and GPT-5.6 Luna judging; no Anthropic key is required. The persistent ledger
+stops project code before the
+extension exceeds its configured $8 ceiling.
 
 ## Limitation status after further development
 
@@ -422,9 +464,10 @@ exceeds its configured $8 ceiling.
 | Embedding build | Approximately 40 seconds with two CPU threads |
 | Median final retrieval | 35 ms/query after loading |
 | Index and embedding artifacts | Approximately 38 MB |
-| Research-extension API ledger | $0.922 across 1,008 successful calls |
+| Research-extension API ledger | $1.099 across 1,458 successful calls |
 | ├ through E13a (20-article final sample) | $0.208 across 214 calls |
-| └ E12b full 150-article rerun | $0.714 across 794 calls |
+| ├ E12b full 150-article rerun | $0.714 across 794 calls |
+| └ E14 (B0 rebuilt, paired) | $0.18 across 450 calls |
 | Software budget ceiling | $8 against a $10 prepaid balance |
 | Identical cached reruns | $0 additional API cost |
 | Measured provider limits (2026-08-09) | 10,000 RPM / 200,000 TPM; TPM is the binding one |

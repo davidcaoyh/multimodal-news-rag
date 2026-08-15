@@ -687,3 +687,39 @@ The claim upgrades from "no effect observed" to **"no effect, localised to both 
 It also sharpens the remaining limitation: the model never sees pixels, so what has been
 falsified is *caption-mediated* multimodality, not multimodality as such. A vision-capable
 generator arm is the natural next experiment (`docs/evaluation_report.md` §6, Tier 1.1).
+
+---
+
+## D17 — B0 rebuilt on the final-test split and judge, paired with E12b (E14)
+
+**Status:** decided 2026-08-14. `src/research_b0.py`. Amends D14.
+
+### The problem
+The report's headline "retrieval removes hallucination" claim rested on the inherited B0
+number (0.243 faithfulness, `docs/baseline_summary.md`) sitting next to E12b's B1/M/M_vision
+numbers (0.864/0.874/0.898) as if they were one comparison. They are not: inherited B0 was
+scored on `main`'s random pool/test split by a different judge pipeline than the one E12b
+uses, before the group-safe roles (D5, E05) or the gpt-5.6-luna judge substitution (D4's
+practical-friction note) existed. Reported side by side, this reads as a single controlled
+result when it silently splices two different pipelines.
+
+### The decision
+Regenerate B0 with `gpt-4o-mini` on the identical 150 final-test queries E12b used, judge it
+with the same `gpt-5.6-luna` judge already scoring B1/M/M_vision, against
+`union(B1 evidence, M evidence)` per D14. Recorded as E14, paired with E12b rather than
+replacing it.
+
+### Result
+Faithfulness 0.146 (150/150 usable — B0 has no retrieval-confidence gate to abstain against,
+so unlike B1/M/M_vision it never refuses). Paired $B_1-B_0 = +0.586$, 95% CI
+$[0.525, 0.643]$, $n=77$ — the largest, least ambiguous effect in the whole study, and now
+computed on a pipeline consistent with the rest of the ladder. This *lowered* the reported
+B0 faithfulness relative to the inherited 0.243, i.e. the fix went against the direction that
+would have flattered the headline result.
+
+### What the report must say
+Table 2 (`report/report.tex`) now includes $B_0$ as a row scored on the same generator,
+judge, and split as $B_1$/$M$/$M_{\text{vision}}$, with an explicit note that its usable
+count is not comparable to theirs (no abstention gate). `docs/baseline_summary.md` and
+`docs/evaluation_report.md` are untouched — they are dated, explicitly-frozen snapshots of
+`main` before this branch existed, not claims about the current pipeline.

@@ -33,17 +33,15 @@ attacks both.
 ### 0.1 Validate the judge  ·  $0  ·  ~30 min
 
 **Every faithfulness number is provisional until this is done.** If judge agreement is
-poor, the central null result is a statement about the judge, not the system.
+poor, the central null result is a statement about the judge, not the system. Not yet
+attempted with a fluent human rater — this needs a small export/score script (blind
+sample of ~50 claims, `config` and the judge's verdict withheld, hand-labeled `y`/`n`,
+then scored for agreement and Cohen's κ against the judge). `src/final_validation.py`'s
+`export()`/`validate()` pair is a template for the shape of this, though it currently
+serves the separate AI-assisted secondary check rather than a human rater.
 
-```bash
-python -m src.evaluate --sample-validation   # already exported, blind
-# fill `your_label` with y/n in results/validation_sample.csv
-python -m src.evaluate --validate            # agreement + Cohen's kappa
-```
-
-The sample deliberately withholds `config` and the judge's verdict — seeing the answer
-before writing your own is confirmation, not validation. Report agreement and κ; >0.6 is
-substantial, >0.8 near-perfect.
+Seeing the judge's answer before writing your own is confirmation, not validation.
+Report agreement and κ; >0.6 is substantial, >0.8 near-perfect.
 
 ### 0.2 Second-judge robustness  ·  ~$2.70  ·  ~10 min
 

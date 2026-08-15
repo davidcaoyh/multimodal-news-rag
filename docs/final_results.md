@@ -55,11 +55,24 @@ tied rather than improved on text retrieval.
 
 | frozen final system | usable faithfulness | usable items |
 |---|---:|---:|
+| B0 no retrieval | 0.146 | 150 / 150 |
 | B1 text RAG | 0.864 | 77 / 150 |
 | M fused retrieval + captions | 0.874 | 80 / 150 |
 | M_vision M + pixels | **0.898** | 84 / 150 |
 
-Paired differences, 10,000-resample bootstrap intervals:
+B0 (E14, D17) is a paired addition to E12b, not a number from a different pipeline: same
+150 final-test queries, same gpt-4o-mini generator, same gpt-5.6-luna judge as B1/M/M_vision,
+judged against `union(B1 evidence, M evidence)` per D14. It supersedes the inherited B0
+number (0.243, `docs/baseline_summary.md`) for any comparison against these three systems —
+that earlier number came from a different split and a different judge pipeline. B0's
+150/150 usable count reflects having no retrieval-confidence gate to abstain against, not
+better grounding, so it is not directly comparable to B1/M/M_vision's usable counts.
+
+The single largest effect in the entire study is retrieval itself: paired
+$B_1 - B_0 = +0.586$, 95% CI $[0.525, 0.643]$, $n=77$ usable paired items — far larger and
+far less ambiguous than any of the multimodal comparisons below.
+
+Paired differences among the retrieval systems, 10,000-resample bootstrap intervals:
 
 | comparison | status | cut | n | difference | 95% CI | Wilcoxon p | win/loss |
 |---|---|---|---:|---:|---|---:|---:|
@@ -134,9 +147,9 @@ mean −0.057, CI [−0.123,0.000]. Two cases degraded and three were unchanged.
 - Embedding build: about 40 seconds with two CPU threads.
 - Median final retrieval: 35 ms/query after loading.
 - Index plus embedding artifacts: about 38 MB.
-- Research-extension API ledger: $0.922 across 1,008 successful calls, under the
-  code-enforced $8 ceiling and $10 prepaid balance. E12b accounts for $0.714 of
-  that across 794 calls.
+- Research-extension API ledger: $1.099 across 1,458 successful calls, under the
+  code-enforced $8 ceiling and $10 prepaid balance. E12b accounts for $0.714 across 794
+  calls, and E14 (B0, D17) a further $0.18 across 450 calls.
 - Measured provider limits, 2026-08-09: 10,000 RPM and 200,000 TPM. Tokens bind,
   not requests: a generation call carries ~6,205 tokens, so unpaced serial calls
   reach ~186k tokens/min. Pacing is therefore derived from the token budget
@@ -162,3 +175,7 @@ python -m src.final_validation --validate
 
 This reports agreement, Cohen's kappa, and a confusion matrix. Until human review
 is completed, judge-derived faithfulness values remain provisional.
+
+Cross-model judge robustness (re-scoring the same summaries with a different-provider
+judge, e.g. `claude-sonnet-5`) is also planned future work rather than completed —
+see `docs/future_work.md` §0.2.

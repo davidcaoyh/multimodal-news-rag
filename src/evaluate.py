@@ -5,8 +5,6 @@ Day 5: the two metrics that can actually answer the research question.
     python -m src.evaluate --judge --limit 3     # cheap smoke test of the judge path
     python -m src.evaluate --judge               # faithfulness (budget guarded; needs key)
     python -m src.evaluate --report              # aggregate -> results/metrics.csv
-    python -m src.evaluate --sample-validation   # 50 blind claims -> hand-label CSV
-    python -m src.evaluate --validate            # score the filled-in CSV
     python -m src.evaluate --dry-run             # print one judge request, send nothing
 
 Why only these two metrics (D12). Any number computed from the text stream alone
@@ -82,7 +80,6 @@ SUMMARIES = ROOT / "results" / "summaries.csv"
 CLAIMS_OUT = ROOT / "results" / "claims.csv"
 METRICS_OUT = ROOT / "results" / "metrics.csv"
 RECALL_OUT = ROOT / "results" / "recall.csv"
-VALIDATION_OUT = ROOT / "results" / "validation_sample.csv"
 
 # D4: different model family from the generator, so faithfulness is not self-graded.
 JUDGE_MODEL = "gpt-5.6-luna"
@@ -725,73 +722,6 @@ def recall(alphas=(0.0, 0.25, 0.5, 0.75, 0.9, 1.0), ks=(1, 5, 10)) -> pd.DataFra
     return out
 
 
-# ================================================== judge validation (D4, ~30 min)
-
-def sample_validation(n: int = 50, seed: int = SEED) -> pd.DataFrame:
-    """Export n random claims for hand-labeling, BLIND to config and to the verdict.
-
-    D4 calls this non-skippable, and it is the cheapest credibility available: one
-    line in the report — "judge validated against 50 hand-labeled claims, N%
-    agreement" — converts the weakest methodological point into a strength.
-
-    The exported file deliberately omits `config` and `supported`. Seeing the judge's
-    answer before writing your own is not validation, it is confirmation.
-    """
-    claims = pd.read_csv(CLAIMS_OUT)
-    s = claims.sample(n=min(n, len(claims)), random_state=seed).reset_index(drop=True)
-
-    df = load_summaries()
-    ev = {(r.test_id, r.config): r.evidence for r in df.itertuples()}
-    out = []
-    for r in s.itertuples():
-        e = (merge_evidence(ev.get((r.test_id, "B1"), ""), ev.get((r.test_id, "M"), ""))
-             if r.config == "B0" else ev.get((r.test_id, r.config), ""))
-        out.append({
-            "sample_id": f"{r.test_id}:{r.config}:{r.claim_index}",
-            "claim": r.claim,
-            "evidence": e,
-            "your_label": "",    # <- fill in: y = supported by the evidence, n = not
-        })
-    v = pd.DataFrame(out)
-    v.to_csv(VALIDATION_OUT, index=False)
-    print(f"wrote {VALIDATION_OUT}  ({len(v)} claims, config and judge verdict withheld)")
-    print("\nFill the `your_label` column with y (supported by the evidence alone) or n.\n"
-          "Judge support by the evidence ONLY — a claim true in the world but absent\n"
-          "from the evidence is 'n'. Then: python -m src.evaluate --validate")
-    return v
-
-
-def validate() -> None:
-    """Score the hand-labeled sample against the judge. Cohen's kappa + agreement."""
-    from sklearn.metrics import cohen_kappa_score, confusion_matrix
-
-    v = pd.read_csv(VALIDATION_OUT)
-    v["your_label"] = v.your_label.astype(str).str.strip().str.lower()
-    filled = v[v.your_label.isin(["y", "n"])]
-    if filled.empty:
-        raise SystemExit(f"no labels filled in {VALIDATION_OUT} — add y/n to `your_label`")
-    if len(filled) < len(v):
-        print(f"note: {len(v) - len(filled)}/{len(v)} rows unlabeled, scoring the rest")
-
-    claims = pd.read_csv(CLAIMS_OUT)
-    claims["sample_id"] = (claims.test_id + ":" + claims.config + ":"
-                           + claims.claim_index.astype(str))
-    m = filled.merge(claims[["sample_id", "supported"]], on="sample_id", how="left")
-    human = (m.your_label == "y").to_numpy()
-    judge = m.supported.astype(bool).to_numpy()
-
-    agree = float((human == judge).mean())
-    kappa = float(cohen_kappa_score(human, judge))
-    tn, fp, fn, tp = confusion_matrix(human, judge, labels=[False, True]).ravel()
-    print(f"\n{'=' * 72}\nJUDGE VALIDATION — {len(m)} hand-labeled claims\n{'=' * 72}")
-    print(f"  agreement      {agree:.1%}")
-    print(f"  Cohen's kappa  {kappa:.3f}   (>0.6 substantial, >0.8 near-perfect)")
-    print(f"  judge says supported, you say not: {fp}")
-    print(f"  judge says not, you say supported: {fn}")
-    print(f"\nReport line: \"the judge was validated against {len(m)} hand-labeled claims, "
-          f"{agree:.0%} agreement (kappa {kappa:.2f})\".")
-
-
 # ========================================================================= CLI
 
 def dry_run() -> None:
@@ -818,8 +748,6 @@ def main():
     ap.add_argument("--recall", action="store_true", help="recall@k + alpha sweep (free)")
     ap.add_argument("--judge", action="store_true", help="run the faithfulness judge (API)")
     ap.add_argument("--report", action="store_true", help="aggregate -> results/metrics.csv")
-    ap.add_argument("--sample-validation", action="store_true", help="export 50 blind claims")
-    ap.add_argument("--validate", action="store_true", help="score the hand-labeled CSV")
     ap.add_argument("--dry-run", action="store_true", help="print one judge request, send nothing")
     ap.add_argument("--limit", type=int, help="first N test items only (smoke test)")
     ap.add_argument("--no-cache", action="store_true", help="bypass the prompt-hash cache")
@@ -833,11 +761,7 @@ def main():
         run_judge(limit=a.limit, use_cache=not a.no_cache)
     if a.report:
         report()
-    if a.sample_validation:
-        sample_validation()
-    if a.validate:
-        validate()
-    if not any([a.recall, a.judge, a.report, a.sample_validation, a.validate, a.dry_run]):
+    if not any([a.recall, a.judge, a.report, a.dry_run]):
         ap.print_help()
 
 

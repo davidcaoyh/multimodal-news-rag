@@ -50,7 +50,9 @@ the complete research process.
 | E12 | frozen final held-out comparison | COMPLETE | superseded by E12b; n=12 could not resolve any outcome | `results/experiments/E12_final_comparison/` |
 | E12b | same frozen protocol, full 150-article final-test role | COMPLETE | direction consistently positive; M_vision-B1 borderline | `results/experiments/E12b_full_final_sample/` |
 | E13a | independent 50-claim AI-assisted audit | COMPLETE | retain as secondary agreement evidence | `results/experiments/E12_final_comparison/evaluation/human_validation_metrics.json` |
-| E13b | literal human judge validation | PLANNED | requires a freshly blinded human-review copy | `results/experiments/E12_final_comparison/human_validation_50.csv` |
+| E13b | literal human judge validation | PLANNED | requires a freshly blinded human-review copy | `docs/future_work.md` §0.1 |
+| E14 | B0 rebuilt on E12b's split/judge, paired | COMPLETE | keep; largest effect in the study (D17) | `results/experiments/E14_b0_openai/` |
+| E15 | cross-model judge robustness check | PLANNED | second judge for self-preference-bias robustness | `docs/future_work.md` §0.2 |
 
 ## Inherited experiments
 
@@ -355,6 +357,47 @@ the complete research process.
   device-independent; the Pillow requirement is documented in the setup guide.
 - **Limitations:** the determinism estimate rests on 60 paired observations from two
   runs. It bounds the noise but does not decompose it into generator and judge shares.
+
+### E14 — B0 rebuilt on E12b's split and judge, paired (D17)
+
+- **Status:** COMPLETE.
+- **Research question:** The report's B0 number (0.243) came from the inherited pipeline —
+  `main`'s random pool/test split, scored before the gpt-5.6-luna judge substitution existed.
+  Does B0 still look this different from B1/M/M_vision once it is regenerated and judged on
+  the *same* split, generator, and judge as the rest of the ladder?
+- **Commit:** `src/research_b0.py`, on `main` post-branch-merge.
+- **Dataset and split:** the identical 150 `final_test` queries E12b used
+  (`E12b_full_final_sample/queries.csv`), so this is a paired addition to that role.
+- **Systems/configurations:** B0 only (no retrieval). gpt-4o-mini generator, identical
+  decoding to B1/M/M_vision. Judged with gpt-5.6-luna against
+  `union(B1 evidence, M evidence)` for the same query (D14).
+- **Controlled variables:** generator, judge, decoding, and item set all held identical to
+  E12b; only the retrieval condition (none) differs, which is the point.
+- **Primary metrics:** macro claim faithfulness, usable cut; paired bootstrap difference
+  against E12b's B1.
+- **Runtime/API cost:** $0.18 across 450 calls (150 generation + 150 decompose + 150
+  verify), on top of E12b's $0.92/1,008-call running total — ledger total after this run:
+  $1.10 / 1,458 calls.
+- **Output artifacts:** `results/experiments/E14_b0_openai/` — `summaries.csv` (150 rows),
+  `evaluation/claims.csv` (1,501 claims), `evaluation/per_item.csv`,
+  `evaluation/diagnostics.json`.
+- **Outcome:** faithfulness 0.146, 150/150 usable (B0 has no retrieval-confidence gate, so
+  unlike B1/M/M_vision it never abstains — its usable count is not comparable to theirs).
+  Paired $B_1 - B_0 = +0.586$, 95% CI $[0.525, 0.643]$, $n=77$.
+- **Interpretation:** the largest, least ambiguous effect in the whole study, now on a
+  pipeline consistent with the rest of the ladder rather than a number spliced in from a
+  different one. The fix *lowered* B0's reported faithfulness relative to the inherited
+  0.243 — i.e. it went against the direction that would have flattered the headline claim.
+- **Decision:** KEEP as the final $B_0$ number; superseding the inherited 0.243 for any
+  comparison against E12b's B1/M/M_vision (`docs/baseline_summary.md`'s 0.243 stays as-is,
+  since that document is an explicitly dated snapshot of `main`, not a claim about the
+  current pipeline).
+- **Limitations or invalidating conditions:**
+  - B0's 150/150 usable count reflects the absence of an abstention mechanism, not better
+    grounding — do not read it as "B0 refuses less" in any positive sense.
+  - Same-provider generation and judging: gpt-5.6-luna and gpt-4o-mini are both OpenAI
+    models. A different-provider judge check is planned future work (`docs/future_work.md`
+    §0.2) rather than completed.
 
 ## Experiment entry template
 
